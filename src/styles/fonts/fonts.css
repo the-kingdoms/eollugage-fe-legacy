@@ -1,0 +1,57 @@
+@font-face {
+  font-family: "Noto Sans KR";
+  src:
+    url("./Noto-Sans-KR-400.ttf") format("truetype"),
+    url("./Noto-Sans-KR-400.woff") format("woff"),
+    url("./Noto-Sans-KR-400.otf") format("opentype");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  src:
+    url("./Noto-Sans-KR-500.ttf") format("truetype"),
+    url("./Noto-Sans-KR-500.woff") format("woff"),
+    url("./Noto-Sans-KR-500.otf") format("opentype");
+  font-weight: 500;
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  src:
+    url("./Noto-Sans-KR-600.ttf") format("truetype"),
+    url("./Noto-Sans-KR-600.woff") format("woff"),
+    url("./Noto-Sans-KR-600.otf") format("opentype");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "S-Core Dream";
+  src:
+    url("./S-Core-Dream-300.ttf") format("truetype"),
+    url("./S-Core-Dream-300.woff") format("woff"),
+    url("./S-Core-Dream-300.otf") format("opentype");
+  font-weight: 300;
+}
+@font-face {
+  font-family: "S-Core Dream";
+  src:
+    url("./S-Core-Dream-400.ttf") format("truetype"),
+    url("./S-Core-Dream-400.woff") format("woff"),
+    url("./S-Core-Dream-400.otf") format("opentype");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "S-Core Dream";
+  src:
+    url("./S-Core-Dream-500.ttf") format("truetype"),
+    url("./S-Core-Dream-500.woff") format("woff"),
+    url("./S-Core-Dream-500.otf") format("opentype");
+  font-weight: 500;
+}
+@font-face {
+  font-family: "S-Core Dream";
+  src:
+    url("./S-Core-Dream-600.ttf") format("truetype"),
+    url("./S-Core-Dream-600.woff") format("woff"),
+    url("./S-Core-Dream-600.otf") format("opentype");
+  font-weight: 600;
+}

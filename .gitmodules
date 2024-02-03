@@ -1,0 +1,6 @@
+[submodule "public"]
+	path = public
+	url = https://github.com/the-kingdoms/assets-fe.git
+[submodule "modules"]
+	path = modules
+	url = https://github.com/the-kingdoms/modules-fe.git

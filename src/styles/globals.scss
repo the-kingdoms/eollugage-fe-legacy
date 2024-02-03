@@ -1,0 +1,249 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 255, 255, 255;
+  --background-end-rgb: 255, 255, 255;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+.H1 {
+  /* KR/H/H1 (40) */
+  padding-top: 3px;
+  line-height: 45px;
+  font-family: "S-Core Dream";
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.H1-1 {
+  /* KR/H/H1.5 (38) */
+  padding-top: 3px;
+  line-height: 45px;
+  font-family: "S-Core Dream";
+  font-size: 38px;
+  font-style: normal;
+  font-weight: 300;
+}
+
+.H2 {
+  /* KR/H/H2 (36) */
+  padding-top: 3px;
+  line-height: 41px;
+  font-family: "S-Core Dream";
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.H3-bold {
+  /* KR/H/H3 (32) Bold */
+  padding-top: 2px;
+  line-height: 38px;
+  font-family: "S-Core Dream";
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.H3-medium {
+  /* KR/H/H3 (32) Medium */
+  padding-top: 2px;
+  line-height: 38px;
+  font-family: "S-Core Dream";
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.H3-light {
+  /* KR/H/H3(32) Light */
+  padding-top: 2px;
+  line-height: 38px;
+  font-family: "S-Core Dream";
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 300;
+}
+
+.H4-bold {
+  /* KR/H/H4 (28) Bold */
+  padding-top: 2px;
+  line-height: 34px;
+  font-family: "S-Core Dream";
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.H4-medium {
+  /* KR/H/H4 (28) Medium */
+  padding-top: 2px;
+  line-height: 34px;
+  font-family: "S-Core Dream";
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.H5-bold {
+  /* KR/H/H5 (24) Bold */
+  padding-top: 2px;
+  line-height: 30px;
+  font-family: "S-Core Dream";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.H5-medium {
+  /* KR/H/H5 (24) Medium */
+  padding-top: 2px;
+  line-height: 30px;
+  font-family: "S-Core Dream";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.B1-medium {
+  /* KR/B/B1 (20) Medium */
+  padding-bottom: 3px;
+  line-height: 25px;
+  font-family: "Noto Sans KR";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.B1-regular {
+  /* KR/B/B1 (20) Regular */
+  padding-bottom: 3px;
+  line-height: 25px;
+  font-family: "Noto Sans KR";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.B2-medium {
+  /* KR/B/B2 (18) Medium */
+  padding-bottom: 3px;
+  line-height: 17px;
+  font-family: "Noto Sans KR";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.B2-regular {
+  /* KR/B/B2 (18) Regular */
+  padding-bottom: 3px;
+  line-height: 17px;
+  font-family: "Noto Sans KR";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.B3-medium {
+  /* KR/B/B3 (16) Medium */
+  padding-bottom: 3px;
+  line-height: 17px;
+  font-family: "Noto Sans KR";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.B3-regular {
+  /* KR/B/B3 (16) Regular */
+  padding-bottom: 3px;
+  line-height: 17px;
+  font-family: "Noto Sans KR";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.B4-medium {
+  /* KR/B/B4 (14) Medium */
+  padding-bottom: 1.5px;
+  line-height: 14.5px;
+  font-family: "Noto Sans KR";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.B4-regular {
+  /* KR/B/B4 (14) Regular */
+  padding-bottom: 1.5px;
+  line-height: 14.5px;
+  font-family: "Noto Sans KR";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.B5-medium {
+  /* KR/B/B5 (12) Medium */
+  padding-bottom: 1.5px;
+  line-height: 14.5px;
+  font-family: "Noto Sans KR";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.B5-regular {
+  /* KR/B/B5 (12) Regular */
+  padding-bottom: 1.5px;
+  line-height: 14.5px;
+  font-family: "Noto Sans KR";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.C1 {
+  /* KR/C/C1 (14) */
+  padding-bottom: 1.5px;
+  line-height: 14.5px;
+  font-family: "Noto Sans KR";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.C2 {
+  /* KR/C/C2 (12) */
+  padding-bottom: 1.5px;
+  line-height: 14.5px;
+  font-family: "Noto Sans KR";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.C3 {
+  /* KR/C/C3 (10) */
+  padding-bottom: 1px;
+  line-height: 15px;
+  font-family: "Noto Sans KR";
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+}
