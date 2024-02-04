@@ -23,6 +23,6 @@ yarn dev
 
 서브모듈을 최신상태로 업데이트 하기위해 
 ```bash
-git submodule foreach git pull
+git submodule update --recursive
 ```
 으로 업데이트르 진행해주세요.
