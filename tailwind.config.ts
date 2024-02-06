@@ -33,6 +33,12 @@ const config: Config = {
         Grapefruit6: "#F0A212",
         Grapefruit7: "#F6BB0B",
 
+        // Gage
+        Approve: "#EC701F",
+        PartTime: "#EC701F",
+        Manager: "#DA2632",
+        ETC: "#F8A212",
+
         // Error
         Red: "#CA043A",
 
