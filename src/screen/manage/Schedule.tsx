@@ -25,7 +25,7 @@ export default function Schedule() {
       </FlexBox>
       <FlexBox className="gap-1 w-full justify-start">
         <div className="text-zinc-400 text-[10px]">00:00</div>
-        <div className="w-full h-px bg-gray-200"></div>
+        <div className="w-full h-px bg-gray-200" />
       </FlexBox>
     </FlexBox>
   );
