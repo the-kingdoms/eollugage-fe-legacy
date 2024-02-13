@@ -1,5 +1,5 @@
 import StaffInform from "@/screen/manage/StaffInform";
-import Schedule from "@/screen/manage/schedule";
+import Schedule from "@/screen/manage/Schedule";
 import TabBarGage from "@modules/components/bars/TabBarGage";
 import LongTab from "@modules/components/tabs/LongTab";
 import FlexBox from "@modules/layout/FlexBox";
