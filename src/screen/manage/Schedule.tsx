@@ -1,12 +1,17 @@
 import FlexBox from "@modules/layout/FlexBox";
+import dayjs from "dayjs";
+import "dayjs/locale/ko";
+dayjs.locale("ko");
 
 export default function Schedule() {
   return (
     <FlexBox direction="col" className="gap-3 w-full px-4">
       <FlexBox className="w-full justify-between">
         <FlexBox className="gap-1">
-          <div className="H4-bold">05</div>
-          <div className="B3-medium text-neutral-500">목</div>
+          <div className="H4-bold">{dayjs().format("DD")}</div>
+          <div className="B3-medium text-neutral-500">
+            {dayjs().format("ddd")}
+          </div>
         </FlexBox>
         <FlexBox className="gap-4">
           <FlexBox className="gap-1">
