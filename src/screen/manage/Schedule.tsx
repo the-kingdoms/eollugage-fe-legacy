@@ -1,5 +1,7 @@
+import Calender from "@modules/components/calender/Calender";
 import Divider from "@modules/layout/Divider";
 import FlexBox from "@modules/layout/FlexBox";
+import ScheduleList from "@/assist/ScheduleList";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
 dayjs.locale("ko");
@@ -7,6 +9,7 @@ dayjs.locale("ko");
 export default function Schedule() {
   return (
     <FlexBox direction="col" className="gap-3 w-full">
+      <Calender />
       <Divider />
       <FlexBox direction="col" className="w-full px-4 gap-3">
         <FlexBox className="w-full justify-between">
@@ -35,6 +38,7 @@ export default function Schedule() {
           <div className="text-zinc-400 text-[10px]">00:00</div>
           <div className="w-full h-px bg-gray-200" />
         </FlexBox>
+        <ScheduleList name={"방기연"} position={"etc"} time={"00:00 ~ 00:00"} />
       </FlexBox>
     </FlexBox>
   );
