@@ -7,11 +7,12 @@ interface ScheduleListProps {
   position: "manager" | "parttime" | "etc";
   time: string;
 }
+export type { ScheduleListProps };
 
 const style = {
-  manager: "red-600",
-  parttime: "orange-500",
-  etc: "zinc-800",
+  manager: "bg-red-600",
+  parttime: "bg-orange-500",
+  etc: "bg-zinc-800",
 };
 
 export default function scheduleList({
@@ -31,7 +32,7 @@ export default function scheduleList({
       className={`w-full h-14 ${selectList ? "" : "pl-12"}`}
     >
       <div
-        className={`w-[280px] h-full bg-zinc-800
+        className={`w-[280px] h-full ${style[position]}
             items-start gap-1 px-3 py-2.5 flex-col
             ${selectList ? "rounded-l-xl" : "rounded-xl"}`}
         onClick={clickList}
