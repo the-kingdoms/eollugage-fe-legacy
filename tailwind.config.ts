@@ -1,5 +1,4 @@
 import type { Config } from "tailwindcss";
-import colors from "tailwindcss/colors";
 
 const config: Config = {
   content: [
@@ -14,16 +13,14 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        ...colors,
-
         // Grayscale
         White: "#FFFFFF",
-        Gray1: "#F4F4F4",
-        Gray2: "#DBDBDB",
-        Gray3: "#C2C2C2",
-        Gray4: "#969696",
-        Gray5: "#595959",
-        Gray6: "#484848",
+        Gray1: "#F2F2F2",
+        Gray2: "#EDEDED",
+        Gray3: "#CCCCCC",
+        Gray4: "#AEAEAE",
+        Gray5: "#7C7C7C",
+        Gray6: "#4F4F4F",
         Gray7: "#2D2D2D",
         Black: "#000000",
 
@@ -35,6 +32,12 @@ const config: Config = {
         Grapefruit5: "#EA8918",
         Grapefruit6: "#F0A212",
         Grapefruit7: "#F6BB0B",
+
+        // Gage
+        Approve: "#EC701F",
+        PartTime: "#EC701F",
+        Manager: "#DA2632",
+        ETC: "#2D2D2D",
 
         // Error
         Red: "#CA043A",
