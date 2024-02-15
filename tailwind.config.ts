@@ -37,7 +37,7 @@ const config: Config = {
         Approve: "#EC701F",
         PartTime: "#EC701F",
         Manager: "#DA2632",
-        ETC: "#F8A212",
+        ETC: "#2D2D2D",
 
         // Error
         Red: "#CA043A",
