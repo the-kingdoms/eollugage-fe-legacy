@@ -3,8 +3,6 @@ import Divider from "@modules/layout/Divider";
 import FlexBox from "@modules/layout/FlexBox";
 import ScheduleList, { ScheduleListProps } from "@/assist/ScheduleList";
 import dayjs from "dayjs";
-import "dayjs/locale/ko";
-dayjs.locale("ko");
 
 export default function Schedule() {
   const schedules: ScheduleListProps[] = [
