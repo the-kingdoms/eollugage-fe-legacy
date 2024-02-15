@@ -1,8 +1,18 @@
 import Calender from "@modules/components/calender/Calender";
 import Divider from "@modules/layout/Divider";
 import FlexBox from "@modules/layout/FlexBox";
+import ScheduleList, { ScheduleListProps } from "@/assist/ScheduleList";
+import dayjs from "dayjs";
+import "dayjs/locale/ko";
+dayjs.locale("ko");
 
 export default function Schedule() {
+  const schedules: ScheduleListProps[] = [
+    { name: "방기연", position: "etc", time: "00:00 ~ 00:00" },
+    { name: "방기연", position: "manager", time: "00:00 ~ 00:00" },
+    { name: "방기연", position: "parttime", time: "00:00 ~ 00:00" },
+  ];
+
   return (
     <FlexBox direction="col" className="gap-3 w-full">
       <Calender />
@@ -10,8 +20,10 @@ export default function Schedule() {
       <FlexBox direction="col" className="w-full px-4 gap-3">
         <FlexBox className="w-full justify-between">
           <FlexBox className="gap-1">
-            <div className="H4-bold">05</div>
-            <div className="B3-medium text-neutral-500">목</div>
+            <div className="H4-bold">{dayjs().format("DD")}</div>
+            <div className="B3-medium text-neutral-500">
+              {dayjs().format("ddd")}
+            </div>
           </FlexBox>
           <FlexBox className="gap-4">
             <FlexBox className="gap-1">
@@ -31,6 +43,15 @@ export default function Schedule() {
         <FlexBox className="gap-1 w-full justify-start">
           <div className="text-zinc-400 text-[10px]">00:00</div>
           <div className="w-full h-px bg-gray-200" />
+        </FlexBox>
+        <FlexBox direction="col" className="gap-2">
+          {schedules.map(plan => (
+            <ScheduleList
+              name={plan.name}
+              position={plan.position}
+              time={plan.time}
+            />
+          ))}
         </FlexBox>
       </FlexBox>
     </FlexBox>
