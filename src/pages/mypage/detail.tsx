@@ -1,4 +1,4 @@
-import WorkDetailCard from "@/screen/mypage/WorkDetailCard";
+import WorkDetailCard from "@modules/components/card/WorkDetailCard";
 import FlexBox from "@modules/layout/FlexBox";
 import TopTitle from "@modules/layout/TopTitle";
 
