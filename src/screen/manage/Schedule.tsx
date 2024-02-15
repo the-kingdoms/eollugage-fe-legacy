@@ -1,7 +1,9 @@
 import Calender from "@modules/components/calender/Calender";
+import ScheduleList, {
+  ScheduleListProps,
+} from "@modules/components/list/ScheduleList";
 import Divider from "@modules/layout/Divider";
 import FlexBox from "@modules/layout/FlexBox";
-import ScheduleList, { ScheduleListProps } from "@/assist/ScheduleList";
 import dayjs from "dayjs";
 
 export default function Schedule() {
@@ -43,8 +45,9 @@ export default function Schedule() {
           <div className="w-full h-px bg-gray-200" />
         </FlexBox>
         <FlexBox direction="col" className="gap-2">
-          {schedules.map(plan => (
+          {schedules.map((plan, index) => (
             <ScheduleList
+              key={index}
               name={plan.name}
               position={plan.position}
               time={plan.time}

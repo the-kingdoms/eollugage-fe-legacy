@@ -7,8 +7,8 @@ export default function UserInfo() {
   const currentDate = dayjs().format("MM/DD");
   return (
     <FlexBox direction="col" className="w-full">
-      <FlexBox className="w-full justify-between px-4">
-        <div>
+      <FlexBox className="w-full justify-between px-4 items-start">
+        <div className="pt-1">
           <div>
             <span className="H5-bold">얼루가게</span>
             <span className="ml-1 B1-medium text-Gray5">님</span>
@@ -17,7 +17,7 @@ export default function UserInfo() {
         </div>
         <Profile size="M" name="얼루가" />
       </FlexBox>
-      <FlexBox className="w-full justify-between mt-8">
+      <FlexBox className="w-full justify-between mt-6">
         <WorkInfoBanner
           direction="left"
           size="L"
@@ -25,7 +25,7 @@ export default function UserInfo() {
           workingMinutes={50}
         />
       </FlexBox>
-      <FlexBox className="w-full justify-end B4-medium text-Gray5 px-4 mt-2">
+      <FlexBox className="w-full justify-end B4-medium text-Gray5 pr-4 mt-2">
         {currentDate} 기준
       </FlexBox>
     </FlexBox>
