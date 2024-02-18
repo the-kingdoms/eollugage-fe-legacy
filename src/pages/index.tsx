@@ -16,7 +16,7 @@ export default function Home() {
           />
         </div>
         <div className={styles.fadeInLater}>
-          <div className={`B4-regular text-gray-500 text-center mt-8 mb-4`}>
+          <div className={`B4-regular text-gray-500 text-center`}>
             간편하게 일하는 법
           </div>
           <Image
