@@ -8,7 +8,7 @@ export default function Home() {
     <FlexBox direction="col" className="bg-black w-full h-full">
       <FlexBox
         direction="col"
-        className="w-full h-full justify-center relative"
+        className="w-full h-full justify-center pt-16 pb-8 gap-4 relative"
       >
         <div className={styles.titleAnimation}>
           <Image
@@ -20,7 +20,7 @@ export default function Home() {
         </div>
         <FlexBox
           direction="col"
-          className={`${styles.bodyAnimation} absolute justify-end py-8 w-full h-full gap-20`}
+          className={`${styles.bodyAnimation} justify-between w-full h-full`}
         >
           <div className="B4-regular text-gray-500 text-center">
             간편하게 일하는 법
