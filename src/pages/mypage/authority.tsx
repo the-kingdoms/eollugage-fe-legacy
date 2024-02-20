@@ -17,13 +17,13 @@ export default function MyPageAuthorithy() {
           <FlexBox direction="col" className="w-full items-start gap-3">
             <div className="B3-medium">현재 관리자</div>
             <GridBox className="w-full gap-2 mb-10">
-              <div className="bg-Black text-White rounded-xl p-5 text-center">
+              <div className="bg-Black text-White rounded-xl p-5 text-center B4-medium">
                 고승환 | 사장
               </div>
-              <div className="bg-Black text-White rounded-xl p-5 text-center">
+              <div className="bg-Black text-White rounded-xl p-5 text-center B4-medium">
                 고승환 | 사장
               </div>
-              <div className="bg-Black text-White rounded-xl p-5 text-center">
+              <div className="bg-Black text-White rounded-xl p-5 text-center B4-medium">
                 고승환 | 사장
               </div>
             </GridBox>
