@@ -6,27 +6,30 @@ import styles from "./index.module.css";
 export default function Home() {
   return (
     <FlexBox direction="col" className="bg-black w-full h-full">
-      <FlexBox direction="col" className="w-full h-full justify-center">
-        <div className={styles.firstAnimation}>
+      <FlexBox
+        direction="col"
+        className="w-full h-full justify-center pt-16 pb-8 gap-4 relative"
+      >
+        <div className={styles.titleAnimation}>
           <Image
             height={38}
-            width={234.46}
+            width={234}
             alt="text"
-            src="/image/Eollugage.png"
+            src="/splash/eollugage_title.png"
           />
         </div>
-        <div className={styles.fadeInLater}>
-          <div className={`B4-regular text-gray-500 text-center`}>
+        <FlexBox
+          direction="col"
+          className={`${styles.bodyAnimation} justify-between w-full h-full`}
+        >
+          <div className="B4-regular text-gray-500 text-center">
             간편하게 일하는 법
           </div>
-          <Image
-            height={392}
-            width={360}
-            alt="splash"
-            src="/image/unsplash_store.png"
-          />
-          <LoginButton type="kakao" />
-        </div>
+          <div className={styles.backgroundImage} />
+          <div className="px-4 w-full">
+            <LoginButton type="kakao" onClick={() => {}} />
+          </div>
+        </FlexBox>
       </FlexBox>
     </FlexBox>
   );

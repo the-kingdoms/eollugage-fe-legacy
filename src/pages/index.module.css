@@ -1,4 +1,16 @@
 /* index.module.css */
+@keyframes appearFadeInWithShrink {
+  from {
+    opacity: 0;
+    transform: translate(0%, 800%) scale(1.5);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0%, 800%) scale(1);
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -10,34 +22,39 @@
 
 @keyframes slideUp {
   from {
-    transform: translateY(0);
-    opacity: 1;
+    transform: translate(0%, 800%);
+    animation-timing-function: cubic-bezier(0.17, 0.14, 0.11, 0.93);
   }
   to {
-    transform: translateY(-650%);
-    opacity: 1;
+    transform: translate(0%, 0%);
   }
 }
 
-.firstAnimation {
+.titleAnimation {
+  transform: translate(0%, 800%);
   animation:
-    fadeIn 1.5s ease-in-out,
-    slideUp 1.5s ease-in-out 1.5s forwards;
+    appearFadeInWithShrink 0.5s,
+    slideUp 0.75s 1.5s forwards;
 }
 
-.fadeInLater {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: end;
-  gap: 4.5rem;
-  padding-bottom: 1rem;
-  height: 100%;
+.backgroundImage {
+  background-image: url("/splash/eollugage_store.png"),
+    linear-gradient(
+      to bottom,
+      black 5%,
+      #00000000 20%,
+      #00000000 80%,
+      black 95%
+    );
+  background-blend-mode: multiply;
+  background-size: cover;
+  background-repeat: no-repeat;
   width: 100%;
-  top: 50%; /* 시작 위치를 조정 */
-  transform: translateY(-50%); /* 중앙 정렬을 위해 */
+  height: 392px;
+}
+
+.bodyAnimation {
   opacity: 0;
-  animation: fadeIn 1.5s ease-in-out forwards;
-  animation-delay: 3s; /* Image 컴포넌트의 애니메이션이 끝나는 시점에 맞춰 지연 */
+  animation: fadeIn 0.25s ease-in-out forwards;
+  animation-delay: 1.6s;
 }
