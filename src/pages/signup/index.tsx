@@ -1,36 +1,61 @@
+import React, { useState } from "react";
+import { useRouter } from "next/router";
 import FlexBox from "@modules/layout/FlexBox";
 import Image from "next/image";
-import LoginButton from "@modules/components/button/LoginButton";
-import styles from "./index.module.css";
+import TextButton from "@modules/components/button/TextButton";
+import TopTitle from "@modules/layout/TopTitle";
 
 export default function Home() {
+  const [selectedImage, setSelectedImage] = useState(null);
+  const router = useRouter();
+
+  const handleImageClick = image => {
+    if (selectedImage === image) {
+      setSelectedImage(null);
+    } else {
+      setSelectedImage(image);
+    }
+  };
+
+  const isButtonInactive = selectedImage === null;
+
   return (
-    <FlexBox direction="col" className="bg-black w-full h-full">
-      <FlexBox
-        direction="col"
-        className="w-full h-full justify-center relative"
-      >
-        <div className={styles.firstAnimation}>
+    <FlexBox direction="col" className="w-full h-full px-4 justify-between">
+      <TopTitle title="" type="back" />
+      <FlexBox direction="col" className="w-full h-full px-4 mt-4 space-y-4">
+        <div onClick={() => handleImageClick("owner")}>
           <Image
-            height={38}
-            width={234.46}
-            alt="text"
-            src="/text/Eollugage.png"
+            height={172}
+            width={328}
+            alt="for 사장님"
+            src={
+              selectedImage === "owner"
+                ? "/image/for 사장님_active.png"
+                : "/image/for 사장님_inactive.png"
+            }
           />
         </div>
-        <div className={styles.fadeInLater}>
-          <div className="B4-regular text-gray-500">간편하게 일하는 법</div>
+        <div onClick={() => handleImageClick("employee")}>
           <Image
-            height={392}
-            width={360}
-            alt="splash"
-            src="/splash/eollugage_store.png"
+            height={172}
+            width={328}
+            alt="for 직원"
+            src={
+              selectedImage === "employee"
+                ? "/image/for 직원_active.png"
+                : "/image/for 직원_inactive.png"
+            }
           />
-          <div className="w-full px-4">
-            <LoginButton type="kakao" onClick={() => {}} />
-          </div>
         </div>
       </FlexBox>
+
+      <TextButton
+        size="L"
+        text="다음"
+        className="mb-4"
+        inactive={isButtonInactive}
+        onClick={() => router.push("/signup/owner")}
+      />
     </FlexBox>
   );
 }
