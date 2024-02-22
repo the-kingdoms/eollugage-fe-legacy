@@ -6,8 +6,8 @@ interface ApprovalProfileProps {
   name: string;
   position: string;
   time: string;
-  buttonstate: "approve" | "disapprove" | "decline";
-  handleonClick: () => void;
+  buttonstate?: "approve" | "disapprove" | "decline";
+  handleonClick?: () => void;
 }
 
 export default function ApprovalProfile({
@@ -30,7 +30,9 @@ export default function ApprovalProfile({
           </div>
         </FlexBox>
       </FlexBox>
-      <StateButton type={buttonstate} onclick={handleonClick} />
+      {buttonstate && (
+        <StateButton type={buttonstate} onclick={handleonClick} />
+      )}
     </FlexBox>
   );
 }

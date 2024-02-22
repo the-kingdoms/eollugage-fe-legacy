@@ -34,8 +34,9 @@ export default function Attendance() {
         </div>
       </FlexBox>
       <FlexBox direction="col" className="gap-6 w-full px-2">
-        {profiles.map(people => (
+        {profiles.map((people, index) => (
           <ApprovalProfile
+            key={index}
             name={people.name}
             position={people.position}
             time={people.time}
