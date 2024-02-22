@@ -4,6 +4,7 @@ import TabBarGage from "@modules/components/bars/TabBarGage";
 import LongTab from "@modules/components/tabs/LongTab";
 import FlexBox from "@modules/layout/FlexBox";
 import { useState, useEffect } from "react";
+import TextChip from "@modules/components/chips/TextChip";
 
 export default function Manage() {
   const [selectTab, setSelectTab] = useState("left");
@@ -24,6 +25,24 @@ export default function Manage() {
         />
         {selectTab === "left" ? <Schedule /> : <StaffInform />}
       </FlexBox>
+      <div className="ml-auto">
+        {selectTab === "left" && authority === "ceo" && (
+          <TextChip
+            size="L"
+            text="근무 추가"
+            src="/icon/control/plus.svg"
+            className="h-10 my-6"
+          />
+        )}
+        {selectTab === "right" && authority === "ceo" && (
+          <TextChip
+            size="L"
+            text="직원 추가"
+            src="/icon/control/plus.svg"
+            className="h-10 my-6"
+          />
+        )}
+      </div>
       <TabBarGage />
     </FlexBox>
   );
