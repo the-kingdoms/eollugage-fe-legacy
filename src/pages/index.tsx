@@ -1,9 +1,11 @@
+import LoginButton from "@modules/components/button/LoginButton";
 import FlexBox from "@modules/layout/FlexBox";
 import Image from "next/image";
-import LoginButton from "@modules/components/button/LoginButton";
+import { useRouter } from "next/router";
 import styles from "./index.module.css";
 
 export default function Home() {
+  const router = useRouter();
   return (
     <FlexBox direction="col" className="bg-black w-full h-full">
       <FlexBox
@@ -27,7 +29,12 @@ export default function Home() {
           </div>
           <div className={styles.backgroundImage} />
           <div className="px-4 w-full">
-            <LoginButton type="kakao" onClick={() => {}} />
+            <LoginButton
+              type="kakao"
+              onClick={() => {
+                router.push("/signup");
+              }}
+            />
           </div>
         </FlexBox>
       </FlexBox>
