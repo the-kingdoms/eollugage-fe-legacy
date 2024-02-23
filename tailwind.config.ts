@@ -15,12 +15,12 @@ const config: Config = {
       colors: {
         // Grayscale
         White: "#FFFFFF",
-        Gray1: "#F4F4F4",
-        Gray2: "#DBDBDB",
-        Gray3: "#C2C2C2",
-        Gray4: "#969696",
-        Gray5: "#595959",
-        Gray6: "#484848",
+        Gray1: "#F2F2F2",
+        Gray2: "#EDEDED",
+        Gray3: "#CCCCCC",
+        Gray4: "#AEAEAE",
+        Gray5: "#7C7C7C",
+        Gray6: "#4F4F4F",
         Gray7: "#2D2D2D",
         Black: "#000000",
 
@@ -37,7 +37,7 @@ const config: Config = {
         Approve: "#EC701F",
         PartTime: "#EC701F",
         Manager: "#DA2632",
-        ETC: "#F8A212",
+        ETC: "#2D2D2D",
 
         // Error
         Red: "#CA043A",

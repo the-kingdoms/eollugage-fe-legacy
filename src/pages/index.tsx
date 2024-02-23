@@ -1,24 +1,43 @@
-import HomeBar from "@modules/components/bars/HomeBar";
-import TabBar from "@modules/components/bars/TabBar";
+import LoginButton from "@modules/components/button/LoginButton";
 import FlexBox from "@modules/layout/FlexBox";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import styles from "./index.module.css";
 
 export default function Home() {
+  const router = useRouter();
   return (
-    <FlexBox direction="col" className="min-h-full justify-between">
-      <FlexBox direction="col" className="w-full gap-7 pb-5">
-        <HomeBar />
-        <div className="w-full px-4">
-          <FlexBox className="justify-between bg-black rounded-lg h-[88px] w-full px-8">
-            <FlexBox direction="col" className="B1-medium text-white">
-              <div className="w-full">얼룩이가</div>
-              <div className="w-full">세상을 지배해</div>
-            </FlexBox>
-            <Image height={72} width={68} alt="banner" src="/eolluga.png" />
-          </FlexBox>
+    <FlexBox direction="col" className="bg-black w-full h-full">
+      <FlexBox
+        direction="col"
+        className="w-full h-full justify-center pt-16 pb-8 gap-4 relative"
+      >
+        <div className={styles.titleAnimation}>
+          <Image
+            height={38}
+            width={234}
+            alt="text"
+            src="/splash/eollugage_title.png"
+          />
         </div>
+        <FlexBox
+          direction="col"
+          className={`${styles.bodyAnimation} justify-between w-full h-full`}
+        >
+          <div className="B4-regular text-gray-500 text-center">
+            간편하게 일하는 법
+          </div>
+          <div className={styles.backgroundImage} />
+          <div className="px-4 w-full">
+            <LoginButton
+              type="kakao"
+              onClick={() => {
+                router.push("/signup");
+              }}
+            />
+          </div>
+        </FlexBox>
       </FlexBox>
-      <TabBar />
     </FlexBox>
   );
 }

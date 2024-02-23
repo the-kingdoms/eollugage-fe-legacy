@@ -1,0 +1,60 @@
+/* index.module.css */
+@keyframes appearFadeInWithShrink {
+  from {
+    opacity: 0;
+    transform: translate(0%, 800%) scale(1.5);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0%, 800%) scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translate(0%, 800%);
+    animation-timing-function: cubic-bezier(0.17, 0.14, 0.11, 0.93);
+  }
+  to {
+    transform: translate(0%, 0%);
+  }
+}
+
+.titleAnimation {
+  transform: translate(0%, 800%);
+  animation:
+    appearFadeInWithShrink 0.5s,
+    slideUp 0.75s 1.5s forwards;
+}
+
+.backgroundImage {
+  background-image: url("/splash/eollugage_store.png"),
+    linear-gradient(
+      to bottom,
+      black 5%,
+      #00000000 20%,
+      #00000000 80%,
+      black 95%
+    );
+  background-blend-mode: multiply;
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 392px;
+}
+
+.bodyAnimation {
+  opacity: 0;
+  animation: fadeIn 0.25s ease-in-out forwards;
+  animation-delay: 1.6s;
+}
