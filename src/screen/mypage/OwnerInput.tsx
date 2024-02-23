@@ -1,19 +1,19 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import FlexBox from "@modules/layout/FlexBox";
 import TextButton from "@modules/components/button/TextButton";
 import TextField from "@modules/components/textfields/TextField";
 
 interface OwnerInputProps {
   storeName: string;
-  setStoreName: (name: string) => void;
+  setStoreName: Dispatch<SetStateAction<string>>;
   onNext: () => void; // 다음 뷰로 움직이게 하는 함수
 }
 
-const OwnerInput: React.FC<OwnerInputProps> = ({
+export default function OwnerInput({
   storeName,
   setStoreName,
   onNext,
-}) => {
+}: OwnerInputProps) {
   return (
     <FlexBox direction="col" className="w-full h-full items-start px-4">
       <FlexBox direction="col" className="w-full h-full space-y-16 items-start">
@@ -36,6 +36,4 @@ const OwnerInput: React.FC<OwnerInputProps> = ({
       />
     </FlexBox>
   );
-};
-
-export default OwnerInput;
+}
