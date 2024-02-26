@@ -1,5 +1,6 @@
 import StaffTimeApproval from "@/screen/manage/StaffTimeApproval";
 import StaffTimeInput from "@/screen/manage/StaffTimeInput";
+import WeekButtons from "@/screen/manage/WeekButtons";
 import DayChip from "@modules/components/chips/DayChip";
 import Divider from "@modules/layout/Divider";
 import FlexBox from "@modules/layout/FlexBox";
@@ -7,9 +8,6 @@ import TopTitle from "@modules/layout/TopTitle";
 import dayjs from "dayjs";
 
 export default function StaffInfoDetail() {
-  type DayType = "월" | "화" | "수" | "목" | "금" | "토" | "일";
-  const dayList: DayType[] = ["일", "월", "화", "수", "목", "금", "토"];
-
   return (
     <div className="bg-Black">
       <TopTitle type="back" />
@@ -22,11 +20,7 @@ export default function StaffInfoDetail() {
       </div>
       <div className="rounded-t-2xl bg-White">
         <FlexBox direction="col" className="py-6 px-4 w-full gap-6">
-          <FlexBox className="justify-between w-full">
-            {dayList.map((day, i) => (
-              <DayChip day={day} type="inactive" />
-            ))}
-          </FlexBox>
+          <WeekButtons />
           <StaffTimeInput
             title="근무시간"
             start={dayjs().format("HHmm")}
