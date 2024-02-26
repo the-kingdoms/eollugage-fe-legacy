@@ -4,6 +4,7 @@ import DayChip from "@modules/components/chips/DayChip";
 import Divider from "@modules/layout/Divider";
 import FlexBox from "@modules/layout/FlexBox";
 import TopTitle from "@modules/layout/TopTitle";
+import dayjs from "dayjs";
 
 export default function StaffInfoDetail() {
   type DayType = "월" | "화" | "수" | "목" | "금" | "토" | "일";
@@ -26,8 +27,16 @@ export default function StaffInfoDetail() {
               <DayChip day={day} type="inactive" />
             ))}
           </FlexBox>
-          <StaffTimeInput title="근무시간" />
-          <StaffTimeInput title="휴게시간" />
+          <StaffTimeInput
+            title="근무시간"
+            start={dayjs().format("HHmm")}
+            end={dayjs().format("HHmm")}
+          />
+          <StaffTimeInput
+            title="휴게시간"
+            start={dayjs().format("HHmm")}
+            end={dayjs().format("HHmm")}
+          />
         </FlexBox>
         <Divider height={16} />
         <FlexBox direction="col" className="items-start pt-6">
