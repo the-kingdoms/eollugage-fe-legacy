@@ -1,6 +1,8 @@
 import StateButton from "@modules/components/button/StateButton";
 import Profile from "@modules/components/profile/Profile";
 import FlexBox from "@modules/layout/FlexBox";
+import Icon from "@modules/layout/Icon";
+import { useRouter } from "next/router";
 
 interface ApprovalProfileProps {
   name: string;
@@ -17,6 +19,8 @@ export default function ApprovalProfile({
   buttonstate,
   handleonClick,
 }: ApprovalProfileProps) {
+  const router = useRouter();
+
   return (
     <FlexBox direction="row" className="w-full justify-betwen">
       <FlexBox direction="row" className="w-full items-start gap-2">
@@ -30,8 +34,14 @@ export default function ApprovalProfile({
           </div>
         </FlexBox>
       </FlexBox>
-      {buttonstate && (
+      {buttonstate ? (
         <StateButton type={buttonstate} onclick={handleonClick} />
+      ) : (
+        <Icon
+          src={"/icon/direction/right.svg"}
+          sz={32}
+          onClick={() => router.push("/manage/staff")}
+        />
       )}
     </FlexBox>
   );
