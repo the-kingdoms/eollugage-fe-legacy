@@ -7,7 +7,7 @@ import FlexBox from "@modules/layout/FlexBox";
 import TopTitle from "@modules/layout/TopTitle";
 import dayjs from "dayjs";
 
-export default function StaffInfoDetail() {
+export default function Staff() {
   return (
     <div className="bg-Black">
       <TopTitle type="back" />

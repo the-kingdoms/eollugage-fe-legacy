@@ -4,7 +4,7 @@ import FlexBox from "@modules/layout/FlexBox";
 import TextButton from "@modules/components/button/TextButton";
 import Profile from "@modules/components/profile/Profile";
 
-const OwnerWelcome = () => {
+export default function OwnerWelcome() {
   const router = useRouter();
 
   return (
@@ -29,6 +29,4 @@ const OwnerWelcome = () => {
       />
     </FlexBox>
   );
-};
-
-export default OwnerWelcome;
+}
