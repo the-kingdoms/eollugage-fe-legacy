@@ -2,7 +2,7 @@ import React from "react";
 import FlexBox from "@modules/layout/FlexBox";
 import Image from "next/image";
 
-const StaffWithoutStore = () => {
+export default function StaffWithoutStore() {
   return (
     <FlexBox direction="col" className="w-full h-full space-y-16 px-4">
       <div className="w-full mt-4">
@@ -17,6 +17,4 @@ const StaffWithoutStore = () => {
       </FlexBox>
     </FlexBox>
   );
-};
-
-export default StaffWithoutStore;
+}

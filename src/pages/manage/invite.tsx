@@ -23,7 +23,7 @@ interface DayType {
   sun: Mode;
 }
 
-export default function Home() {
+export default function Invite() {
   const [currentView, setCurrentView] = useState<View>("inital_set");
   const [selectedPosition, setSelectedPosition] = useState("");
   const [inviteSchedule, setInviteSchedule] = useAtom(inviteScheduleAtom);

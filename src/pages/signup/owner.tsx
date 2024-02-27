@@ -1,16 +1,14 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
-import FlexBox from "@modules/layout/FlexBox";
-import TopTitle from "@modules/layout/TopTitle";
 import OwnerInput from "@/screen/mypage/OwnerInput";
 import OwnerWelcome from "@/screen/mypage/OwnerWelcome";
+import FlexBox from "@modules/layout/FlexBox";
+import TopTitle from "@modules/layout/TopTitle";
+import { useState } from "react";
 
 type View = "owner_input" | "owner_welcome";
 
 export default function Home() {
   const [storeName, setStoreName] = useState<string>("");
   const [currentView, setCurrentView] = useState<View>("owner_input");
-  const router = useRouter();
 
   const handleNextClick = () => {
     if (currentView === "owner_input" && storeName.length > 0) {

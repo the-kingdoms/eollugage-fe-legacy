@@ -3,7 +3,11 @@ import FlexBox from "@modules/layout/FlexBox";
 import Profile from "@modules/components/profile/Profile";
 import TextButton from "@modules/components/button/TextButton";
 
-const StaffWithStore = ({ onManageClick }) => {
+export default function StaffWithStore({
+  onManageClick,
+}: {
+  onManageClick: () => void;
+}) {
   return (
     <FlexBox direction="col" className="w-full h-full justify-between px-4">
       <FlexBox direction="col" className="w-full h-full">
@@ -27,6 +31,4 @@ const StaffWithStore = ({ onManageClick }) => {
       />
     </FlexBox>
   );
-};
-
-export default StaffWithStore;
+}

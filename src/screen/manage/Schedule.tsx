@@ -44,7 +44,7 @@ export default function Schedule() {
           <div className="text-zinc-400 text-[10px]">00:00</div>
           <div className="w-full h-px bg-gray-200" />
         </FlexBox>
-        <FlexBox direction="col" className="gap-2">
+        <FlexBox direction="col" className="w-full gap-2">
           {schedules.map((plan, index) => (
             <ScheduleList
               key={index}

@@ -12,9 +12,11 @@ export default function StaffInform() {
       <div className="B1-medium">매니저</div>
       <FlexBox direction="col" className="gap-2 w-full px-2">
         {profiles.map((people, index) => (
-          <div className="w-full border border-bgray-200 py-3 pl-3 rounded-2xl">
+          <div
+            key={index}
+            className="w-full border border-bgray-200 py-3 pl-3 rounded-2xl"
+          >
             <ApprovalProfile
-              key={index}
               name={people.name}
               position={people.position}
               time={people.time}
