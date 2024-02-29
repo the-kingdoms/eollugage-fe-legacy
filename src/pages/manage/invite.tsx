@@ -74,11 +74,25 @@ export default function Invite() {
           restFrom: restFrom.slice(0, 2) + ":" + restFrom.slice(2),
           restUntil: restUntil.slice(0, 2) + ":" + restUntil.slice(2),
         };
+        setDayType(prev => {
+          const newDayType = { ...prev };
+          newDayType[day] = "inputed";
+          return newDayType;
+        });
       }
     });
 
     setInviteSchedule(newSchedule); // 갱신된 스케줄로 상태 업데이트
     console.log(newSchedule);
+
+    setCurrentView("inital_set");
+
+    setWorkFrom("0000");
+    setWorkUntil("0000");
+    setRestFrom("0000");
+    setRestUntil("0000");
+
+    setIsButtonActive(false);
   };
 
   const handleAddEmployee = () => {
