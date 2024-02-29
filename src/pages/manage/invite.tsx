@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FlexBox from "@modules/layout/FlexBox";
 import TopTitle from "@modules/layout/TopTitle";
 import Dropdown from "@modules/components/selections/Dropdown";
 import DayChip from "@modules/components/chips/DayChip";
 import TimeField from "@modules/components/textfields/TimeField";
 import TextButton from "@modules/components/button/TextButton";
-import { inviteScheduleAtom } from "@/data/inviteSchedule";
-import { useAtom } from "jotai";
+import {
+  inviteScheduleAtom,
+  selectedPositionAtom,
+} from "@/data/inviteSchedule";
+import { atom, useAtom } from "jotai";
+import { useRouter } from "next/router";
 
 type View = "inital_set" | "manage_time";
 const positions = ["알바", "매니저", "점장"];
@@ -14,28 +18,30 @@ const positions = ["알바", "매니저", "점장"];
 type Mode = "workday" | "inputing" | "inputed" | "inactive";
 
 interface DayType {
-  mon: Mode;
-  tue: Mode;
-  wen: Mode;
-  thu: Mode;
-  fri: Mode;
-  sat: Mode;
-  sun: Mode;
+  월: Mode;
+  화: Mode;
+  수: Mode;
+  목: Mode;
+  금: Mode;
+  토: Mode;
+  일: Mode;
 }
 
 export default function Invite() {
   const [currentView, setCurrentView] = useState<View>("inital_set");
-  const [selectedPosition, setSelectedPosition] = useState("");
+  const [selectedPosition, setSelectedPosition] = useAtom(selectedPositionAtom);
   const [inviteSchedule, setInviteSchedule] = useAtom(inviteScheduleAtom);
+  const [isButtonActive, setIsButtonActive] = useState(false);
+  const router = useRouter();
 
   const [dayType, setDayType] = useState<DayType>({
-    mon: "inactive",
-    tue: "inactive",
-    wen: "inactive",
-    thu: "inactive",
-    fri: "inactive",
-    sat: "inactive",
-    sun: "inactive",
+    월: "inactive",
+    화: "inactive",
+    수: "inactive",
+    목: "inactive",
+    금: "inactive",
+    토: "inactive",
+    일: "inactive",
   });
 
   const [workFrom, setWorkFrom] = useState("0000");
@@ -58,11 +64,16 @@ export default function Invite() {
   };
 
   const handleSaveTime = () => {
-    const newSchedule = inviteSchedule;
+    const newSchedule = { ...inviteSchedule };
 
-    Object.keys(dayType).forEach(day => {
+    (Object.keys(dayType) as (keyof DayType)[]).forEach(day => {
       if (dayType[day] === "workday") {
-        newSchedule[day] = { workFrom, workUntil, restFrom, restUntil };
+        newSchedule[day] = {
+          workFrom: workFrom.slice(0, 2) + ":" + workFrom.slice(2),
+          workUntil: workUntil.slice(0, 2) + ":" + workUntil.slice(2),
+          restFrom: restFrom.slice(0, 2) + ":" + restFrom.slice(2),
+          restUntil: restUntil.slice(0, 2) + ":" + restUntil.slice(2),
+        };
       }
     });
 
@@ -70,11 +81,27 @@ export default function Invite() {
     console.log(newSchedule);
   };
 
-  const handleNextClick = () => {
-    if (currentView === "inital_set") {
-      setCurrentView("manage_time"); // manage_time 뷰로 전환
+  const handleAddEmployee = () => {
+    if (isButtonActive) {
+      router.push("/manage/confirm");
     }
   };
+
+  useEffect(() => {
+    // 스케줄이 초기값인지 아닌지를 체크해주는 함수
+    const isAnyScheduleChanged = Object.values(inviteSchedule).some(
+      schedule => {
+        return (
+          schedule.workFrom !== null ||
+          schedule.workUntil !== null ||
+          schedule.restFrom !== null ||
+          schedule.restUntil !== null
+        );
+      },
+    );
+
+    setIsButtonActive(isAnyScheduleChanged);
+  }, [inviteSchedule]);
 
   return (
     <FlexBox direction="col" className="w-full h-full px-4">
@@ -100,38 +127,38 @@ export default function Invite() {
         <FlexBox direction="row" className="w-full mt-2 justify-between">
           <DayChip
             day="월"
-            type={dayType.mon}
-            onChipClick={() => onChipClick("mon")}
+            type={dayType.월}
+            onChipClick={() => onChipClick("월")}
           />
           <DayChip
             day="화"
-            type={dayType.tue}
-            onChipClick={() => onChipClick("tue")}
+            type={dayType.화}
+            onChipClick={() => onChipClick("화")}
           />
           <DayChip
             day="수"
-            type={dayType.wen}
-            onChipClick={() => onChipClick("wen")}
+            type={dayType.수}
+            onChipClick={() => onChipClick("수")}
           />
           <DayChip
             day="목"
-            type={dayType.thu}
-            onChipClick={() => onChipClick("thu")}
+            type={dayType.목}
+            onChipClick={() => onChipClick("목")}
           />
           <DayChip
             day="금"
-            type={dayType.fri}
-            onChipClick={() => onChipClick("fri")}
+            type={dayType.금}
+            onChipClick={() => onChipClick("금")}
           />
           <DayChip
             day="토"
-            type={dayType.sat}
-            onChipClick={() => onChipClick("sat")}
+            type={dayType.토}
+            onChipClick={() => onChipClick("토")}
           />
           <DayChip
             day="일"
-            type={dayType.sun}
-            onChipClick={() => onChipClick("sun")}
+            type={dayType.일}
+            onChipClick={() => onChipClick("일")}
           />
         </FlexBox>
         {currentView === "manage_time" ? (
@@ -155,7 +182,13 @@ export default function Invite() {
       </div>
 
       <FlexBox direction="row" className="w-full mb-8 justify-between">
-        <TextButton size="M" text="직원 추가하기" />
+        <TextButton
+          size="M"
+          text="직원 추가하기"
+          onClick={handleAddEmployee}
+          inactive={!isButtonActive}
+          type={isButtonActive ? "filled" : "outline"}
+        />
         <TextButton size="M" text="시간 저장하기" onClick={handleSaveTime} />
       </FlexBox>
     </FlexBox>
