@@ -27,7 +27,10 @@ export default function Manage() {
           pageHandle={Options => setSelectTab(Options)}
         />
         {selectTab === "right" && authority === "ceo" && (
-          <div className="w-full px-4">
+          <div
+            className="w-full px-4"
+            onClick={() => router.push("/manage/attendance")}
+          >
             <FlexBox
               direction="row"
               className="pl-4 py-3 pr-2.5 rounded-lg border border-neutral-500 gap-5
@@ -39,11 +42,7 @@ export default function Manage() {
                   직원들의 출퇴근을 승인 및 거절해보세요
                 </div>
               </FlexBox>
-              <Icon
-                src={"/icon/direction/right.svg"}
-                sz={24}
-                onClick={() => router.push("/manage/attendance")}
-              />
+              <Icon src={"/icon/direction/right.svg"} sz={24} />
             </FlexBox>
           </div>
         )}
