@@ -8,18 +8,20 @@ interface WeekButtonsProps {
   value: string | string[];
   setValue: React.Dispatch<React.SetStateAction<string | string[]>>;
   multiselect: boolean;
+  weekStartDay: DayName;
 }
 
 export default function WeekButtons({
   value,
   setValue,
   multiselect,
+  weekStartDay,
 }: WeekButtonsProps) {
   interface DayInfo {
     dayName: DayName;
     type: DayType;
   }
-  const [dayList, setDayList] = useState<DayInfo[]>([
+  const defaultDayList: DayInfo[] = [
     {
       dayName: "월",
       type: "inactive",
@@ -48,7 +50,18 @@ export default function WeekButtons({
       dayName: "일",
       type: "inactive",
     },
-  ]);
+  ];
+  const [dayList, setDayList] = useState<DayInfo[]>(defaultDayList);
+
+  useEffect(() => {
+    const dayIndex = dayList.findIndex(
+      dayList => dayList.dayName === weekStartDay,
+    );
+    const newDayList = dayList
+      .slice(dayIndex)
+      .concat(dayList.slice(0, dayIndex));
+    setDayList(newDayList);
+  }, [weekStartDay]);
 
   // DayChip 상태 workday <> inactive Toggle
   const toggleDayType = (i: number) => {
