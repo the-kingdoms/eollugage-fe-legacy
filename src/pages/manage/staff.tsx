@@ -9,7 +9,7 @@ import dayjs from "dayjs";
 import { useState } from "react";
 
 export default function Staff() {
-  const [weekValue, setWeekValue] = useState<string | string[]>("");
+  const [activeDays, setActiveDays] = useState<string | string[]>("");
 
   return (
     <div className="bg-Black">
@@ -24,8 +24,8 @@ export default function Staff() {
       <div className="rounded-t-2xl bg-White">
         <FlexBox direction="col" className="py-6 px-4 w-full gap-6">
           <WeekButtons
-            value={weekValue}
-            setValue={setWeekValue}
+            activeDays={activeDays}
+            setActiveDays={setActiveDays}
             multiselect
             weekStartDay="일"
           />

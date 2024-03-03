@@ -2,11 +2,11 @@ import DayChip from "@modules/components/chips/DayChip";
 import FlexBox from "@modules/layout/FlexBox";
 import { useEffect, useState } from "react";
 
-type DayName = "월" | "화" | "수" | "목" | "금" | "토" | "일";
+export type DayName = "월" | "화" | "수" | "목" | "금" | "토" | "일";
 type DayType = "workday" | "inputing" | "inputed" | "inactive";
 interface WeekButtonsProps {
-  value: string | string[];
-  setValue: React.Dispatch<React.SetStateAction<string | string[]>>;
+  activeDays: string | string[];
+  setActiveDays: React.Dispatch<React.SetStateAction<string | string[]>>;
   multiselect: boolean;
   weekStartDay: DayName;
 }
@@ -20,14 +20,14 @@ interface WeekButtonsProps {
  * @param weekStartDay 일주일의 시작요일
  * @returns
  * @example 
- * const [weekValue, setWeekValue] = useState<string | string[]>("");
-*  <WeekButtons value={weekValue} setValue={setWeekValue} multiselect weekStartDay="일"
+ * const [activeDays, setActiveDays] = useState<string | string[]>("")
+ * <WeekButtons value={activeDays} setValue={setActiveDays} multiselect weekStartDay="일"
 />
  */
 
 export default function WeekButtons({
-  value,
-  setValue,
+  activeDays,
+  setActiveDays,
   multiselect,
   weekStartDay,
 }: WeekButtonsProps) {
@@ -95,14 +95,14 @@ export default function WeekButtons({
       const activeDayList = dayList
         .filter(dayInfo => dayInfo.type === "workday")
         .map(dayInfo => dayInfo.dayName);
-      setValue(activeDayList);
+      setActiveDays(activeDayList);
     } else {
       const isWorkDayExists = dayList.find(
         dayInfo => dayInfo.type === "workday",
       );
 
-      if (isWorkDayExists) setValue(isWorkDayExists.dayName);
-      else setValue("");
+      if (isWorkDayExists) setActiveDays(isWorkDayExists.dayName);
+      else setActiveDays("");
     }
   }, [dayList]);
 
