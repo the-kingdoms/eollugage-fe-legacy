@@ -14,7 +14,7 @@ interface WeekButtonsProps {
 /**
  * WeekButtons 컴포넌트는 월-일 DayChip을 모두 보여주는 컴포넌트입니다.
  * @param value 선택된 요일 정보. 
- * multiselect=true인 경우 string으로/false인 경우 string[]으로 반환됩니다.
+ * multiselect=true인 경우 string[]으로/false인 경우 string으로 반환됩니다.
  * @param setValue 선택된 요일에 따라 value를 변경해주는 함수
  * @param multiselect DayChip이 여러 개 선택되는지 여부를 저장. 가능한 경우 true
  * @param weekStartDay 일주일의 시작요일
