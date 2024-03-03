@@ -52,12 +52,15 @@ export default function WeekButtons({
 
   // DayChip 상태 workday <> inactive Toggle
   const toggleDayType = (i: number) => {
+    const tempDayList = [...dayList];
     if (multiselect) {
-      const tempDayList = [...dayList];
       tempDayList[i].type =
         dayList[i].type === "workday" ? "inactive" : "workday";
-      setDayList(tempDayList);
+    } else {
+      tempDayList.forEach(dayInfo => (dayInfo.type = "inactive"));
+      tempDayList[i].type = "workday";
     }
+    setDayList(tempDayList);
   };
 
   useEffect(() => {
@@ -66,6 +69,13 @@ export default function WeekButtons({
         .filter(dayInfo => dayInfo.type === "workday")
         .map(dayInfo => dayInfo.dayName);
       setValue(activeDayList);
+    } else {
+      const isWorkDayExists = dayList.find(
+        dayInfo => dayInfo.type === "workday",
+      );
+
+      if (isWorkDayExists) setValue(isWorkDayExists.dayName);
+      else setValue("");
     }
   }, [dayList]);
 
