@@ -6,8 +6,11 @@ import Divider from "@modules/layout/Divider";
 import FlexBox from "@modules/layout/FlexBox";
 import TopTitle from "@modules/layout/TopTitle";
 import dayjs from "dayjs";
+import { useState } from "react";
 
 export default function Staff() {
+  const [activeDays, setActiveDays] = useState<string | string[]>("");
+
   return (
     <div className="bg-Black">
       <TopTitle type="back" />
@@ -20,7 +23,7 @@ export default function Staff() {
       </div>
       <div className="rounded-t-2xl bg-White">
         <FlexBox direction="col" className="py-6 px-4 w-full gap-6">
-          <WeekButtons />
+          <WeekButtons activeDays={activeDays} setActiveDays={setActiveDays} />
           <StaffTimeInput
             title="근무시간"
             start={dayjs().format("HHmm")}
