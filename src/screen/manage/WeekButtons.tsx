@@ -21,7 +21,7 @@ interface WeekButtonsProps {
  * @returns
  * @example 
  * const [activeDays, setActiveDays] = useState<string | string[]>("")
- * <WeekButtons value={activeDays} setValue={setActiveDays} multiselect weekStartDay="일"
+ * <WeekButtons activeDays={activeDays} activeDays={setActiveDays} multiselect weekStartDay="일"
 />
  */
 
