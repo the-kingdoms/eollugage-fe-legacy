@@ -70,7 +70,7 @@ export default function WeekButtons({
 
   useEffect(() => {
     const dayIndex = dayList.findIndex(
-      dayList => dayList.dayName === weekStartDay,
+      dayInfo => dayInfo.dayName === weekStartDay,
     );
     const newDayList = dayList
       .slice(dayIndex)
