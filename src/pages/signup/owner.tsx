@@ -1,5 +1,5 @@
-import OwnerInput from "@/screen/mypage/OwnerInput";
-import OwnerWelcome from "@/screen/mypage/OwnerWelcome";
+import OwnerInput from "@/screen/signup/OwnerInput";
+import OwnerWelcome from "@/screen/signup/OwnerWelcome";
 import FlexBox from "@modules/layout/FlexBox";
 import TopTitle from "@modules/layout/TopTitle";
 import { useState } from "react";
@@ -26,7 +26,7 @@ export default function Home() {
           onNext={handleNextClick}
         />
       ) : (
-        <OwnerWelcome />
+        <OwnerWelcome storeName={storeName} />
       )}
     </FlexBox>
   );

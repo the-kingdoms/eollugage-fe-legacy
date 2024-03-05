@@ -15,7 +15,7 @@ export default function OwnerInput({
   onNext,
 }: OwnerInputProps) {
   return (
-    <FlexBox direction="col" className="w-full h-full items-start px-4">
+    <FlexBox direction="col" className="w-full h-full items-start">
       <FlexBox direction="col" className="w-full h-full space-y-16 items-start">
         <div className="mt-4">
           <div className="H4-bold">가게 이름을</div>
