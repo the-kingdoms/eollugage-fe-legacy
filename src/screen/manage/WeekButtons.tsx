@@ -11,6 +11,41 @@ interface WeekButtonsProps {
   weekStartDay?: DayName;
 }
 
+interface DayInfo {
+  dayName: DayName;
+  type: DayType;
+}
+const defaultDayList: DayInfo[] = [
+  {
+    dayName: "월",
+    type: "inactive",
+  },
+  {
+    dayName: "화",
+    type: "inactive",
+  },
+  {
+    dayName: "수",
+    type: "inactive",
+  },
+  {
+    dayName: "목",
+    type: "inactive",
+  },
+  {
+    dayName: "금",
+    type: "inactive",
+  },
+  {
+    dayName: "토",
+    type: "inactive",
+  },
+  {
+    dayName: "일",
+    type: "inactive",
+  },
+];
+
 /**
  * WeekButtons 컴포넌트는 월-일 DayChip을 모두 보여주는 컴포넌트입니다.
  * @param value 선택된 요일 정보. 
@@ -31,40 +66,6 @@ export default function WeekButtons({
   multiselect = true,
   weekStartDay = "일",
 }: WeekButtonsProps) {
-  interface DayInfo {
-    dayName: DayName;
-    type: DayType;
-  }
-  const defaultDayList: DayInfo[] = [
-    {
-      dayName: "월",
-      type: "inactive",
-    },
-    {
-      dayName: "화",
-      type: "inactive",
-    },
-    {
-      dayName: "수",
-      type: "inactive",
-    },
-    {
-      dayName: "목",
-      type: "inactive",
-    },
-    {
-      dayName: "금",
-      type: "inactive",
-    },
-    {
-      dayName: "토",
-      type: "inactive",
-    },
-    {
-      dayName: "일",
-      type: "inactive",
-    },
-  ];
   const [dayList, setDayList] = useState<DayInfo[]>(defaultDayList);
 
   useEffect(() => {
