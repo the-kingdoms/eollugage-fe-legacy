@@ -1,4 +1,5 @@
-import ApprovalProfile from "@/assist/ApprovalProfile";
+import ProfileDiscription from "@/assist/ProfileDiscription";
+import RouterWrapper from "@/assist/RouterWrapper";
 import FlexBox from "@modules/layout/FlexBox";
 import { useRouter } from "next/router";
 
@@ -15,17 +16,18 @@ export default function StaffInform() {
       <div className="B1-medium">매니저</div>
       <FlexBox direction="col" className="gap-2 w-full">
         {profiles.map((people, index) => (
-          <div
+          <RouterWrapper
             key={index}
-            className="w-full border border-bgray-200 py-3 pl-3 rounded-2xl"
-            onClick={() => router.push("/manage/staff")}
+            routerdest="/manage/staff"
+            iconsz={32}
+            type="profile"
           >
-            <ApprovalProfile
+            <ProfileDiscription
               name={people.name}
               position={people.position}
               time={people.time}
             />
-          </div>
+          </RouterWrapper>
         ))}{" "}
       </FlexBox>
       <div className="B1-medium">알바</div>
