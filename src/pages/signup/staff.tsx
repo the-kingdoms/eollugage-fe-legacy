@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import FlexBox from "@modules/layout/FlexBox";
 import TopTitle from "@modules/layout/TopTitle";
-import StaffWithStore from "@/screen/mypage/StaffWithStore";
-import StaffWithoutStore from "@/screen/mypage/StaffWithoutStore";
+import StaffWithStore from "@/screen/signup/StaffWithStore";
+import StaffWithoutStore from "@/screen/signup/StaffWithoutStore";
 
 type StaffViewState = "with_store" | "without_store";
 
