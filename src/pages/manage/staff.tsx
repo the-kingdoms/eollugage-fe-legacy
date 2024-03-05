@@ -23,12 +23,7 @@ export default function Staff() {
       </div>
       <div className="rounded-t-2xl bg-White">
         <FlexBox direction="col" className="py-6 px-4 w-full gap-6">
-          <WeekButtons
-            activeDays={activeDays}
-            setActiveDays={setActiveDays}
-            multiselect
-            weekStartDay="일"
-          />
+          <WeekButtons activeDays={activeDays} setActiveDays={setActiveDays} />
           <StaffTimeInput
             title="근무시간"
             start={dayjs().format("HHmm")}
