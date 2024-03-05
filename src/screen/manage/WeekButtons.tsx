@@ -7,8 +7,8 @@ type DayType = "workday" | "inputing" | "inputed" | "inactive";
 interface WeekButtonsProps {
   activeDays: string | string[];
   setActiveDays: React.Dispatch<React.SetStateAction<string | string[]>>;
-  multiselect: boolean;
-  weekStartDay: DayName;
+  multiselect?: boolean;
+  weekStartDay?: DayName;
 }
 
 /**
@@ -28,8 +28,8 @@ interface WeekButtonsProps {
 export default function WeekButtons({
   activeDays,
   setActiveDays,
-  multiselect,
-  weekStartDay,
+  multiselect = true,
+  weekStartDay = "일",
 }: WeekButtonsProps) {
   interface DayInfo {
     dayName: DayName;
