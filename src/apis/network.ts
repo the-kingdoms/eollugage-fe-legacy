@@ -8,9 +8,15 @@ const getTokenFromLocalStorage = () => {
   return accessToken;
 };
 
-const eollugageUrl = "http://13.124.40.182/";
+const eollugageUrl = "https://api.eolluga.com/";
 const api = axios.create({
   baseURL: eollugageUrl,
+  headers: {
+    "Content-Type": "application/json;charset=UTF-8",
+    Accept: "application/json",
+    "Access-Control-Allow-Origin": "http://localhost:3000",
+    "Access-Control-Allow-Credentials": "true",
+  },
   validateStatus: status => {
     return status < 300;
   },
