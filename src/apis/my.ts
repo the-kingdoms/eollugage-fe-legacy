@@ -1,23 +1,20 @@
 import { ProviderType } from "@/apis/_type";
+import api from "@/apis/network";
+import { Relation } from "@/apis/relation";
+import { Store } from "@/apis/store";
 
 interface My {
+  id: string;
   name: string;
   phone: string;
   providerType: ProviderType;
-  relationList: any[];
-  storeList: any[];
+  relationList: Relation[];
+  storeList: Store[];
 }
 
 async function getMy(): Promise<My> {
-  // const { data } = await api.get(`/api/stores/${storeId}`);
-  return {
-    name: "김민수",
-    phone: "010-1234-5678",
-    providerType: "KAKAO",
-    relationList: [],
-    storeList: [],
-  };
-  // return data;
+  const { data } = await api.get<My>(`/api/my`);
+  return data;
 }
 
 export { getMy };
