@@ -2,7 +2,7 @@ import WorkInfoCard from "@modules/components/card/WorkInfoCard";
 import FlexBox from "@modules/layout/FlexBox";
 import dayjs from "dayjs";
 
-export default function WorkLog() {
+export default function WorkHistoryList() {
   const startDate = dayjs().startOf("week");
   const endDate = dayjs().endOf("week");
   return (

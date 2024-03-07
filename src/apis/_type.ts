@@ -1,4 +1,4 @@
-type StatusType = "approved" | "denied" | null;
+type StatusType = "approve" | "disapprove" | "decline";
 type DateType =
   | "Monday"
   | "Tuesday"

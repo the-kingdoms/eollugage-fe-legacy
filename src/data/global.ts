@@ -3,9 +3,13 @@ import { My } from "@/apis/my";
 import { atom } from "jotai";
 
 const myAtom = atom<My | null>(null);
-const storeIdAtom = atom<string | null>(get => {
+const storeIdAtom = atom<string>(get => {
   const my = get(myAtom);
-  return my?.relationList[0].storeId ?? null;
+  return my?.relationList[0].storeId ?? "";
+});
+const myMemberIdAtom = atom<string>(get => {
+  const my = get(myAtom);
+  return my?.id ?? "";
 });
 const roleAtom = atom<RoleType>(get => {
   const my = get(myAtom);
@@ -13,4 +17,4 @@ const roleAtom = atom<RoleType>(get => {
 });
 const manageMenuAtom = atom<"left" | "right">("left");
 
-export { myAtom, storeIdAtom, roleAtom, manageMenuAtom };
+export { manageMenuAtom, myAtom, myMemberIdAtom, roleAtom, storeIdAtom };
