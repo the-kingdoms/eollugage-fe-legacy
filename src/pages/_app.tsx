@@ -8,7 +8,7 @@ import Layout from "@modules/layout/Layout";
 import {
   QueryClient,
   QueryClientProvider,
-  useMutation,
+  useQuery,
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import dayjs from "dayjs";
@@ -26,22 +26,23 @@ export default function App({ Component, pageProps }: AppProps) {
   const [, setMy] = useAtom(myAtom);
   const { pathname, push } = useRouter();
   const { dialog } = useDialog();
-  const { mutate } = useMutation(
+  const { data, isFetched, isSuccess } = useQuery(
     {
-      mutationFn: getMy,
-      onSuccess: data => {
-        setMy(data);
-      },
-      onError: () => {
-        if (pathname !== "/" && pathname !== "/oauth/redirect") push("/");
-      },
+      queryKey: ["my"],
+      queryFn: getMy,
     },
     queryClient,
   );
 
   useEffect(() => {
-    mutate();
-  }, []);
+    if (isFetched) {
+      if (isSuccess) {
+        setMy(data);
+      } else if (pathname !== "/" && pathname !== "/oauth/redirect") {
+        push("/");
+      }
+    }
+  }, [isFetched]);
 
   return (
     <QueryClientProvider client={queryClient}>
