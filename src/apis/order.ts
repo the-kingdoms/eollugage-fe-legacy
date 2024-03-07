@@ -4,8 +4,8 @@ interface Order extends PostOrderBody {
 }
 
 interface PostOrderBody {
-  title: string;
   content: string;
+  isClicked: boolean;
 }
 
 async function getOrderList(storeId: string): Promise<Order[]> {
@@ -14,14 +14,14 @@ async function getOrderList(storeId: string): Promise<Order[]> {
     {
       id: "1",
       storeId,
-      title: "발주게시글",
       content: "글 1",
+      isClicked: false,
     },
     {
       id: "1",
       storeId,
-      title: "발주게시글",
       content: "글 2",
+      isClicked: false,
     },
   ];
   // return data;

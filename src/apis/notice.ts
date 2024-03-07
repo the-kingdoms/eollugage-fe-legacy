@@ -4,7 +4,6 @@ interface Notice extends PostNoticeBody {
 }
 
 interface PostNoticeBody {
-  title: string;
   content: string;
 }
 
@@ -14,13 +13,11 @@ async function getNoticeList(storeId: string): Promise<Notice[]> {
     {
       id: "1",
       storeId,
-      title: "공지사힝",
       content: "글 1",
     },
     {
       id: "1",
       storeId,
-      title: "공지사항",
       content: "글 2",
     },
   ];
