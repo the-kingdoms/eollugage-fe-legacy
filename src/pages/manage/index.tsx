@@ -1,4 +1,4 @@
-import { authAtom } from "@/data/global";
+import { authAtom, manageMenuAtom } from "@/data/global";
 import Schedule from "@/screen/manage/Schedule";
 import StaffInform from "@/screen/manage/StaffInform";
 import TabBarGage from "@modules/components/bars/TabBarGage";
@@ -8,10 +8,9 @@ import FlexBox from "@modules/layout/FlexBox";
 import Icon from "@modules/layout/Icon";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
-import { useState } from "react";
 
 export default function Manage() {
-  const [selectTab, setSelectTab] = useState("left");
+  const [manageMenu, setManageMenu] = useAtom(manageMenuAtom);
   const [auth] = useAtom(authAtom);
 
   const router = useRouter();
@@ -21,9 +20,10 @@ export default function Manage() {
         <div className="B1-medium mt-1.5">직원 관리</div>
         <LongTab
           text={["근무 스케쥴", "직원 정보"]}
-          pageHandle={Options => setSelectTab(Options)}
+          initPage={manageMenu}
+          pageHandle={option => setManageMenu(option)}
         />
-        {selectTab === "right" && auth === "ceo" && (
+        {manageMenu === "right" && auth === "owner" && (
           <div className="w-full px-4">
             <FlexBox
               direction="row"
@@ -37,20 +37,20 @@ export default function Manage() {
                 </div>
               </FlexBox>
               <Icon
-                src={"/icon/direction/right.svg"}
+                src="/icon/direction/right.svg"
                 sz={24}
                 onClick={() => router.push("/manage/attendance")}
               />
             </FlexBox>
           </div>
         )}
-        {selectTab === "left" ? <Schedule /> : <StaffInform />}
+        {manageMenu === "left" ? <Schedule /> : <StaffInform />}
       </FlexBox>
       <div className="ml-auto my-6 mx-4">
-        {selectTab === "left" && auth === "owner" && (
+        {manageMenu === "left" && auth === "owner" && (
           <FloatingActionButton text="근무 추가" />
         )}
-        {selectTab === "right" && auth === "owner" && (
+        {manageMenu === "right" && auth === "owner" && (
           <FloatingActionButton text="직원 추가" />
         )}
       </div>

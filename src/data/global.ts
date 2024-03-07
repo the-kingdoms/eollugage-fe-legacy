@@ -12,5 +12,6 @@ const authAtom = atom<"owner" | "manager" | "staff">(get => {
   });
   return "staff";
 });
+const manageMenuAtom = atom<"left" | "right">("left");
 
-export { myAtom, storeIdAtom, authAtom };
+export { myAtom, storeIdAtom, authAtom, manageMenuAtom };
