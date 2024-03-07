@@ -16,12 +16,7 @@ export default function StaffInform() {
       <div className="B1-medium">매니저</div>
       <FlexBox direction="col" className="gap-2 w-full">
         {profiles.map((people, index) => (
-          <RouterWrapper
-            key={index}
-            routerdest="/manage/staff"
-            iconsz={32}
-            type="profile"
-          >
+          <RouterWrapper key={index} routerdest="/manage/staff" type="profile">
             <ProfileDiscription
               name={people.name}
               position={people.position}

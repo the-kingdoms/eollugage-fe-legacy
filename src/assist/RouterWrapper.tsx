@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 interface RouterWrapperProps {
   children: React.ReactNode;
   routerdest: string;
-  iconsz: number;
   type: "ceo" | "profile";
 }
 
@@ -14,10 +13,14 @@ const style = {
   profile: "border-bgray-200 pl-3 rounded-2xl",
 };
 
+const iconsz = {
+  ceo: 24,
+  profile: 32,
+};
+
 export default function RouterWrapper({
   children,
   routerdest,
-  iconsz,
   type,
 }: RouterWrapperProps) {
   const router = useRouter();
@@ -25,7 +28,7 @@ export default function RouterWrapper({
     <button onClick={() => router.push(routerdest)} className="w-full">
       <FlexBox direction="row" className={`py-3 border ${style[type]}`}>
         {children}
-        <Icon src={"/icon/direction/right.svg"} sz={iconsz} />
+        <Icon src={"/icon/direction/right.svg"} sz={iconsz[type]} />
       </FlexBox>
     </button>
   );
