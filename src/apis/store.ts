@@ -9,10 +9,10 @@ interface PostStoreBody {
   name: string;
 }
 
-async function getStore(uuid: string): Promise<Store> {
-  // const { data } = await api.get(`/api/stores/${uuid}`);
+async function getStore(storeId: string): Promise<Store> {
+  // const { data } = await api.get<Store>(`/api/stores/${storeId}`);
   return {
-    storeId: uuid,
+    storeId,
     name: "얼루가게",
   };
   // return data;
