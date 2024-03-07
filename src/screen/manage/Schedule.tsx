@@ -5,6 +5,8 @@ import ScheduleList, {
 import Divider from "@modules/layout/Divider";
 import FlexBox from "@modules/layout/FlexBox";
 import dayjs from "dayjs";
+import useDialog from "@modules/hooks/useDialog";
+import { useState } from "react";
 
 export default function Schedule() {
   const schedules: ScheduleListProps[] = [
@@ -12,6 +14,16 @@ export default function Schedule() {
     { name: "방기연", position: "manager", time: "00:00 ~ 00:00" },
     { name: "방기연", position: "parttime", time: "00:00 ~ 00:00" },
   ];
+  const { openDialog } = useDialog();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+
+  const onClickDeleteBtn = () => {
+    openDialog({
+      title: "근무 삭제하기",
+      discription: "근무를 삭제하시나요?",
+      type: "confirm",
+    });
+  };
 
   return (
     <FlexBox direction="col" className="gap-3 w-full">
@@ -49,6 +61,7 @@ export default function Schedule() {
               name={plan.name}
               position={plan.position}
               time={plan.time}
+              onDelete={onClickDeleteBtn}
             />
           ))}
         </FlexBox>
