@@ -26,23 +26,23 @@ export default function App({ Component, pageProps }: AppProps) {
   const [, setMy] = useAtom(myAtom);
   const { pathname, push } = useRouter();
   const { dialog } = useDialog();
-  const { data, isFetched, isSuccess } = useQuery(
+  const { isError } = useQuery(
     {
       queryKey: ["my"],
-      queryFn: getMy,
+      queryFn: () =>
+        getMy().then(res => {
+          setMy(res);
+          return res;
+        }),
     },
     queryClient,
   );
 
   useEffect(() => {
-    if (isFetched) {
-      if (isSuccess) {
-        setMy(data);
-      } else if (pathname !== "/" && pathname !== "/oauth/redirect") {
-        push("/");
-      }
+    if (isError && pathname !== "/" && pathname !== "/oauth/redirect") {
+      push("/");
     }
-  }, [isFetched]);
+  }, [isError, pathname]);
 
   return (
     <QueryClientProvider client={queryClient}>
