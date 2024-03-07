@@ -8,6 +8,6 @@ type DateType =
   | "Saturday"
   | "Sunday";
 type ProviderType = "KAKAO" | "GOOGLE" | "APPLE";
-type RoleType = "ADMIN" | "USER";
+type RoleType = "owner" | "manager" | "staff";
 
 export type { StatusType, DateType, ProviderType, RoleType };

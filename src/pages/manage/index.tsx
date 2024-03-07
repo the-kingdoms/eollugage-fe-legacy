@@ -1,4 +1,4 @@
-import { authAtom, manageMenuAtom } from "@/data/global";
+import { roleAtom, manageMenuAtom } from "@/data/global";
 import Schedule from "@/screen/manage/Schedule";
 import StaffInform from "@/screen/manage/StaffInform";
 import TabBarGage from "@modules/components/bars/TabBarGage";
@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 
 export default function Manage() {
   const [manageMenu, setManageMenu] = useAtom(manageMenuAtom);
-  const [auth] = useAtom(authAtom);
+  const [role] = useAtom(roleAtom);
 
   const router = useRouter();
   return (
@@ -23,7 +23,7 @@ export default function Manage() {
           initPage={manageMenu}
           pageHandle={option => setManageMenu(option)}
         />
-        {manageMenu === "right" && auth === "owner" && (
+        {manageMenu === "right" && role === "owner" && (
           <div className="w-full px-4">
             <FlexBox
               direction="row"
@@ -47,10 +47,10 @@ export default function Manage() {
         {manageMenu === "left" ? <Schedule /> : <StaffInform />}
       </FlexBox>
       <div className="ml-auto my-6 mx-4">
-        {manageMenu === "left" && auth === "owner" && (
+        {manageMenu === "left" && role === "owner" && (
           <FloatingActionButton text="근무 추가" />
         )}
-        {manageMenu === "right" && auth === "owner" && (
+        {manageMenu === "right" && role === "owner" && (
           <FloatingActionButton text="직원 추가" />
         )}
       </div>
