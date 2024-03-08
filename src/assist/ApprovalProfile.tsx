@@ -26,12 +26,11 @@ export default function ApprovalProfile({
       <FlexBox direction="row" className="w-full items-start gap-2">
         <Profile name={name} size="S" />
         <FlexBox direction="col" className="gap-1 items-start py-1">
-          <div className="B3-medium">{name}</div>
-          <div className="B5-medium text-zinc-400">
-            {position}
-            {` `}
-            {time}
-          </div>
+          <div className="B1-medium">{name}</div>
+          <FlexBox className="gap-2 B4-regular text-Gray4">
+            <div>{position}</div>
+            <div>{time}</div>
+          </FlexBox>
         </FlexBox>
       </FlexBox>
       {buttonstate ? (

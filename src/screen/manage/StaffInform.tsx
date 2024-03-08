@@ -8,13 +8,13 @@ export default function StaffInform() {
   ];
 
   return (
-    <FlexBox direction="col" className="w-full px-2 items-start gap-4">
+    <FlexBox direction="col" className="w-full px-4 items-start gap-4">
       <div className="B1-medium">매니저</div>
-      <FlexBox direction="col" className="gap-2 w-full px-2">
+      <FlexBox direction="col" className="gap-2 w-full">
         {profiles.map((people, index) => (
           <div
             key={index}
-            className="w-full border border-bgray-200 py-3 pl-3 rounded-2xl"
+            className="w-full border border-Gray2 py-3 pl-3 rounded-2xl"
           >
             <ApprovalProfile
               name={people.name}

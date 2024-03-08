@@ -29,7 +29,7 @@ export default function Attendance() {
   return (
     <FlexBox direction="col" className="w-full px-2">
       <FlexBox direction="row">
-        <div className="B4-medium text-neutral-500">
+        <div className="B4-medium text-Gray5">
           오늘 {dayjs().format("MM")} / {dayjs().format("DD")}
         </div>
       </FlexBox>
