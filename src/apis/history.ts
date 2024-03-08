@@ -1,5 +1,4 @@
-import { DateType, StatusType } from "@/apis/_type";
-import api from "@/apis/network";
+import { StatusType } from "@/apis/_type";
 
 interface History extends PostHistoryBody {
   id: string;
@@ -7,12 +6,12 @@ interface History extends PostHistoryBody {
 }
 
 interface PostHistoryBody {
-  startDate: string;
-  endDate: string;
+  startTime: string;
+  endTime: string;
   restStartTime: string;
   restEndTime: string;
   status: StatusType;
-  date: DateType;
+  date: string;
 }
 
 interface PostHistoryStatusBody {
@@ -28,12 +27,12 @@ async function getHistoryList(
     {
       id: "string",
       relationId: "string",
-      startDate: "2024-03-07T08:00:00.000Z",
-      endDate: "2024-03-07T18:00:00.000Z",
-      restStartTime: "2024-03-07T11:00:00.000Z",
-      restEndTime: "2024-03-07T12:00:00.000Z",
-      status: "approved",
-      date: "Monday",
+      startTime: "08:00:00.000Z",
+      endTime: "18:00:00.000Z",
+      restStartTime: "11:00:00.000Z",
+      restEndTime: "12:00:00.000Z",
+      status: "approve",
+      date: "2024-03-07",
     },
   ];
   // return data;
@@ -58,5 +57,5 @@ async function deleteHistory(
   historyId: string,
 ): Promise<void> {}
 
-export { getHistoryList, postHistory, postHistoryStatus, deleteHistory };
+export { deleteHistory, getHistoryList, postHistory, postHistoryStatus };
 export type { History, PostHistoryBody, PostHistoryStatusBody };
