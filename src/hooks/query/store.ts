@@ -1,5 +1,6 @@
 import { PostStoreBody, getStore, postStore } from "@/apis/store";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useGetMyQueryKey } from "@/hooks/query/my";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 function useGetStore(storeId: string) {
   return useQuery({
@@ -9,9 +10,15 @@ function useGetStore(storeId: string) {
 }
 
 function usePostStore() {
+  const client = useQueryClient();
   return useMutation({
     mutationKey: ["postStore"],
     mutationFn: (body: PostStoreBody) => postStore(body),
+    onSuccess: () => {
+      client.invalidateQueries({
+        queryKey: [useGetMyQueryKey],
+      });
+    },
   });
 }
 
