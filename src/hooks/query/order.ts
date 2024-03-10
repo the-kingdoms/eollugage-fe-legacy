@@ -15,10 +15,10 @@ function usePostOrder(storeId: string) {
     mutationKey: ["postOrder"],
     mutationFn: (body: PostOrderBody) => postOrder(storeId, body),
   });
-  const postOrderMutation = (body: PostOrderBody) => {
+  const postOrderMutate = (body: PostOrderBody) => {
     mutate(body);
   };
-  return { postOrderMutation };
+  return { postOrderMutate };
 }
 
 function usePutOrder(storeId: string) {
@@ -27,10 +27,10 @@ function usePutOrder(storeId: string) {
     mutationFn: ({ orderId, body }: { orderId: string; body: PostOrderBody }) =>
       putOrder(storeId, orderId, body),
   });
-  const putOrderMutation = (orderId: string, body: PostOrderBody) => {
+  const putOrderMutate = (orderId: string, body: PostOrderBody) => {
     mutate({ orderId, body });
   };
-  return { putOrderMutation };
+  return { putOrderMutate };
 }
 
 export { useGetOrder, usePostOrder, usePutOrder };

@@ -9,8 +9,8 @@ import { useEffect, useState } from "react";
 
 export default function () {
   const { notices } = useGetNotice();
-  const { postNoticeMutation } = usePostNotice();
-  const { putNoticeMutation } = usePutNotice();
+  const { postNoticeMutate } = usePostNotice();
+  const { putNoticeMutate } = usePutNotice();
   const [notice, setNotice] = useState("");
 
   useEffect(() => {
@@ -19,12 +19,12 @@ export default function () {
 
   const update = () => {
     if (notices && notices?.length > 0) {
-      putNoticeMutation({
+      putNoticeMutate({
         noticeId: notices[0].id,
         body: { content: notice },
       });
     } else {
-      postNoticeMutation({ content: notice });
+      postNoticeMutate({ content: notice });
     }
   };
 

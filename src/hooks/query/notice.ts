@@ -21,17 +21,17 @@ function useGetNotice() {
 
 function usePostNotice() {
   const [storeId] = useAtom(storeIdAtom);
-  const { mutate: postNoticeMutation } = useMutation({
+  const { mutate: postNoticeMutate } = useMutation({
     mutationKey: ["postNoticeMutation"],
     mutationFn: (body: PostNoticeBody) => postNotice(storeId, body),
   });
-  return { postNoticeMutation };
+  return { postNoticeMutate };
 }
 
 function usePutNotice() {
   const [storeId] = useAtom(storeIdAtom);
-  const { mutate: putNoticeMutation } = useMutation({
-    mutationKey: ["putNoticeMutation"],
+  const { mutate: putNoticeMutate } = useMutation({
+    mutationKey: ["putNoticeMutate"],
     mutationFn: ({
       noticeId,
       body,
@@ -42,7 +42,7 @@ function usePutNotice() {
       return putNotice(storeId, noticeId, body);
     },
   });
-  return { putNoticeMutation };
+  return { putNoticeMutate };
 }
 
 export { useGetNotice, usePostNotice, usePutNotice };

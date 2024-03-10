@@ -19,8 +19,8 @@ export default function () {
   const [orderList, setOrderList] = useState<Order[]>([]);
   const [storeId] = useAtom(storeIdAtom);
   const { orders } = useGetOrder(storeId);
-  const { postOrderMutation } = usePostOrder(storeId);
-  const { putOrderMutation } = usePutOrder(storeId);
+  const { postOrderMutate } = usePostOrder(storeId);
+  const { putOrderMutate } = usePutOrder(storeId);
 
   useEffect(() => {
     if (orders) {
@@ -31,7 +31,7 @@ export default function () {
   const addOrder = async () => {
     const newOrder: PostOrderBody = { content: "", isClicked: false }; // 새 발주
 
-    postOrderMutation(newOrder);
+    postOrderMutate(newOrder);
     setOrderList([
       ...orderList,
       { ...newOrder, id: Date.now().toString(), storeId },
@@ -43,7 +43,7 @@ export default function () {
       const newOrderList = [...orderList];
       newOrderList[index].content = value as string;
       setOrderList(newOrderList);
-      putOrderMutation(newOrderList[index].storeId, newOrderList[index]);
+      putOrderMutate(newOrderList[index].storeId, newOrderList[index]);
     };
   }
 
