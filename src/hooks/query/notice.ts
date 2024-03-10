@@ -1,19 +1,17 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
 import {
-  Notice,
   PostNoticeBody,
   getNoticeList,
   postNotice,
   putNotice,
 } from "@/apis/notice";
-import { useAtom } from "jotai";
 import { storeIdAtom } from "@/data/global";
-import { useEffect } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useAtom } from "jotai";
 
 function useGetNotice() {
   const [storeId] = useAtom(storeIdAtom);
   const { data: notices } = useQuery({
-    queryKey: ["notices"],
+    queryKey: ["getNoticeList"],
     queryFn: () => getNoticeList(storeId),
   });
   return { notices };
@@ -21,17 +19,20 @@ function useGetNotice() {
 
 function usePostNotice() {
   const [storeId] = useAtom(storeIdAtom);
-  const { mutate: postNoticeMutate } = useMutation({
-    mutationKey: ["postNoticeMutation"],
+  const { mutate } = useMutation({
+    mutationKey: ["postNotice"],
     mutationFn: (body: PostNoticeBody) => postNotice(storeId, body),
   });
+  const postNoticeMutate = (body: PostNoticeBody) => {
+    mutate(body);
+  };
   return { postNoticeMutate };
 }
 
 function usePutNotice() {
   const [storeId] = useAtom(storeIdAtom);
-  const { mutate: putNoticeMutate } = useMutation({
-    mutationKey: ["putNoticeMutate"],
+  const { mutate } = useMutation({
+    mutationKey: ["putNotice"],
     mutationFn: ({
       noticeId,
       body,
@@ -42,6 +43,9 @@ function usePutNotice() {
       return putNotice(storeId, noticeId, body);
     },
   });
+  const putNoticeMutate = (noticeId: string, body: PostNoticeBody) => {
+    mutate({ noticeId, body });
+  };
   return { putNoticeMutate };
 }
 
