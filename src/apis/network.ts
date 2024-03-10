@@ -1,5 +1,10 @@
 import axios from "axios";
 
+interface ApiResponse {
+  id: string;
+  msg: string;
+}
+
 const getTokenFromLocalStorage = () => {
   const accessToken = localStorage.getItem("access_token");
   if (!accessToken) {
@@ -36,3 +41,4 @@ api.interceptors.request.use(
 
 export default api;
 export { eollugageUrl };
+export type { ApiResponse };
