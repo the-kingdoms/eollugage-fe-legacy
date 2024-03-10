@@ -1,10 +1,32 @@
 import NoticeField from "@/screen/main/NoticeField";
 import FlexBox from "@modules/layout/FlexBox";
-import { useState } from "react";
-import { Notice } from "@/apis/notice";
+import {
+  useGetNotice,
+  usePostNotice,
+  usePutNotice,
+} from "@/hooks/query/notice";
+import { useEffect, useState } from "react";
 
 export default function () {
-  const [notice, setNotice] = useState<string>("");
+  const { notices } = useGetNotice();
+  const { postNoticeMutation } = usePostNotice();
+  const { putNoticeMutation } = usePutNotice();
+  const [notice, setNotice] = useState("");
+
+  useEffect(() => {
+    setNotice(notices?.[0]?.content ?? "");
+  }, [notices]);
+
+  const update = () => {
+    if (notices && notices?.length > 0) {
+      putNoticeMutation({
+        noticeId: notices[0].id,
+        body: { content: notice },
+      });
+    } else {
+      postNoticeMutation({ content: notice });
+    }
+  };
 
   return (
     <FlexBox direction="col" className="w-full gap-4 items-start">
@@ -12,6 +34,7 @@ export default function () {
       <NoticeField
         value={notice}
         setValue={setNotice}
+        onBlur={update}
         placeholder="눌러서 추가해보세요"
       />
     </FlexBox>

@@ -1,3 +1,5 @@
+import api from "./network";
+
 interface Order extends PostOrderBody {
   id: string;
   storeId: string;
@@ -9,26 +11,12 @@ interface PostOrderBody {
 }
 
 async function getOrderList(storeId: string): Promise<Order[]> {
-  // const { data } = await api.get(`/api/stores/${storeId}/orders`);
-  return [
-    {
-      id: "1",
-      storeId,
-      content: "글 1",
-      isClicked: false,
-    },
-    {
-      id: "1",
-      storeId,
-      content: "글 2",
-      isClicked: false,
-    },
-  ];
-  // return data;
+  const { data } = await api.get(`/api/stores/${storeId}/orders`);
+  return data;
 }
 
 async function postOrder(storeId: string, body: PostOrderBody): Promise<void> {
-  // await api.post(`/api/stores/${storeId}/orders`, body);
+  await api.post(`/api/stores/${storeId}/orders`, body);
 }
 
 async function putOrder(
@@ -36,7 +24,7 @@ async function putOrder(
   orderId: string,
   body: PostOrderBody,
 ): Promise<void> {
-  // await api.put(`/api/stores/${storeId}/orders/${orderId}`, body);
+  await api.put(`/api/stores/${storeId}/orders/${orderId}`, body);
 }
 
 export { getOrderList, postOrder, putOrder };

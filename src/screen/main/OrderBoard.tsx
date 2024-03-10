@@ -10,23 +10,28 @@ import {
   postOrder,
   putOrder,
 } from "@/apis/order";
-
-const storeId = "your_store_id";
+import { storeIdAtom } from "@/data/global";
+import { useAtom } from "jotai";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { useGetOrder, usePostOrder, usePutOrder } from "@/hooks/query/order";
 
 export default function () {
   const [orderList, setOrderList] = useState<Order[]>([]);
+  const [storeId] = useAtom(storeIdAtom);
+  const { orders } = useGetOrder(storeId);
+  const { postOrderMutation } = usePostOrder(storeId);
+  const { putOrderMutation } = usePutOrder(storeId);
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      const orders = await getOrderList(storeId);
+    if (orders) {
       setOrderList(orders);
-    };
-    fetchOrders();
-  }, []);
+    }
+  }, [orders]);
 
   const addOrder = async () => {
     const newOrder: PostOrderBody = { content: "", isClicked: false }; // 새 발주
-    await postOrder(storeId, newOrder);
+
+    postOrderMutation(newOrder);
     setOrderList([
       ...orderList,
       { ...newOrder, id: Date.now().toString(), storeId },
@@ -38,6 +43,7 @@ export default function () {
       const newOrderList = [...orderList];
       newOrderList[index].content = value as string;
       setOrderList(newOrderList);
+      putOrderMutation(newOrderList[index].storeId, newOrderList[index]);
     };
   }
 
