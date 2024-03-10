@@ -1,26 +1,18 @@
-import React, { useEffect } from "react";
+import { Order, PostOrderBody } from "@/apis/order";
+import { storeIdAtom } from "@/data/global";
+import { useGetOrder, usePostOrder, usePutOrder } from "@/hooks/query/order";
+import TextCheckField from "@modules/components/textfields/TextCheckField";
 import FlexBox from "@modules/layout/FlexBox";
 import Icon from "@modules/layout/Icon";
-import TextCheckField from "@modules/components/textfields/TextCheckField";
-import { Dispatch, SetStateAction, useState } from "react";
-import {
-  Order,
-  PostOrderBody,
-  getOrderList,
-  postOrder,
-  putOrder,
-} from "@/apis/order";
-import { storeIdAtom } from "@/data/global";
 import { useAtom } from "jotai";
-import { useQuery, useMutation } from "@tanstack/react-query";
-import { useGetOrder, usePostOrder, usePutOrder } from "@/hooks/query/order";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-export default function () {
+export default function OrderBoard() {
   const [orderList, setOrderList] = useState<Order[]>([]);
   const [storeId] = useAtom(storeIdAtom);
-  const { orders } = useGetOrder(storeId);
-  const { postOrderMutate } = usePostOrder(storeId);
-  const { putOrderMutate } = usePutOrder(storeId);
+  const { orders } = useGetOrder();
+  const { postOrderMutate } = usePostOrder();
+  const { putOrderMutate } = usePutOrder();
 
   useEffect(() => {
     if (orders) {
