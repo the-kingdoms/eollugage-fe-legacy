@@ -1,6 +1,5 @@
-import { getMy } from "@/apis/my";
 import { myAtom } from "@/data/global";
-import { useQuery } from "@tanstack/react-query";
+import { useGetMy } from "@/hooks/query/my";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -8,16 +7,8 @@ import { useEffect } from "react";
 export default function Redirect() {
   const { query, push } = useRouter();
   const token = query?.token;
-  const [my, setMy] = useAtom(myAtom);
-  const { refetch } = useQuery({
-    queryKey: ["my"],
-    queryFn: () =>
-      getMy().then(res => {
-        setMy(res);
-        return res;
-      }),
-    enabled: false,
-  });
+  const [my] = useAtom(myAtom);
+  const { refetch } = useGetMy();
 
   useEffect(() => {
     if (token) {
