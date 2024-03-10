@@ -22,7 +22,7 @@ export default function Home() {
   return (
     <FlexBox direction="col" className="w-full h-full px-4 justify-between">
       <TopTitle title="" type="back" />
-      <FlexBox direction="col" className="w-full h-full px-4 mt-4 space-y-4">
+      <FlexBox direction="col" className="w-full h-full mt-4 space-y-4">
         <button type="button" onClick={() => handleImageClick("owner")}>
           <Image
             height={172}

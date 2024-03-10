@@ -5,7 +5,6 @@ export default function StaffInform() {
   const profiles = [
     { name: "얼루가", position: "매니저", time: "00:00 - 00:00" },
     { name: "방기연", position: "매니저", time: "00:00 - 00:00" },
-    { name: "방기연", position: "아르바이트", time: "00:00 - 00:00" },
   ];
 
   return (

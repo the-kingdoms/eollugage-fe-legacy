@@ -1,3 +1,5 @@
+import React, { useEffect } from "react";
+import { eollugageUrl } from "@/apis/network";
 import LoginButton from "@modules/components/button/LoginButton";
 import FlexBox from "@modules/layout/FlexBox";
 import Image from "next/image";
@@ -5,7 +7,20 @@ import { useRouter } from "next/router";
 import styles from "./index.module.css";
 
 export default function Home() {
-  const router = useRouter();
+  const { push, query } = useRouter();
+
+  useEffect(() => {
+    if (
+      typeof query.position === "string" &&
+      typeof query.schedule === "string"
+    ) {
+      const position = query.position as string;
+      const schedule = query.schedule as string;
+      localStorage.setItem("position", position);
+      localStorage.setItem("schedule", schedule);
+    }
+  }, []);
+
   return (
     <FlexBox direction="col" className="bg-black w-full h-full">
       <FlexBox
@@ -32,7 +47,9 @@ export default function Home() {
             <LoginButton
               type="kakao"
               onClick={() => {
-                router.push("/signup");
+                push(
+                  `${eollugageUrl}/oauth2/authorization/kakao?redirect_uri=${window.location.origin}/oauth/redirect`,
+                );
               }}
             />
           </div>
