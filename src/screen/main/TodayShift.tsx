@@ -1,7 +1,7 @@
-import FlexBox from "@modules/layout/FlexBox";
 import WorkInfo from "@/screen/main/WorkInfo";
+import FlexBox from "@modules/layout/FlexBox";
 
-export default function () {
+export default function TodayShift() {
   return (
     <FlexBox direction="col" className="w-full gap-4 items-start">
       <div className="H5-bold">금일의 근무</div>

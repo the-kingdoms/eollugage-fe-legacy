@@ -11,11 +11,11 @@ export default function Home() {
 
   useEffect(() => {
     if (
-      typeof query["position"] === "string" &&
-      typeof query["schedule"] === "string"
+      typeof query.position === "string" &&
+      typeof query.schedule === "string"
     ) {
-      const position = query["position"] as string;
-      const schedule = query["schedule"] as string;
+      const position = query.position as string;
+      const schedule = query.schedule as string;
       localStorage.setItem("position", position);
       localStorage.setItem("schedule", schedule);
     }

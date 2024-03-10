@@ -68,6 +68,43 @@ export default function WeekButtons({
 }: WeekButtonsProps) {
   const [dayList, setDayList] = useState<DayInfo[]>(defaultDayList);
 
+  // DayChip 상태 workday <> inactive Toggle
+  const toggleDayType = (i: number) => {
+    const tempDayList = [...dayList];
+    if (multiselect) {
+      tempDayList[i].type =
+        dayList[i].type === "workday" ? "inactive" : "workday";
+    } else {
+      tempDayList.forEach((day, index) => {
+        tempDayList[index].type = "inactive";
+      });
+      tempDayList[i].type = "workday";
+    }
+    setDayList(tempDayList);
+  };
+
+  useEffect(() => {
+    if (typeof activeDays === "string") {
+      setDayList(prev => {
+        return prev.map(day => {
+          if (activeDays === day.dayName) {
+            return { ...day, type: "workday" };
+          }
+          return { ...day, type: "inactive" };
+        });
+      });
+    } else {
+      setDayList(prev => {
+        return prev.map(day => {
+          if (activeDays.includes(day.dayName)) {
+            return { ...day, type: "workday" };
+          }
+          return { ...day, type: "inactive" };
+        });
+      });
+    }
+  }, []);
+
   useEffect(() => {
     const dayIndex = dayList.findIndex(
       dayInfo => dayInfo.dayName === weekStartDay,
@@ -77,19 +114,6 @@ export default function WeekButtons({
       .concat(dayList.slice(0, dayIndex));
     setDayList(newDayList);
   }, [weekStartDay]);
-
-  // DayChip 상태 workday <> inactive Toggle
-  const toggleDayType = (i: number) => {
-    const tempDayList = [...dayList];
-    if (multiselect) {
-      tempDayList[i].type =
-        dayList[i].type === "workday" ? "inactive" : "workday";
-    } else {
-      tempDayList.forEach(dayInfo => (dayInfo.type = "inactive"));
-      tempDayList[i].type = "workday";
-    }
-    setDayList(tempDayList);
-  };
 
   useEffect(() => {
     if (multiselect) {
@@ -111,6 +135,7 @@ export default function WeekButtons({
     <FlexBox className="justify-between w-full">
       {dayList.map((dayInfo, i) => (
         <DayChip
+          key={i}
           day={dayInfo.dayName}
           type={dayInfo.type}
           onChipClick={() => toggleDayType(i)}
