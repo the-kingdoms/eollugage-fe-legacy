@@ -1,4 +1,5 @@
 import { DateType } from "@/apis/_type";
+import api, { ApiResponse } from "@/apis/network";
 
 interface Plan extends PostPlanBody {
   id: "string";
@@ -14,7 +15,9 @@ interface PostPlanBody {
 }
 
 async function getPlanList(storeId: string, memberId: string): Promise<Plan[]> {
-  // const { data } = await api.get(`/api/stores/${storeId}`);
+  const { data } = await api.get(
+    `/api/stores/${storeId}/relations/${memberId}/plans`,
+  );
   return [
     {
       id: "string",
@@ -25,21 +28,33 @@ async function getPlanList(storeId: string, memberId: string): Promise<Plan[]> {
       restEndTime: "2024-03-07T12:00:00.000Z",
       date: "Monday",
     },
-  ];
-  // return data;
+  ]; // 추후 삭제 필요
+  return data;
 }
 
 async function postPlan(
   storeId: string,
   memberId: string,
   body: PostPlanBody,
-): Promise<void> {}
+): Promise<ApiResponse> {
+  const { data } = await api.post(
+    `/api/stores/${storeId}/relations/${memberId}/plans`,
+    body,
+  );
+  return data;
+}
 
 async function putPlan(
   storeId: string,
   memberId: string,
   body: PostPlanBody,
-): Promise<void> {}
+): Promise<ApiResponse> {
+  const { data } = await api.put(
+    `/api/stores/${storeId}/relations/${memberId}/plans`,
+    body,
+  );
+  return data;
+}
 
 export { getPlanList, postPlan, putPlan };
 export type { Plan, PostPlanBody };
