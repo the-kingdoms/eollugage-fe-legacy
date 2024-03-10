@@ -35,7 +35,15 @@ const inviteScheduleInit: InviteSchedule = {
 };
 
 const inviteScheduleAtom = atom<InviteSchedule>(inviteScheduleInit);
+inviteScheduleAtom.debugLabel = "inviteScheduleAtom";
 
-export { inviteScheduleAtom, inviteScheduleInit, scheduleInit };
+const selectedPositionAtom = atom("");
+selectedPositionAtom.debugLabel = "selectedPositionAtom";
+
+export {
+  inviteScheduleAtom,
+  selectedPositionAtom,
+  inviteScheduleInit,
+  scheduleInit,
+};
 export type { InviteSchedule, Schedule };
-export const selectedPositionAtom = atom("");
