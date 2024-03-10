@@ -15,6 +15,12 @@ export default function Redirect() {
       localStorage.setItem("access_token", token.toString());
       refetch();
     }
+    if (
+      typeof localStorage.getItem("postion") === "string" &&
+      typeof localStorage.getItem("schedule") === "string"
+    ) {
+      push("/main"); // 일단은 main(직원용)으로 이동
+    }
   }, [token]);
 
   useEffect(() => {

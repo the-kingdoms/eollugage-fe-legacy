@@ -54,7 +54,6 @@ const ConfirmEmployee = () => {
       };
       workScheduleEntries.push(entry);
     });
-
     return workScheduleEntries;
   };
 

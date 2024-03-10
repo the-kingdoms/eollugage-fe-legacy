@@ -1,37 +1,24 @@
+import api from "./network";
+
 interface Notice extends PostNoticeBody {
   id: string;
   storeId: string;
 }
 
 interface PostNoticeBody {
-  title: string;
   content: string;
 }
 
 async function getNoticeList(storeId: string): Promise<Notice[]> {
-  // const { data } = await api.get(`/api/stores/${storeId}/notices`);
-  return [
-    {
-      id: "1",
-      storeId,
-      title: "공지사힝",
-      content: "글 1",
-    },
-    {
-      id: "1",
-      storeId,
-      title: "공지사항",
-      content: "글 2",
-    },
-  ];
-  // return data;
+  const { data } = await api.get(`/api/stores/${storeId}/notices`);
+  return data;
 }
 
 async function postNotice(
   storeId: string,
   body: PostNoticeBody,
 ): Promise<void> {
-  // await api.post(`/api/stores/${storeId}/notices`, body);
+  await api.post(`/api/stores/${storeId}/notices`, { title: "temp", ...body });
 }
 
 async function putNotice(
@@ -39,7 +26,10 @@ async function putNotice(
   noticeId: string,
   body: PostNoticeBody,
 ): Promise<void> {
-  // await api.put(`/api/stores/${storeId}/notices/${noticeId}`, body);
+  await api.put(`/api/stores/${storeId}/notices/${noticeId}`, {
+    title: "temp",
+    ...body,
+  });
 }
 
 export { getNoticeList, postNotice, putNotice };

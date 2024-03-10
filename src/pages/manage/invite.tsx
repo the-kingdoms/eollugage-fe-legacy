@@ -9,7 +9,7 @@ import {
   inviteScheduleAtom,
   selectedPositionAtom,
 } from "@/data/inviteSchedule";
-import { atom, useAtom } from "jotai";
+import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 
 type View = "inital_set" | "manage_time";

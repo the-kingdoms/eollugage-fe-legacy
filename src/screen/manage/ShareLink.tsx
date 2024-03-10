@@ -1,13 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FlexBox from "@modules/layout/FlexBox";
 import Image from "next/image";
+import {
+  inviteScheduleAtom,
+  selectedPositionAtom,
+} from "@/data/inviteSchedule";
+import { useAtom } from "jotai";
 
 const ShareLink = () => {
   const [linkCopied, setLinkCopied] = useState(false);
+  const [inviteSchedule] = useAtom(inviteScheduleAtom);
+  const [selectedPosition] = useAtom(selectedPositionAtom);
+
+  useEffect(() => {
+    const link = window.location.origin + createQueryString();
+    navigator.clipboard
+      .writeText(link)
+      .then(() => {
+        setLinkCopied(true);
+        setTimeout(() => setLinkCopied(false), 2000);
+      })
+      .catch(err => {
+        console.log("링크를 복사하는데 실패했습니다: ", err);
+      });
+  }, []);
+
   const handleCopyLink = () => {
-    setLinkCopied(true);
-    setTimeout(() => setLinkCopied(false), 2000); // 2초뒤에 메세지창 숨김
+    const link = window.location.origin + createQueryString();
+    navigator.clipboard
+      .writeText(link)
+      .then(() => {
+        setLinkCopied(true);
+        setTimeout(() => setLinkCopied(false), 2000);
+      })
+      .catch(err => {
+        console.error("링크를 복사하는데 실패했습니다: ", err);
+      });
   };
+
+  const createQueryString = () => {
+    const positionString = encodeURIComponent(JSON.stringify(selectedPosition));
+    const scheduleString = encodeURIComponent(JSON.stringify(inviteSchedule));
+
+    // 인코딩된 문자열을 스트링 형태로 결합
+    let queryString = `/?position=${positionString}&schedule=${scheduleString}`;
+    return queryString;
+  };
+
   return (
     <FlexBox direction="col" className="w-full h-full px-4">
       <div className="w-full mt-4">

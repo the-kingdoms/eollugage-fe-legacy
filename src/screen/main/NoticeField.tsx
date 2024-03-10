@@ -9,7 +9,7 @@ interface TextCheckFieldProps {
   inactive?: boolean;
 }
 
-export default function Notice({
+export default function NoticeField({
   value,
   setValue,
   ischecked,
