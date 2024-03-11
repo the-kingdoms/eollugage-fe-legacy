@@ -37,7 +37,7 @@ export default function ApprovalProfile({
         <StateButton type={buttonstate} onclick={handleonClick} />
       ) : (
         <Icon
-          src={"/icon/direction/right.svg"}
+          src="/icon/direction/right.svg"
           sz={32}
           onClick={() => router.push("/manage/staff")}
         />

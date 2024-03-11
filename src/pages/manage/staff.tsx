@@ -1,7 +1,6 @@
 import StaffTimeApproval from "@/screen/manage/StaffTimeApproval";
 import StaffTimeInput from "@/screen/manage/StaffTimeInput";
 import WeekButtons from "@/screen/manage/WeekButtons";
-import DayChip from "@modules/components/chips/DayChip";
 import Divider from "@modules/layout/Divider";
 import FlexBox from "@modules/layout/FlexBox";
 import TopTitle from "@modules/layout/TopTitle";

@@ -9,7 +9,7 @@ import {
   inviteScheduleAtom,
   selectedPositionAtom,
 } from "@/data/inviteSchedule";
-import { atom, useAtom } from "jotai";
+import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 
 type View = "inital_set" | "manage_time";
@@ -69,10 +69,10 @@ export default function Invite() {
     (Object.keys(dayType) as (keyof DayType)[]).forEach(day => {
       if (dayType[day] === "workday") {
         newSchedule[day] = {
-          workFrom: workFrom.slice(0, 2) + ":" + workFrom.slice(2),
-          workUntil: workUntil.slice(0, 2) + ":" + workUntil.slice(2),
-          restFrom: restFrom.slice(0, 2) + ":" + restFrom.slice(2),
-          restUntil: restUntil.slice(0, 2) + ":" + restUntil.slice(2),
+          workFrom: `${workFrom.slice(0, 2)}:${workFrom.slice(2)}`,
+          workUntil: `${workUntil.slice(0, 2)}:${workUntil.slice(2)}`,
+          restFrom: `${restFrom.slice(0, 2)}:${restFrom.slice(2)}`,
+          restUntil: `${restUntil.slice(0, 2)}:${restUntil.slice(2)}`,
         };
         setDayType(prev => {
           const newDayType = { ...prev };
@@ -83,7 +83,6 @@ export default function Invite() {
     });
 
     setInviteSchedule(newSchedule); // 갱신된 스케줄로 상태 업데이트
-    console.log(newSchedule);
 
     setCurrentView("inital_set");
 
@@ -175,7 +174,7 @@ export default function Invite() {
             onChipClick={() => onChipClick("일")}
           />
         </FlexBox>
-        {currentView === "manage_time" ? (
+        {currentView === "manage_time" && (
           <div className="w-full mt-12">
             <div className="B4-medium text-gray-500">근무 시간</div>
             <FlexBox direction="row" className="w-full mt-4 justify-between">
@@ -190,8 +189,6 @@ export default function Invite() {
               <TimeField value={restUntil} setValue={setRestUntil} />
             </FlexBox>
           </div>
-        ) : (
-          <div></div>
         )}
       </div>
 

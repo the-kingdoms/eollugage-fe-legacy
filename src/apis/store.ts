@@ -1,4 +1,4 @@
-import api from "@/apis/network";
+import api, { ApiResponse } from "@/apis/network";
 
 interface Store {
   storeId: string;
@@ -10,20 +10,13 @@ interface PostStoreBody {
 }
 
 async function getStore(storeId: string): Promise<Store> {
-  // const { data } = await api.get<Store>(`/api/stores/${storeId}`);
-  return {
-    storeId,
-    name: "얼루가게",
-  };
-  // return data;
+  const { data } = await api.get<Store>(`/api/stores/${storeId}`);
+  return data;
 }
 
-async function postStore(body: PostStoreBody): Promise<Store> {
+async function postStore(body: PostStoreBody): Promise<ApiResponse> {
   const { data } = await api.post("/api/stores", body);
-  return {
-    storeId: data.id,
-    name: body.name,
-  };
+  return data;
 }
 
 export { getStore, postStore };

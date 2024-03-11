@@ -1,4 +1,5 @@
 import { StatusType } from "@/apis/_type";
+import api, { ApiResponse } from "@/apis/network";
 
 interface History extends PostHistoryBody {
   id: string;
@@ -22,7 +23,9 @@ async function getHistoryList(
   storeId: string,
   memberId: string,
 ): Promise<History[]> {
-  // const { data } = await api.get(`/api/stores/${storeId}`);
+  const { data } = await api.get(
+    `/api/stores/${storeId}/relations/${memberId}/histories`,
+  );
   return [
     {
       id: "string",
@@ -34,28 +37,44 @@ async function getHistoryList(
       status: "approve",
       date: "2024-03-07",
     },
-  ];
-  // return data;
+  ]; // 추후 삭제 필요
+  return data;
 }
 
 async function postHistory(
   storeId: string,
   memberId: string,
   body: PostHistoryBody,
-): Promise<void> {}
+): Promise<ApiResponse> {
+  const { data } = await api.post(
+    `/api/stores/${storeId}/relations/${memberId}/histories`,
+    body,
+  );
+  return data;
+}
 
 async function postHistoryStatus(
   storeId: string,
   memberId: string,
   historyId: string,
   body: PostHistoryStatusBody,
-): Promise<void> {}
+): Promise<ApiResponse> {
+  const { data } = await api.post(
+    `/api/stores/${storeId}/relations/${memberId}/histories/${historyId}/status`,
+    body,
+  );
+  return data;
+}
 
 async function deleteHistory(
   storeId: string,
   memberId: string,
   historyId: string,
-): Promise<void> {}
+): Promise<void> {
+  await api.delete(
+    `/api/stores/${storeId}/relations/${memberId}/histories/${historyId}`,
+  );
+}
 
 export { deleteHistory, getHistoryList, postHistory, postHistoryStatus };
 export type { History, PostHistoryBody, PostHistoryStatusBody };

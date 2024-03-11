@@ -8,7 +8,7 @@ import {
 } from "@/data/inviteSchedule";
 import { useAtom } from "jotai";
 
-const ConfirmEmployee = () => {
+function ConfirmEmployee() {
   const [inviteSchedule] = useAtom(inviteScheduleAtom);
   const [selectedPosition] = useAtom(selectedPositionAtom);
 
@@ -26,7 +26,6 @@ const ConfirmEmployee = () => {
       const startTimeInMinutes = startHour * 60 + startMinute;
       const endTimeInMinutes = endHour * 60 + endMinute;
       const restTimeInMinutes = endTimeInMinutes - startTimeInMinutes;
-      console.log(restTimeInMinutes);
       restMinutes = restTimeInMinutes;
     });
 
@@ -50,11 +49,10 @@ const ConfirmEmployee = () => {
         return;
       const entry = {
         day,
-        workHours: scedule.workFrom + " - " + scedule.workUntil,
+        workHours: `${scedule.workFrom} - ${scedule.workUntil}`,
       };
       workScheduleEntries.push(entry);
     });
-
     return workScheduleEntries;
   };
 
@@ -101,6 +99,6 @@ const ConfirmEmployee = () => {
       </div>
     </FlexBox>
   );
-};
+}
 
 export default ConfirmEmployee;
