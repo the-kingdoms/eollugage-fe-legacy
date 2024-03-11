@@ -1,13 +1,12 @@
-import React, { useEffect } from "react";
-import { eollugageUrl } from "@/apis/network";
-import LoginButton from "@modules/components/button/LoginButton";
+import KakaoLoginButtonWrapper from "@/assist/KakaoLoginButtonWrapper";
 import FlexBox from "@modules/layout/FlexBox";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import styles from "./index.module.css";
 
 export default function Home() {
-  const { push, query } = useRouter();
+  const { query } = useRouter();
 
   useEffect(() => {
     if (
@@ -43,16 +42,7 @@ export default function Home() {
             간편하게 일하는 법
           </div>
           <div className={styles.backgroundImage} />
-          <div className="px-4 w-full">
-            <LoginButton
-              type="kakao"
-              onClick={() => {
-                push(
-                  `${eollugageUrl}/oauth2/authorization/kakao?redirect_uri=${window.location.origin}/oauth/redirect`,
-                );
-              }}
-            />
-          </div>
+          <KakaoLoginButtonWrapper />
         </FlexBox>
       </FlexBox>
     </FlexBox>
