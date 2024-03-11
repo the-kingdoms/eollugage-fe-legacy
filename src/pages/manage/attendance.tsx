@@ -1,9 +1,9 @@
 import ProfileDiscription from "@/assist/ProfileDiscription";
 import StateButtonWrapper from "@/assist/StateButtonWrapper";
+import TimeBanner from "@/assist/TimeBanner";
 import ButtonBar from "@modules/components/bars/ButtonBar";
 import TextButton from "@modules/components/button/TextButton";
 import FlexBox from "@modules/layout/FlexBox";
-import Icon from "@modules/layout/Icon";
 import TopTitle from "@modules/layout/TopTitle";
 import dayjs from "dayjs";
 import { useState } from "react";
@@ -69,28 +69,7 @@ export default function Attendance() {
     <FlexBox direction="col" className="w-full h-full justify-between">
       <FlexBox direction="col" className="w-full px-2">
         <TopTitle title="출퇴근 관리" />
-        <FlexBox direction="row" className="w-full mt-6 mb-4">
-          <Icon
-            src={"/icon/direction/left.svg"}
-            sz={24}
-            className="ml-auto"
-            onClick={() => DayMove("left")}
-          />
-          <div className="B4-medium text-neutral-500 w-full text-center">
-            {date.isSame(dayjs(), "day") && "오늘 "}
-            {"("}
-            {date.format("MM")} / {date.format("DD")}
-            {")"}
-          </div>
-          {date.isBefore(dayjs(), "day") && (
-            <Icon
-              src={"/icon/direction/right.svg"}
-              sz={24}
-              className="mr-auto"
-              onClick={() => DayMove("right")}
-            />
-          )}
-        </FlexBox>
+        <TimeBanner dayDate={date} DayClick={DayMove} />
         <FlexBox direction="col" className="gap-6 w-full px-2">
           {profiles.map((people, index) => (
             <StateButtonWrapper
