@@ -4,7 +4,6 @@ import api, { ApiResponse } from "@/apis/network";
 interface Relation extends PostRelationBody {
   id: string;
   storeId: string;
-  memberId: string;
 }
 
 interface PostRelationBody {
@@ -12,7 +11,7 @@ interface PostRelationBody {
   position: string;
 }
 
-interface PutRelationAdminBody {
+interface PostRelationAdminBody {
   role: RoleType;
 }
 
@@ -23,23 +22,27 @@ async function getRelationList(storeId: string): Promise<Relation[]> {
 
 async function postRelation(
   storeId: string,
+  memberId: string,
   body: PostRelationBody,
 ): Promise<ApiResponse> {
-  const { data } = await api.post(`/api/stores/${storeId}/relations`, body);
+  const { data } = await api.post(
+    `/api/stores/${storeId}/relations/${memberId}`,
+    body,
+  );
   return data;
 }
 
-async function putRelationAdmin(
+async function postRelationAdmin(
   storeId: string,
   memberId: string,
-  body: PutRelationAdminBody,
+  body: PostRelationAdminBody,
 ): Promise<ApiResponse> {
-  const { data } = await api.put(
+  const { data } = await api.post(
     `/api/stores/${storeId}/relations/${memberId}/admin`,
     body,
   );
   return data;
 }
 
-export { getRelationList, postRelation, putRelationAdmin };
-export type { PostRelationBody, Relation };
+export { getRelationList, postRelation, postRelationAdmin };
+export type { PostRelationBody, Relation, PostRelationAdminBody };
