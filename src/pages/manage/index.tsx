@@ -15,14 +15,8 @@ export default function Manage() {
   const [manageMenu, setManageMenu] = useAtom(manageMenuAtom);
   const [role] = useAtom(roleAtom);
   const [selectTab, setSelectTab] = useState("left");
-  const [authority, setAutority] = useState("staff");
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
-  useEffect(() => {
-    // 권한 가져오기
-    setAutority("ceo"); // 임시 권한
-  }, []);
 
   const addWork = () => {
     setIsModalOpen(true);
