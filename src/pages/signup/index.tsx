@@ -50,7 +50,7 @@ export default function Home() {
       </FlexBox>
 
       <TextButton
-        size="L"
+        size="full"
         text="다음"
         className="mb-4"
         inactive={selectedImage === null}
