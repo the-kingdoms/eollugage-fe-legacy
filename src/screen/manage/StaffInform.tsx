@@ -34,7 +34,7 @@ export default function StaffInform() {
         <FlexBox
           key={index}
           direction="col"
-          className="items-start w-full gap-4"
+          className="items-start w-full gap-4 px-4"
         >
           <div className="B1-medium">{position}</div>
           <FlexBox direction="col" className="gap-2 w-full">
