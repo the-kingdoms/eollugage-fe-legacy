@@ -1,26 +1,32 @@
 import ProfileDiscription from "@/assist/ProfileDiscription";
 import RouterWrapper from "@/assist/RouterWrapper";
 import FlexBox from "@modules/layout/FlexBox";
-import { useRouter } from "next/router";
+import { useGetRelation } from "@/hooks/query/relation";
+import { useEffect, useState } from "react";
+import { Relation } from "@/apis/relation";
 
 export default function StaffInform() {
-  const profiles = [
-    { name: "얼루가", position: "매니저", time: "00:00 - 00:00" },
-    { name: "방기연", position: "매니저", time: "00:00 - 00:00" },
-  ];
+  const { relations } = useGetRelation();
+  const [relation, setRelation] = useState<Relation[]>([]);
 
-  const router = useRouter();
+  useEffect(() => {
+    if (relations && relations.length > 0) {
+      setRelation(relations);
+    } else {
+      setRelation([]);
+    }
+  }, [relations]);
 
   return (
     <FlexBox direction="col" className="w-full px-2 items-start gap-4 px-4">
       <div className="B1-medium">매니저</div>
       <FlexBox direction="col" className="gap-2 w-full">
-        {profiles.map((people, index) => (
+        {relation.map((relate, index) => (
           <RouterWrapper key={index} routerdest="/manage/staff" type="profile">
             <ProfileDiscription
-              name={people.name}
-              position={people.position}
-              time={people.time}
+              name={"얼루가"}
+              position={relate.position}
+              time={"00:00 - 00:00"}
             />
           </RouterWrapper>
         ))}{" "}
