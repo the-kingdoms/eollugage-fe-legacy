@@ -9,8 +9,7 @@ function useGetHistoryList() {
   const [my] = useAtom(myAtom);
   const { data } = useQuery({
     queryKey: ["getHistoryList"],
-    queryFn: () =>
-      getHistoryList(storeId, String(my?.relationList[0].memberId)),
+    queryFn: () => getHistoryList(storeId, String(my?.id)),
   });
 
   return { data };
