@@ -1,5 +1,5 @@
 import FlexBox from "@modules/layout/FlexBox";
-import RouterWrapper from "./RouterWrapper";
+import RouterWrapper from "../RouterWrapper";
 
 export default function CeoBanner() {
   return (
