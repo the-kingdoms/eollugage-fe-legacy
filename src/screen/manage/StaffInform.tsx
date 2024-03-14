@@ -50,7 +50,7 @@ export default function StaffInform() {
                   time={"00:00 - 00:00"}
                 />
               </RouterWrapper>
-            ))}{" "}
+            ))}
           </FlexBox>
         </FlexBox>
       ))}
