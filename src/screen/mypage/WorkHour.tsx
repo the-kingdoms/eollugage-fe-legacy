@@ -30,8 +30,8 @@ export default function WorkHour() {
   }, [history]);
 
   return (
-    <>
-      <FlexBox className="w-full justify-between mt-6">
+    <FlexBox direction="col" className="w-full">
+      <FlexBox className="w-full justify-between">
         <WorkInfoBanner
           direction="left"
           size="L"
@@ -42,6 +42,6 @@ export default function WorkHour() {
       <FlexBox className="w-full justify-end B4-medium text-Gray5 pr-4 mt-2">
         {currentDate} 기준
       </FlexBox>
-    </>
+    </FlexBox>
   );
 }

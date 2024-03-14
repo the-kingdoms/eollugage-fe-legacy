@@ -1,9 +1,9 @@
 import FlexBox from "@modules/layout/FlexBox";
 import RouterWrapper from "../RouterWrapper";
 
-export default function CeoBanner() {
+export default function AdminControlBanner() {
   return (
-    <RouterWrapper routerdest="/manage/attendance" type="ceo">
+    <RouterWrapper routerdest="/mypage/authority" type="ceo">
       <FlexBox direction="col" className="gap-1 items-start">
         <div className="B5-medium text-neutral-500">권한 설정</div>
         <div className="B4-medium text-zinc-800">
