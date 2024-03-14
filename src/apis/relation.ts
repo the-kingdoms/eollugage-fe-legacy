@@ -18,22 +18,6 @@ interface PutRelationAdminBody {
 
 async function getRelationList(storeId: string): Promise<Relation[]> {
   const { data } = await api.get(`/api/stores/${storeId}/relations`);
-  return [
-    {
-      id: "1",
-      storeId,
-      memberId: "1",
-      role: "owner",
-      position: "대표",
-    },
-    {
-      id: "2",
-      storeId,
-      memberId: "2",
-      role: "staff",
-      position: "직원",
-    },
-  ]; // 추후 삭제 필요
   return data;
 }
 
