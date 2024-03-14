@@ -1,4 +1,4 @@
-import CeoBanner from "@/assist/CeoBanner";
+import CeoBanner from "@/assist/banner/CeoBanner";
 import { manageMenuAtom, roleAtom } from "@/data/global";
 import Schedule from "@/screen/manage/Schedule";
 import StaffInform from "@/screen/manage/StaffInform";
