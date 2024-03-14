@@ -1,6 +1,6 @@
 import { ApiResponse } from "@/apis/network";
 import { PostHistoryBody, getHistoryList, postHistory } from "@/apis/history";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { myAtom, storeIdAtom } from "@/data/global";
 
@@ -18,15 +18,21 @@ function useGetHistoryList() {
 function usePostHistory() {
   const [storeId] = useAtom(storeIdAtom);
   const [my] = useAtom(myAtom);
-  const { mutate } = useMutation({
+
+  const queryClient = useQueryClient();
+  const { mutate, isPending } = useMutation({
     mutationKey: ["postHistory"],
     mutationFn: (body: PostHistoryBody) =>
-      postHistory(storeId, String(my?.relationList[0].memberId), body),
+      postHistory(storeId, String(my?.id), body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["getHistoryList"],
+      });
+      window.location.reload();
+    },
   });
-  const postHistoryMutate = (body: PostHistoryBody) => {
-    mutate(body);
-  };
-  return { postHistoryMutate };
+
+  return { postHistory: mutate, isPending };
 }
 
 export { useGetHistoryList, usePostHistory };
