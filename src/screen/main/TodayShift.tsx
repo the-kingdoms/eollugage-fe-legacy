@@ -13,8 +13,8 @@ export default function TodayShift() {
       <div className="H5-bold">금일의 근무</div>
       {historyList?.map(historyInfo => (
         <WorkInfo
-          name={String(my?.name)}
-          position={String(my?.relationList[0].position)}
+          name={String(my?.name)} // 임시
+          position={String(my?.relationList[0].position)} // 임시
           time={`${historyInfo.startTime.slice(0, 5)} ~ ${historyInfo.endTime.slice(0, 5)}`}
         />
       ))}
