@@ -1,17 +1,19 @@
-import { roleAtom, manageMenuAtom } from "@/data/global";
+import CeoBanner from "@/assist/CeoBanner";
+import { manageMenuAtom, roleAtom } from "@/data/global";
 import Schedule from "@/screen/manage/Schedule";
 import StaffInform from "@/screen/manage/StaffInform";
 import TabBarGage from "@modules/components/bars/TabBarGage";
 import FloatingActionButton from "@modules/components/button/FloatingActionButton";
 import LongTab from "@modules/components/tabs/LongTab";
 import FlexBox from "@modules/layout/FlexBox";
-import Icon from "@modules/layout/Icon";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import AddWorkModal from "@/screen/manage/AddWorkModal";
 import { useEffect, useState } from "react";
+import Icon from "@modules/layout/Icon";
 
 export default function Manage() {
+  const router = useRouter();
   const [manageMenu, setManageMenu] = useAtom(manageMenuAtom);
   const [role] = useAtom(roleAtom);
   const [selectTab, setSelectTab] = useState("left");
@@ -22,7 +24,6 @@ export default function Manage() {
     setIsModalOpen(true);
   };
 
-  const router = useRouter();
   return (
     <>
       <FlexBox direction="col" className="h-full justify-between">

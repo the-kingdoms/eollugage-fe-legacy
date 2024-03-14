@@ -1,5 +1,7 @@
-import ApprovalProfile from "@/assist/ApprovalProfile";
+import ProfileDiscription from "@/assist/ProfileDiscription";
+import RouterWrapper from "@/assist/RouterWrapper";
 import FlexBox from "@modules/layout/FlexBox";
+import { useRouter } from "next/router";
 
 export default function StaffInform() {
   const profiles = [
@@ -7,21 +9,20 @@ export default function StaffInform() {
     { name: "방기연", position: "매니저", time: "00:00 - 00:00" },
   ];
 
+  const router = useRouter();
+
   return (
-    <FlexBox direction="col" className="w-full px-4 items-start gap-4">
+    <FlexBox direction="col" className="w-full px-2 items-start gap-4 px-4">
       <div className="B1-medium">매니저</div>
       <FlexBox direction="col" className="gap-2 w-full">
         {profiles.map((people, index) => (
-          <div
-            key={index}
-            className="w-full border border-Gray2 py-3 pl-3 rounded-2xl"
-          >
-            <ApprovalProfile
+          <RouterWrapper key={index} routerdest="/manage/staff" type="profile">
+            <ProfileDiscription
               name={people.name}
               position={people.position}
               time={people.time}
             />
-          </div>
+          </RouterWrapper>
         ))}{" "}
       </FlexBox>
       <div className="B1-medium">알바</div>
