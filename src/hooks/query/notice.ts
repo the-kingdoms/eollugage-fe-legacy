@@ -8,7 +8,7 @@ import { storeIdAtom } from "@/data/global";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 
-function useGetNotice() {
+function useGetNotice() { 
   const [storeId] = useAtom(storeIdAtom);
   const { data: notices } = useQuery({
     queryKey: ["getNoticeList"],
