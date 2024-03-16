@@ -6,11 +6,20 @@ import {
   selectedPositionAtom,
 } from "@/data/inviteSchedule";
 import { useAtom } from "jotai";
+import { storeIdAtom } from "@/data/global";
+import { InviteSchedule } from "@/data/inviteSchedule";
+
+interface InviteDataType {
+  storeId: string;
+  position: string;
+  schedule: InviteSchedule;
+}
 
 const ShareLink = () => {
   const [linkCopied, setLinkCopied] = useState(false);
   const [inviteSchedule] = useAtom(inviteScheduleAtom);
   const [selectedPosition] = useAtom(selectedPositionAtom);
+  const [storeId] = useAtom(storeIdAtom);
 
   useEffect(() => {
     const link = window.location.origin + createQueryString();
@@ -39,11 +48,16 @@ const ShareLink = () => {
   };
 
   const createQueryString = () => {
-    const positionString = encodeURIComponent(JSON.stringify(selectedPosition));
-    const scheduleString = encodeURIComponent(JSON.stringify(inviteSchedule));
+    const inviteData: InviteDataType = {
+      storeId: storeId,
+      position: selectedPosition,
+      schedule: inviteSchedule,
+    };
+    const inviteDataString = encodeURIComponent(JSON.stringify(inviteData));
 
     // 인코딩된 문자열을 스트링 형태로 결합
-    let queryString = `/?position=${positionString}&schedule=${scheduleString}`;
+    let queryString = `/?inviteData=${inviteDataString}`;
+    //let queryString = `/?storeId=${storeIdString}&position=${positionString}&schedule=${scheduleString}`;
     return queryString;
   };
 
@@ -74,3 +88,4 @@ const ShareLink = () => {
 };
 
 export default ShareLink;
+export type { InviteDataType };

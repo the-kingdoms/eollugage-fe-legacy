@@ -3,16 +3,9 @@ import FlexBox from "@modules/layout/FlexBox";
 import Icon from "@modules/layout/Icon";
 import TextCheckField from "@modules/components/textfields/TextCheckField";
 import { Dispatch, SetStateAction, useState } from "react";
-import {
-  Order,
-  PostOrderBody,
-  getOrderList,
-  postOrder,
-  putOrder,
-} from "@/apis/order";
+import { Order, PostOrderBody } from "@/apis/order";
 import { storeIdAtom } from "@/data/global";
 import { useAtom } from "jotai";
-import { useQuery, useMutation } from "@tanstack/react-query";
 import { useGetOrder, usePostOrder, usePutOrder } from "@/hooks/query/order";
 
 export default function () {

@@ -10,16 +10,11 @@ export default function Home() {
   const { push, query } = useRouter();
 
   useEffect(() => {
-    if (
-      typeof query["position"] === "string" &&
-      typeof query["schedule"] === "string"
-    ) {
-      const position = query["position"] as string;
-      const schedule = query["schedule"] as string;
-      localStorage.setItem("position", position);
-      localStorage.setItem("schedule", schedule);
+    if (typeof query["inviteData"] === "string") {
+      const inviteData = query["inviteData"] as string;
+      localStorage.setItem("inviteData", inviteData);
     }
-  }, []);
+  }, [query]);
 
   return (
     <FlexBox direction="col" className="bg-black w-full h-full">

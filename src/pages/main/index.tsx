@@ -5,6 +5,7 @@ import TodayShift from "@/screen/main/TodayShift";
 import OrderBoard from "@/screen/main/OrderBoard";
 
 export default function Home() {
+  const Schedule = localStorage.getItem("");
   return (
     <FlexBox direction="col" className="w-full h-full justify-between">
       <FlexBox direction="col" className="w-full p-4 gap-8">

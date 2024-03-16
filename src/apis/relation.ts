@@ -34,9 +34,10 @@ async function getRelationList(storeId: string): Promise<Relation[]> {
 
 async function postRelation(
   storeId: string,
+  memberId: string,
   body: PostRelationBody,
 ): Promise<void> {
-  // await api.post("/api/stores", body);
+  await api.post(`/api/stores/${storeId}/relations/${memberId}`, body);
 }
 
 async function postRelationAdmin(
