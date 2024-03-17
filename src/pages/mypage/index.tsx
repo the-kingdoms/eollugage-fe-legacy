@@ -1,5 +1,5 @@
 import AdminControlBanner from "@/assist/banner/AdminControlBanner";
-import { roleAtom } from "@/data/global";
+import { myMemberIdAtom, roleAtom } from "@/data/global";
 import { useGetRelation } from "@/hooks/query/relation";
 import RelationSlider from "@/screen/mypage/RelationSlider";
 import UserInfo from "@/screen/mypage/UserInfo";
@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { Relation } from "@/apis/relation";
 
 export default function Manage() {
+  const [memberId] = useAtom(myMemberIdAtom);
   const [role] = useAtom(roleAtom);
   const [currentRelation, setCurrentRelation] = useState<Relation>(
     {} as Relation,
@@ -27,7 +28,11 @@ export default function Manage() {
       <FlexBox direction="col" className="w-full gap-6 py-4">
         <UserInfo />
         <FlexBox direction="col" className="w-full gap-2">
-          <WorkHour />
+          <WorkHour
+            memberId={
+              role === "STAFF" ? memberId : "" // currentRelation.member.id
+            }
+          />
           <div className="w-full px-4">
             {role === "OWNER" && <AdminControlBanner />}
           </div>

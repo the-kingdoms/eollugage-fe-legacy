@@ -26,18 +26,6 @@ async function getHistoryList(
   const { data } = await api.get(
     `/api/stores/${storeId}/relations/${memberId}/histories`,
   );
-  return [
-    {
-      id: "string",
-      relationId: "string",
-      startTime: "08:00:00.000Z",
-      endTime: "18:00:00.000Z",
-      restStartTime: "11:00:00.000Z",
-      restEndTime: "12:00:00.000Z",
-      status: "approve",
-      date: "2024-03-07",
-    },
-  ]; // 추후 삭제 필요
   return data;
 }
 
