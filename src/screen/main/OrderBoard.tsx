@@ -1,6 +1,7 @@
-import { Order, PostOrderBody } from "@/apis/order";
+import { Order, PostOrderBody, putOrder } from "@/apis/order";
 import { storeIdAtom } from "@/data/global";
 import { useGetOrder, usePostOrder, usePutOrder } from "@/hooks/query/order";
+import { postOrder } from "@modules/apis/eolluga/order";
 import TextCheckField from "@modules/components/textfields/TextCheckField";
 import FlexBox from "@modules/layout/FlexBox";
 import Icon from "@modules/layout/Icon";
@@ -21,13 +22,12 @@ export default function OrderBoard() {
   }, [orders]);
 
   const addOrder = async () => {
-    const newOrder: PostOrderBody = { content: "", isClicked: false }; // 새 발주
+    const newOrder: PostOrderBody = {
+      content: "",
+      isClicked: false,
+    }; // 새 발주
 
-    postOrderMutate(newOrder);
-    setOrderList([
-      ...orderList,
-      { ...newOrder, id: Date.now().toString(), storeId },
-    ]);
+    setOrderList([...orderList, { ...newOrder, id: "", storeId }]);
   };
 
   function setOrder(index: number): Dispatch<SetStateAction<string>> {
@@ -35,7 +35,23 @@ export default function OrderBoard() {
       const newOrderList = [...orderList];
       newOrderList[index].content = value as string;
       setOrderList(newOrderList);
-      putOrderMutate(newOrderList[index].storeId, newOrderList[index]);
+    };
+  }
+
+  function makeOrder(index: number) {
+    if (orderList[index].id === "") {
+      postOrderMutate(orderList[index]);
+    } else {
+      putOrderMutate(orderList[index].id, orderList[index]);
+    }
+  }
+
+  function setChecked(index: number): Dispatch<SetStateAction<boolean>> {
+    return value => {
+      const newOrderList = [...orderList];
+      newOrderList[index].isClicked = !newOrderList[index].isClicked;
+      setOrderList(newOrderList);
+      putOrderMutate(newOrderList[index].id, newOrderList[index]);
     };
   }
 
@@ -49,7 +65,10 @@ export default function OrderBoard() {
         <TextCheckField
           key={order.id}
           value={order.content}
+          onBlur={() => makeOrder(i)}
           setValue={setOrder(i)}
+          setIschecked={setChecked(i)}
+          ischecked={order.isClicked}
           placeholder={`항목을 추가해요\n설명은 안쓰셔도 돼요`}
         />
       ))}
