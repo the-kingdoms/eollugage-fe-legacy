@@ -9,8 +9,8 @@ export default function Home() {
   const { query } = useRouter();
 
   useEffect(() => {
-    if (typeof query["inviteData"] === "string") {
-      const inviteData = query["inviteData"] as string;
+    if (typeof query.inviteData === "string") {
+      const inviteData = query.inviteData as string;
       localStorage.setItem("inviteData", inviteData);
     }
   }, [query]);

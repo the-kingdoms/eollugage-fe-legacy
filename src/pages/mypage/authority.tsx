@@ -1,4 +1,4 @@
-import { useGetRelation } from "@/hooks/query/relation";
+import { useGetRelationList } from "@/hooks/query/relation";
 import ButtonBar from "@modules/components/bars/ButtonBar";
 import TextButton from "@modules/components/button/TextButton";
 import Checkbox from "@modules/components/selections/Checkbox";
@@ -7,7 +7,7 @@ import GridBox from "@modules/layout/GridBox";
 import TopTitle from "@modules/layout/TopTitle";
 
 export default function MyPageAuthorithy() {
-  const { relations } = useGetRelation();
+  const { relations } = useGetRelationList();
   return (
     <FlexBox direction="col">
       <TopTitle title="관리자 권한 설정" />

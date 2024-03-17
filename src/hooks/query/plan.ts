@@ -1,17 +1,21 @@
-import { PostPlanBody, getPlanList, postPlan, putPlan } from "@/apis/plan";
-import { useAtom } from "jotai";
-import { storeIdAtom } from "@/data/global";
-import { useMutation, useQueries, useQuery } from "@tanstack/react-query";
-import { InviteSchedule, Schedule } from "@/data/inviteSchedule";
 import { DayType } from "@/apis/_type";
-import { dayTypeConvert } from "@/data/inviteSchedule";
+import { ApiResponse } from "@/apis/network";
+import { PostPlanBody, postPlan, putPlan } from "@/apis/plan";
+import { storeIdAtom } from "@/data/global";
+import {
+  InviteSchedule,
+  Schedule,
+  dayTypeConvert,
+} from "@/data/inviteSchedule";
+import { useMutation } from "@tanstack/react-query";
+import { useAtom } from "jotai";
 
 function createPostPlanBody(
   day: DayType,
   { workFrom, workUntil, restFrom, restUntil }: Schedule,
 ) {
   const body: PostPlanBody = {
-    day: day,
+    day,
     startTime: workFrom as string,
     endTime: workUntil as string,
     restStartTime: restFrom as string,
@@ -32,7 +36,7 @@ function usePostPlanList() {
       memberId: string;
       inviteSchedule: InviteSchedule;
     }) => {
-      const promiseList: Promise<void>[] = [];
+      const promiseList: Promise<ApiResponse>[] = [];
       Object.entries(inviteSchedule).forEach(([key, value]) => {
         const day = key as keyof InviteSchedule;
         const schedule = value as Schedule;
@@ -82,4 +86,4 @@ function usePutPlan() {
   return { putPlanMutate };
 }
 
-export { usePostPlan, usePutPlan, usePostPlanList };
+export { usePostPlan, usePostPlanList, usePutPlan };

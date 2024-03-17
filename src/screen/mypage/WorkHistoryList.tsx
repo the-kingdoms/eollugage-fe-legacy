@@ -2,6 +2,7 @@ import { useGetHistory } from "@/hooks/query/history";
 import WorkInfoCard from "@modules/components/card/WorkInfoCard";
 import FlexBox from "@modules/layout/FlexBox";
 import dayjs from "dayjs";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 interface WorkHistoryListProps {
@@ -17,6 +18,7 @@ interface WorkHistory {
 }
 
 export default function WorkHistoryList({ memberId }: WorkHistoryListProps) {
+  const { push } = useRouter();
   const { historys } = useGetHistory(memberId);
   const [workHistoryList, setWorkHistoryList] = useState<WorkHistory[]>([]);
   useEffect(() => {
@@ -38,6 +40,9 @@ export default function WorkHistoryList({ memberId }: WorkHistoryListProps) {
             workingDays={workHistory.workingDays}
             workingMinutes={workHistory.workingMinutes}
             overtimeMinutes={workHistory.overtimeMinutes}
+            onClick={() => {
+              push("/mypage/detail");
+            }}
           />
         ))}
       </FlexBox>
