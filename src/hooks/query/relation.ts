@@ -6,7 +6,13 @@ import {
 } from "@/apis/relation";
 import { useAtom } from "jotai";
 import { storeIdAtom } from "@/data/global";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { MutateOptions, useMutation, useQuery } from "@tanstack/react-query";
+
+interface UsePostRelationProps {
+  storeId: string;
+  memberId: string;
+  body: PostRelationBody;
+}
 
 function useGetRelationList() {
   const [storeId] = useAtom(storeIdAtom);
@@ -20,32 +26,29 @@ function useGetRelationList() {
 function usePostRelation() {
   const { mutate, isSuccess } = useMutation({
     mutationKey: ["postRelationMutate"],
-    mutationFn: ({
-      storeId,
-      memberId,
-      body,
-    }: {
-      storeId: string;
-      memberId: string;
-      body: PostRelationBody;
-    }) => postRelation(storeId, memberId, body),
+    mutationFn: ({ storeId, memberId, body }: UsePostRelationProps) =>
+      postRelation(storeId, memberId, body),
   });
   const postRelationMutate = (
     storeId: string,
     memberId: string,
     body: PostRelationBody,
+    options: MutateOptions<void, Error, UsePostRelationProps>,
   ) => {
-    mutate({
-      storeId,
-      memberId,
-      body,
-    });
+    mutate(
+      {
+        storeId,
+        memberId,
+        body,
+      },
+      options,
+    );
   };
   return { postRelationMutate, isSuccess };
 }
 
 function usePostRelationAdmin() {
-  const storeId = useAtom(storeIdAtom) as unknown as string;
+  const [storeId] = useAtom(storeIdAtom);
   const { mutate } = useMutation({
     mutationKey: ["postRelationMutate"],
     mutationFn: ({ memberId, body }: { memberId: string; body: unknown }) =>

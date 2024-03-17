@@ -1,11 +1,12 @@
+import { PostRelationBody } from "@/apis/relation";
 import { myAtom } from "@/data/global";
 import { useGetMy } from "@/hooks/query/my";
+import { usePostPlanList } from "@/hooks/query/plan";
 import { usePostRelation } from "@/hooks/query/relation";
+import { InviteDataType } from "@/screen/manage/ShareLink";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { InviteDataType } from "@/screen/manage/ShareLink";
-import { PostRelationBody } from "@/apis/relation";
 
 export default function Redirect() {
   const { query, push } = useRouter();
@@ -13,43 +14,42 @@ export default function Redirect() {
   const [my] = useAtom(myAtom);
   const { refetch } = useGetMy();
   const { postRelationMutate, isSuccess } = usePostRelation();
+  const { postPlanListMutate } = usePostPlanList();
 
   useEffect(() => {
     if (token) {
       localStorage.setItem("access_token", token.toString());
       refetch();
-    } else {
-      //push("/main"); // 일단은 main(직원용)으로 이동
     }
   }, [token]);
 
   useEffect(() => {
-    if (
+    if (my?.relationList.length == 0) {
+      push("/signup");
+    } else if (
       my?.id !== undefined &&
-      typeof typeof localStorage.getItem("inviteData") !== null
+      my?.id !== null &&
+      localStorage.getItem("inviteData") !== null
     ) {
       const inviteData: InviteDataType = JSON.parse(
         localStorage.getItem("inviteData") as string,
       );
-      console.log(inviteData);
       const body: PostRelationBody = {
         role: "STAFF",
         position: inviteData.position,
       };
-      postRelationMutate(inviteData.storeId, my?.id as string, body);
-    }
-  }, [my?.id]);
-
-  useEffect(() => {
-    console.log(isSuccess);
-    if (isSuccess === true) {
-    }
-  }, [isSuccess]);
-
-  useEffect(() => {
-    if (my !== null) {
-      //if (my.relationList.length > 0) push("/main");
-      //else push("/signup");
+      postRelationMutate(inviteData.storeId, my?.id as string, body, {
+        onSettled: () =>
+          postPlanListMutate({
+            storeId: inviteData.storeId,
+            memberId: my?.id,
+            inviteSchedule: inviteData.schedule,
+          }),
+      });
+      localStorage.removeItem("inviteData");
+      push("/main");
+    } else {
+      push("/main");
     }
   }, [my]);
 }
