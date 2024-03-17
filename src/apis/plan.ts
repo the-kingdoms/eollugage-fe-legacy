@@ -1,5 +1,5 @@
 import { DayType } from "@/apis/_type";
-import api from "./network";
+import api, { ApiResponse } from "./network";
 
 interface Plan extends PostPlanBody {
   id: "string";
@@ -36,17 +36,12 @@ async function postPlan(
   storeId: string,
   memberId: string,
   body: PostPlanBody,
-<<<<<<< HEAD
-): Promise<void> {
-  await api.post(`/api/stores/${storeId}/relations/${memberId}/plans`, body);
-=======
 ): Promise<ApiResponse> {
   const { data } = await api.post(
     `/api/stores/${storeId}/relations/${memberId}/plans`,
     body,
   );
   return data;
->>>>>>> fab097fdbb6312a1e758d9289b0affd12028a5aa
 }
 
 async function putPlan(
