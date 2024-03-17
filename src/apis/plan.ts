@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 import { DayType } from "@/apis/_type";
 import api from "./network";
-=======
-import { DateType } from "@/apis/_type";
-import api, { ApiResponse } from "@/apis/network";
->>>>>>> fab097fdbb6312a1e758d9289b0affd12028a5aa
 
 interface Plan extends PostPlanBody {
   id: "string";

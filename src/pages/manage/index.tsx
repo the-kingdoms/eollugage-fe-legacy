@@ -21,33 +21,9 @@ export default function Manage() {
           initPage={manageMenu}
           pageHandle={option => setManageMenu(option)}
         />
-<<<<<<< HEAD
-        {manageMenu === "right" && role === "OWNER" && (
-          <div className="w-full px-4">
-            <FlexBox
-              direction="row"
-              className="pl-4 py-3 pr-2.5 rounded-lg border border-neutral-500 gap-5
-          justify-between"
-            >
-              <FlexBox direction="col" className="gap-1 items-start">
-                <div className="B5-medium text-neutral-500">출퇴근 관리</div>
-                <div className="B4-medium text-zinc-800">
-                  직원들의 출퇴근을 승인 및 거절해보세요
-                </div>
-              </FlexBox>
-              <Icon
-                src="/icon/direction/right.svg"
-                sz={24}
-                onClick={() => router.push("/manage/attendance")}
-              />
-            </FlexBox>
-          </div>
-        )}
-=======
         <div className="w-full px-4">
-          {manageMenu === "right" && role === "owner" && <CeoBanner />}
+          {manageMenu === "right" && role === "OWNER" && <CeoBanner />}
         </div>
->>>>>>> fab097fdbb6312a1e758d9289b0affd12028a5aa
         {manageMenu === "left" ? <Schedule /> : <StaffInform />}
       </FlexBox>
       <div className="ml-auto my-6 mx-4">
