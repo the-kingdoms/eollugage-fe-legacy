@@ -1,5 +1,5 @@
-import { DateType } from "@/apis/_type";
-import api, { ApiResponse } from "@/apis/network";
+import { DayType } from "@/apis/_type";
+import api, { ApiResponse } from "./network";
 
 interface Plan extends PostPlanBody {
   id: "string";
@@ -7,7 +7,7 @@ interface Plan extends PostPlanBody {
 }
 
 interface PostPlanBody {
-  date: DateType;
+  day: DayType;
   startTime: string;
   endTime: string;
   restStartTime: string;
@@ -26,7 +26,7 @@ async function getPlanList(storeId: string, memberId: string): Promise<Plan[]> {
       endTime: "2024-03-07T18:00:00.000Z",
       restStartTime: "2024-03-07T11:00:00.000Z",
       restEndTime: "2024-03-07T12:00:00.000Z",
-      date: "Monday",
+      day: "Monday",
     },
   ]; // 추후 삭제 필요
   return data;

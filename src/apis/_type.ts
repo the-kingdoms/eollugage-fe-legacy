@@ -1,5 +1,5 @@
 type StatusType = "approve" | "disapprove" | "decline";
-type DateType =
+type DayType =
   | "Monday"
   | "Tuesday"
   | "Wednesday"
@@ -10,4 +10,4 @@ type DateType =
 type ProviderType = "KAKAO" | "GOOGLE" | "APPLE";
 type RoleType = "OWNER" | "MANAGER" | "STAFF";
 
-export type { StatusType, DateType, ProviderType, RoleType };
+export type { StatusType, DayType, ProviderType, RoleType };

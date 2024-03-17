@@ -1,3 +1,4 @@
+import { DayType } from "@/apis/_type";
 import { atom } from "jotai";
 
 interface Schedule {
@@ -37,13 +38,15 @@ const inviteScheduleInit: InviteSchedule = {
 const inviteScheduleAtom = atom<InviteSchedule>(inviteScheduleInit);
 inviteScheduleAtom.debugLabel = "inviteScheduleAtom";
 
-const selectedPositionAtom = atom("");
-selectedPositionAtom.debugLabel = "selectedPositionAtom";
-
-export {
-  inviteScheduleAtom,
-  selectedPositionAtom,
-  inviteScheduleInit,
-  scheduleInit,
+const dayTypeConvert: { [key: string]: DayType } = {
+  월: "Monday",
+  화: "Tuesday",
+  수: "Wednesday",
+  목: "Thursday",
+  금: "Friday",
+  토: "Saturday",
+  일: "Sunday",
 };
+
+export { inviteScheduleAtom, inviteScheduleInit, scheduleInit, dayTypeConvert };
 export type { InviteSchedule, Schedule };
