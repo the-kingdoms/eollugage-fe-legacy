@@ -5,11 +5,7 @@ import { atom } from "jotai";
 const myAtom = atom<My | null>(null);
 const storeIdAtom = atom<string>(get => {
   const my = get(myAtom);
-<<<<<<< HEAD
-  return my?.relationList[0]?.storeId ?? ""; // storeId ?
-=======
   return my?.relationList[0]?.storeId ?? "";
->>>>>>> fab097fdbb6312a1e758d9289b0affd12028a5aa
 });
 const myMemberIdAtom = atom<string>(get => {
   const my = get(myAtom);

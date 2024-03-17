@@ -4,17 +4,8 @@ import { useGetOrder, usePostOrder, usePutOrder } from "@/hooks/query/order";
 import TextCheckField from "@modules/components/textfields/TextCheckField";
 import FlexBox from "@modules/layout/FlexBox";
 import Icon from "@modules/layout/Icon";
-<<<<<<< HEAD
-import TextCheckField from "@modules/components/textfields/TextCheckField";
-import { Dispatch, SetStateAction, useState } from "react";
-import { Order, PostOrderBody } from "@/apis/order";
-import { storeIdAtom } from "@/data/global";
-import { useAtom } from "jotai";
-import { useGetOrder, usePostOrder, usePutOrder } from "@/hooks/query/order";
-=======
 import { useAtom } from "jotai";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
->>>>>>> fab097fdbb6312a1e758d9289b0affd12028a5aa
 
 export default function OrderBoard() {
   const [orderList, setOrderList] = useState<Order[]>([]);

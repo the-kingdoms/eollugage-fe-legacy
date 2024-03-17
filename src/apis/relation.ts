@@ -24,17 +24,12 @@ async function postRelation(
   storeId: string,
   memberId: string,
   body: PostRelationBody,
-<<<<<<< HEAD
-): Promise<void> {
-  await api.post(`/api/stores/${storeId}/relations/${memberId}`, body);
-=======
 ): Promise<ApiResponse> {
   const { data } = await api.post(
     `/api/stores/${storeId}/relations/${memberId}`,
     body,
   );
   return data;
->>>>>>> fab097fdbb6312a1e758d9289b0affd12028a5aa
 }
 
 async function postRelationAdmin(
