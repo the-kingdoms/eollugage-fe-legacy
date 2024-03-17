@@ -1,10 +1,9 @@
 import { RoleType } from "@/apis/_type";
-import api from "@/apis/network";
+import api, { ApiResponse } from "@/apis/network";
 
 interface Relation extends PostRelationBody {
   id: string;
   storeId: string;
-  memberId: string;
 }
 
 interface PostRelationBody {
@@ -12,44 +11,43 @@ interface PostRelationBody {
   position: string;
 }
 
+interface PostRelationAdminBody {
+  role: RoleType;
+}
+
 async function getRelationList(storeId: string): Promise<Relation[]> {
-  // const { data } = await api.get(`/api/stores/${storeId}/relations`);
-  return [
-    {
-      id: "1",
-      storeId,
-      memberId: "1",
-      role: "ADMIN",
-      position: "대표",
-    },
-    {
-      id: "2",
-      storeId,
-      memberId: "2",
-      role: "USER",
-      position: "직원",
-    },
-  ];
+  const { data } = await api.get(`/api/stores/${storeId}/relations`);
+  return data;
 }
 
 async function postRelation(
   storeId: string,
   memberId: string,
   body: PostRelationBody,
+<<<<<<< HEAD
 ): Promise<void> {
   await api.post(`/api/stores/${storeId}/relations/${memberId}`, body);
+=======
+): Promise<ApiResponse> {
+  const { data } = await api.post(
+    `/api/stores/${storeId}/relations/${memberId}`,
+    body,
+  );
+  return data;
+>>>>>>> fab097fdbb6312a1e758d9289b0affd12028a5aa
 }
 
 async function postRelationAdmin(
   storeId: string,
   memberId: string,
-  body: any,
-): Promise<void> {
-  // await api.post(`/api/stores/${storeId}/relations`, {
-  //   memberId,
-  //   role: "ADMIN",
-  // });
+  body: PostRelationAdminBody,
+): Promise<ApiResponse> {
+  const { data } = await api.post(
+    `/api/stores/${storeId}/relations/${memberId}/admin`,
+    body,
+  );
+  return data;
 }
 
 export { getRelationList, postRelation, postRelationAdmin };
-export type { Relation, PostRelationBody };
+export type { PostRelationBody, Relation, PostRelationAdminBody };

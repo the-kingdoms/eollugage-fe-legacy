@@ -10,9 +10,20 @@ export default function Home() {
   const { push, query } = useRouter();
 
   useEffect(() => {
+<<<<<<< HEAD
     if (typeof query["inviteData"] === "string") {
       const inviteData = query["inviteData"] as string;
       localStorage.setItem("inviteData", inviteData);
+=======
+    if (
+      typeof query.position === "string" &&
+      typeof query.schedule === "string"
+    ) {
+      const position = query.position as string;
+      const schedule = query.schedule as string;
+      localStorage.setItem("position", position);
+      localStorage.setItem("schedule", schedule);
+>>>>>>> fab097fdbb6312a1e758d9289b0affd12028a5aa
     }
   }, [query]);
 

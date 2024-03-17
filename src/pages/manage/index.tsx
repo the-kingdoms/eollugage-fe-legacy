@@ -1,19 +1,17 @@
-import { roleAtom, manageMenuAtom } from "@/data/global";
+import CeoBanner from "@/assist/CeoBanner";
+import { manageMenuAtom, roleAtom } from "@/data/global";
 import Schedule from "@/screen/manage/Schedule";
 import StaffInform from "@/screen/manage/StaffInform";
 import TabBarGage from "@modules/components/bars/TabBarGage";
 import FloatingActionButton from "@modules/components/button/FloatingActionButton";
 import LongTab from "@modules/components/tabs/LongTab";
 import FlexBox from "@modules/layout/FlexBox";
-import Icon from "@modules/layout/Icon";
 import { useAtom } from "jotai";
-import { useRouter } from "next/router";
 
 export default function Manage() {
   const [manageMenu, setManageMenu] = useAtom(manageMenuAtom);
   const [role] = useAtom(roleAtom);
 
-  const router = useRouter();
   return (
     <FlexBox direction="col" className="h-full justify-between">
       <FlexBox direction="col" className="w-full h-full gap-4 py-4">
@@ -23,6 +21,7 @@ export default function Manage() {
           initPage={manageMenu}
           pageHandle={option => setManageMenu(option)}
         />
+<<<<<<< HEAD
         {manageMenu === "right" && role === "OWNER" && (
           <div className="w-full px-4">
             <FlexBox
@@ -44,6 +43,11 @@ export default function Manage() {
             </FlexBox>
           </div>
         )}
+=======
+        <div className="w-full px-4">
+          {manageMenu === "right" && role === "owner" && <CeoBanner />}
+        </div>
+>>>>>>> fab097fdbb6312a1e758d9289b0affd12028a5aa
         {manageMenu === "left" ? <Schedule /> : <StaffInform />}
       </FlexBox>
       <div className="ml-auto my-6 mx-4">

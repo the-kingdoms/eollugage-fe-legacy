@@ -1,13 +1,13 @@
-import NoticeField from "@/screen/main/NoticeField";
-import FlexBox from "@modules/layout/FlexBox";
 import {
   useGetNotice,
   usePostNotice,
   usePutNotice,
 } from "@/hooks/query/notice";
+import NoticeField from "@/screen/main/NoticeField";
+import FlexBox from "@modules/layout/FlexBox";
 import { useEffect, useState } from "react";
 
-export default function () {
+export default function ManagerNotice() {
   const { notices } = useGetNotice();
   const { postNoticeMutate } = usePostNotice();
   const { putNoticeMutate } = usePutNotice();
@@ -19,10 +19,7 @@ export default function () {
 
   const update = () => {
     if (notices && notices?.length > 0) {
-      putNoticeMutate({
-        noticeId: notices[0].id,
-        body: { content: notice },
-      });
+      putNoticeMutate(notices[0].id, { content: notice });
     } else {
       postNoticeMutate({ content: notice });
     }

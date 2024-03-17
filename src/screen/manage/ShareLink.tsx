@@ -15,24 +15,20 @@ interface InviteDataType {
   schedule: InviteSchedule;
 }
 
-const ShareLink = () => {
+function ShareLink() {
   const [linkCopied, setLinkCopied] = useState(false);
   const [inviteSchedule] = useAtom(inviteScheduleAtom);
   const [selectedPosition] = useAtom(selectedPositionAtom);
   const [storeId] = useAtom(storeIdAtom);
 
-  useEffect(() => {
-    const link = window.location.origin + createQueryString();
-    navigator.clipboard
-      .writeText(link)
-      .then(() => {
-        setLinkCopied(true);
-        setTimeout(() => setLinkCopied(false), 2000);
-      })
-      .catch(err => {
-        console.log("링크를 복사하는데 실패했습니다: ", err);
-      });
-  }, []);
+  const createQueryString = () => {
+    const positionString = encodeURIComponent(JSON.stringify(selectedPosition));
+    const scheduleString = encodeURIComponent(JSON.stringify(inviteSchedule));
+
+    // 인코딩된 문자열을 스트링 형태로 결합
+    const queryString = `/?position=${positionString}&schedule=${scheduleString}`;
+    return queryString;
+  };
 
   const handleCopyLink = () => {
     const link = window.location.origin + createQueryString();
@@ -47,6 +43,7 @@ const ShareLink = () => {
       });
   };
 
+<<<<<<< HEAD
   const createQueryString = () => {
     const inviteData: InviteDataType = {
       storeId: storeId,
@@ -60,6 +57,20 @@ const ShareLink = () => {
     //let queryString = `/?storeId=${storeIdString}&position=${positionString}&schedule=${scheduleString}`;
     return queryString;
   };
+=======
+  useEffect(() => {
+    const link = window.location.origin + createQueryString();
+    navigator.clipboard
+      .writeText(link)
+      .then(() => {
+        setLinkCopied(true);
+        setTimeout(() => setLinkCopied(false), 2000);
+      })
+      .catch(err => {
+        console.log("링크를 복사하는데 실패했습니다: ", err);
+      });
+  }, []);
+>>>>>>> fab097fdbb6312a1e758d9289b0affd12028a5aa
 
   return (
     <FlexBox direction="col" className="w-full h-full px-4">
@@ -70,13 +81,13 @@ const ShareLink = () => {
       <FlexBox direction="col" className="w-full h-full mt-8">
         <Image height={170} width={170} alt="link" src="/image/goldLink.png" />
         <div className="B1-medium text-Gray5 mt-4">링크복사가 안되었나요?</div>
-        <div
-          className="B2-regular text-Gray4"
-          style={{ textDecoration: "underline", cursor: "pointer" }}
+        <button
+          type="button"
+          className="B2-regular text-Gray4 underline"
           onClick={handleCopyLink}
         >
           링크 복사하기
-        </div>
+        </button>
       </FlexBox>
       {linkCopied && (
         <div className="w-full px-4 py-2 mb-4 bg-[#2D2D2D] text-white">
@@ -85,7 +96,7 @@ const ShareLink = () => {
       )}
     </FlexBox>
   );
-};
+}
 
 export default ShareLink;
 export type { InviteDataType };
