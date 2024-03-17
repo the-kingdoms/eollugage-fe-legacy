@@ -45,7 +45,11 @@ export default function Manage() {
             )}
           </div>
         </FlexBox>
-        <WorkHistoryList />
+        <WorkHistoryList
+          memberId={
+            role === "STAFF" ? memberId : "" // currentRelation.member.id
+          }
+        />
       </FlexBox>
       <TabBarGage />
     </FlexBox>
