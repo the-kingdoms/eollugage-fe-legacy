@@ -6,11 +6,20 @@ import {
   selectedPositionAtom,
 } from "@/data/inviteSchedule";
 import { useAtom } from "jotai";
+import { storeIdAtom } from "@/data/global";
+import { InviteSchedule } from "@/data/inviteSchedule";
+
+interface InviteDataType {
+  storeId: string;
+  position: string;
+  schedule: InviteSchedule;
+}
 
 function ShareLink() {
   const [linkCopied, setLinkCopied] = useState(false);
   const [inviteSchedule] = useAtom(inviteScheduleAtom);
   const [selectedPosition] = useAtom(selectedPositionAtom);
+  const [storeId] = useAtom(storeIdAtom);
 
   const createQueryString = () => {
     const positionString = encodeURIComponent(JSON.stringify(selectedPosition));
@@ -34,6 +43,21 @@ function ShareLink() {
       });
   };
 
+<<<<<<< HEAD
+  const createQueryString = () => {
+    const inviteData: InviteDataType = {
+      storeId: storeId,
+      position: selectedPosition,
+      schedule: inviteSchedule,
+    };
+    const inviteDataString = encodeURIComponent(JSON.stringify(inviteData));
+
+    // 인코딩된 문자열을 스트링 형태로 결합
+    let queryString = `/?inviteData=${inviteDataString}`;
+    //let queryString = `/?storeId=${storeIdString}&position=${positionString}&schedule=${scheduleString}`;
+    return queryString;
+  };
+=======
   useEffect(() => {
     const link = window.location.origin + createQueryString();
     navigator.clipboard
@@ -46,6 +70,7 @@ function ShareLink() {
         console.log("링크를 복사하는데 실패했습니다: ", err);
       });
   }, []);
+>>>>>>> fab097fdbb6312a1e758d9289b0affd12028a5aa
 
   return (
     <FlexBox direction="col" className="w-full h-full px-4">
@@ -74,3 +99,4 @@ function ShareLink() {
 }
 
 export default ShareLink;
+export type { InviteDataType };

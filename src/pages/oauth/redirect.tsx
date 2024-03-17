@@ -1,5 +1,9 @@
+import { PostRelationBody } from "@/apis/relation";
 import { myAtom } from "@/data/global";
 import { useGetMy } from "@/hooks/query/my";
+import { usePostPlanList } from "@/hooks/query/plan";
+import { usePostRelation } from "@/hooks/query/relation";
+import { InviteDataType } from "@/screen/manage/ShareLink";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -9,24 +13,43 @@ export default function Redirect() {
   const token = query?.token;
   const [my] = useAtom(myAtom);
   const { refetch } = useGetMy();
+  const { postRelationMutate, isSuccess } = usePostRelation();
+  const { postPlanListMutate } = usePostPlanList();
 
   useEffect(() => {
     if (token) {
       localStorage.setItem("access_token", token.toString());
       refetch();
     }
-    if (
-      typeof localStorage.getItem("postion") === "string" &&
-      typeof localStorage.getItem("schedule") === "string"
-    ) {
-      push("/main"); // 일단은 main(직원용)으로 이동
-    }
   }, [token]);
 
   useEffect(() => {
-    if (my !== null) {
-      if (my.relationList.length > 0) push("/main");
-      else push("/signup");
+    if (my?.relationList.length == 0) {
+      push("/signup");
+    } else if (
+      my?.id !== undefined &&
+      my?.id !== null &&
+      localStorage.getItem("inviteData") !== null
+    ) {
+      const inviteData: InviteDataType = JSON.parse(
+        localStorage.getItem("inviteData") as string,
+      );
+      const body: PostRelationBody = {
+        role: "STAFF",
+        position: inviteData.position,
+      };
+      postRelationMutate(inviteData.storeId, my?.id as string, body, {
+        onSettled: () =>
+          postPlanListMutate({
+            storeId: inviteData.storeId,
+            memberId: my?.id,
+            inviteSchedule: inviteData.schedule,
+          }),
+      });
+      localStorage.removeItem("inviteData");
+      push("/main");
+    } else {
+      push("/main");
     }
   }, [my]);
 }
