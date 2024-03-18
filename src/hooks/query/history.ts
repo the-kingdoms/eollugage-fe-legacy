@@ -28,7 +28,6 @@ function usePostHistory() {
       queryClient.invalidateQueries({
         queryKey: ["getHistoryList"],
       });
-      window.location.reload();
     },
   });
 
