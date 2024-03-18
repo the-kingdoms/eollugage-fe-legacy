@@ -7,8 +7,10 @@ import FlexBox from "@modules/layout/FlexBox";
 import dayjs from "dayjs";
 import useDialog from "@modules/hooks/useDialog";
 import { useState } from "react";
+import { useDeleteHistory } from "@/hooks/query/history";
 
 export default function Schedule() {
+  const { deleteHistoryMutate, isPending } = useDeleteHistory();
   const schedules: ScheduleListProps[] = [
     { name: "방기연", position: "etc", time: "00:00 ~ 00:00" },
     { name: "방기연", position: "manager", time: "00:00 ~ 00:00" },
@@ -22,6 +24,7 @@ export default function Schedule() {
       title: "근무 삭제하기",
       discription: "근무를 삭제하시나요?",
       type: "confirm",
+      onAction: () => deleteHistoryMutate(""), // 임시
     });
   };
 
