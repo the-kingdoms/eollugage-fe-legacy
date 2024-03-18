@@ -18,7 +18,7 @@ async function postNotice(
   storeId: string,
   body: PostNoticeBody,
 ): Promise<void> {
-  await api.post(`/api/stores/${storeId}/notices`, { title: "temp", ...body });
+  await api.post(`/api/stores/${storeId}/notices`, body);
 }
 
 async function putNotice(
@@ -26,10 +26,7 @@ async function putNotice(
   noticeId: string,
   body: PostNoticeBody,
 ): Promise<void> {
-  await api.put(`/api/stores/${storeId}/notices/${noticeId}`, {
-    title: "temp",
-    ...body,
-  });
+  await api.put(`/api/stores/${storeId}/notices/${noticeId}`, body);
 }
 
 export { getNoticeList, postNotice, putNotice };

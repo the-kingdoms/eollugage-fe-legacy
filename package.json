@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
     "@tanstack/react-query": "^5.24.7",
     "@tanstack/react-query-devtools": "^5.24.7",
     "@types/node": "20.11.1",
@@ -21,6 +22,7 @@
     "eslint-config-next": "13.4.13",
     "framer-motion": "^11.0.8",
     "jotai": "^2.6.1",
+    "jotai-devtools": "^0.8.0",
     "next": "^13.4.13",
     "postcss": "8.4.27",
     "query": "^0.2.0",

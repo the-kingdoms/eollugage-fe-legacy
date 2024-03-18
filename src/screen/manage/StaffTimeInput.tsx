@@ -1,6 +1,5 @@
 import TimeField from "@modules/components/textfields/TimeField";
 import FlexBox from "@modules/layout/FlexBox";
-import { useEffect, useState } from "react";
 
 interface StaffTimeProps {
   title: string;

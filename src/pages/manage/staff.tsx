@@ -25,13 +25,17 @@ export default function Staff() {
           <WeekButtons activeDays={activeDays} setActiveDays={setActiveDays} />
           <StaffTimeInput
             title="근무시간"
-            start={dayjs().format("HHmm")}
-            end={dayjs().format("HHmm")}
+            startTime={dayjs().format("HHmm")}
+            setStartTime={() => {}}
+            endTime={dayjs().format("HHmm")}
+            setEndTime={() => {}}
           />
           <StaffTimeInput
             title="휴게시간"
-            start={dayjs().format("HHmm")}
-            end={dayjs().format("HHmm")}
+            startTime={dayjs().format("HHmm")}
+            setStartTime={() => {}}
+            endTime={dayjs().format("HHmm")}
+            setEndTime={() => {}}
           />
         </FlexBox>
         <Divider height={16} />

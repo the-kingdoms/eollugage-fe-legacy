@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import FlexBox from "@modules/layout/FlexBox";
-import Image from "next/image";
+import { storeIdAtom } from "@/data/global";
 import {
+  InviteSchedule,
   inviteScheduleAtom,
   selectedPositionAtom,
 } from "@/data/inviteSchedule";
+import FlexBox from "@modules/layout/FlexBox";
 import { useAtom } from "jotai";
-import { storeIdAtom } from "@/data/global";
-import { InviteSchedule } from "@/data/inviteSchedule";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
 interface InviteDataType {
   storeId: string;
@@ -22,12 +22,13 @@ function ShareLink() {
   const [storeId] = useAtom(storeIdAtom);
 
   const createQueryString = () => {
-    const positionString = encodeURIComponent(JSON.stringify(selectedPosition));
-    const scheduleString = encodeURIComponent(JSON.stringify(inviteSchedule));
-
-    // 인코딩된 문자열을 스트링 형태로 결합
-    const queryString = `/?position=${positionString}&schedule=${scheduleString}`;
-    return queryString;
+    const inviteData: InviteDataType = {
+      storeId,
+      position: selectedPosition,
+      schedule: inviteSchedule,
+    };
+    const inviteDataString = encodeURIComponent(JSON.stringify(inviteData));
+    return `/?inviteData=${inviteDataString}`;
   };
 
   const handleCopyLink = () => {
@@ -43,21 +44,6 @@ function ShareLink() {
       });
   };
 
-<<<<<<< HEAD
-  const createQueryString = () => {
-    const inviteData: InviteDataType = {
-      storeId: storeId,
-      position: selectedPosition,
-      schedule: inviteSchedule,
-    };
-    const inviteDataString = encodeURIComponent(JSON.stringify(inviteData));
-
-    // 인코딩된 문자열을 스트링 형태로 결합
-    let queryString = `/?inviteData=${inviteDataString}`;
-    //let queryString = `/?storeId=${storeIdString}&position=${positionString}&schedule=${scheduleString}`;
-    return queryString;
-  };
-=======
   useEffect(() => {
     const link = window.location.origin + createQueryString();
     navigator.clipboard
@@ -70,7 +56,6 @@ function ShareLink() {
         console.log("링크를 복사하는데 실패했습니다: ", err);
       });
   }, []);
->>>>>>> fab097fdbb6312a1e758d9289b0affd12028a5aa
 
   return (
     <FlexBox direction="col" className="w-full h-full px-4">
@@ -81,12 +66,8 @@ function ShareLink() {
       <FlexBox direction="col" className="w-full h-full mt-8">
         <Image height={170} width={170} alt="link" src="/image/goldLink.png" />
         <div className="B1-medium text-Gray5 mt-4">링크복사가 안되었나요?</div>
-        <button
-          type="button"
-          className="B2-regular text-Gray4 underline"
-          onClick={handleCopyLink}
-        >
-          링크 복사하기
+        <button onClick={handleCopyLink} type="button">
+          <div className="B2-regular text-Gray4">링크 복사하기</div>
         </button>
       </FlexBox>
       {linkCopied && (

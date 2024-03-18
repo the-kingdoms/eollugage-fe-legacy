@@ -1,4 +1,3 @@
-import { ApiResponse } from "@/apis/network";
 import {
   PostHistoryBody,
   deleteHistory,
@@ -6,10 +5,10 @@ import {
   getHistoryList,
   postHistory,
 } from "@/apis/history";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useAtom } from "jotai";
 import { myAtom, storeIdAtom } from "@/data/global";
 import { addWorkModalAtom } from "@/data/historyAtom";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useAtom } from "jotai";
 
 function useGetAllMemeberHistory() {
   const [storeId] = useAtom(storeIdAtom);
@@ -22,12 +21,11 @@ function useGetAllMemeberHistory() {
   return { data };
 }
 
-function useGetHistoryList() {
+function useGetHistoryList(memberId: string) {
   const [storeId] = useAtom(storeIdAtom);
-  const [my] = useAtom(myAtom);
   const { data } = useQuery({
     queryKey: ["getHistoryList"],
-    queryFn: () => getHistoryList(storeId, String(my?.id)),
+    queryFn: () => getHistoryList(storeId, memberId),
   });
 
   return { data };
@@ -80,8 +78,8 @@ function useDeleteHistory() {
 }
 
 export {
+  useDeleteHistory,
   useGetAllMemeberHistory,
   useGetHistoryList,
   usePostHistory,
-  useDeleteHistory,
 };

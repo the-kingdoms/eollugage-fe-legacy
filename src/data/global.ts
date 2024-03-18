@@ -17,4 +17,10 @@ const roleAtom = atom<RoleType>(get => {
 });
 const manageMenuAtom = atom<"left" | "right">("left");
 
+manageMenuAtom.debugLabel = "manageMenuAtom";
+myAtom.debugLabel = "myAtom";
+myMemberIdAtom.debugLabel = "myMemberIdAtom";
+roleAtom.debugLabel = "roleAtom";
+storeIdAtom.debugLabel = "storeIdAtom";
+
 export { manageMenuAtom, myAtom, myMemberIdAtom, roleAtom, storeIdAtom };

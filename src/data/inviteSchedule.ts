@@ -36,6 +36,9 @@ const inviteScheduleInit: InviteSchedule = {
 };
 
 const inviteScheduleAtom = atom<InviteSchedule>(inviteScheduleInit);
+inviteScheduleAtom.debugLabel = "inviteScheduleAtom";
+const selectedPositionAtom = atom("");
+selectedPositionAtom.debugLabel = "selectedPositionAtom";
 
 const dayTypeConvert: { [key: string]: DayType } = {
   월: "Monday",
@@ -47,6 +50,11 @@ const dayTypeConvert: { [key: string]: DayType } = {
   일: "Sunday",
 };
 
-export { inviteScheduleAtom, inviteScheduleInit, scheduleInit, dayTypeConvert };
+export {
+  inviteScheduleAtom,
+  selectedPositionAtom,
+  inviteScheduleInit,
+  scheduleInit,
+  dayTypeConvert,
+};
 export type { InviteSchedule, Schedule };
-export const selectedPositionAtom = atom("");
