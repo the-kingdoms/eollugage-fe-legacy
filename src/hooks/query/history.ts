@@ -2,6 +2,7 @@ import { ApiResponse } from "@/apis/network";
 import {
   PostHistoryBody,
   deleteHistory,
+  getAllMemberHistory,
   getHistoryList,
   postHistory,
 } from "@/apis/history";
@@ -9,6 +10,17 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { myAtom, storeIdAtom } from "@/data/global";
 import { addWorkModalAtom } from "@/data/historyAtom";
+
+function useGetAllMemeberHistory() {
+  const [storeId] = useAtom(storeIdAtom);
+
+  const { data } = useQuery({
+    queryKey: ["getAllMemberHistory"],
+    queryFn: () => getAllMemberHistory(storeId),
+  });
+
+  return { data };
+}
 
 function useGetHistoryList() {
   const [storeId] = useAtom(storeIdAtom);
@@ -35,6 +47,9 @@ function usePostHistory() {
       queryClient.invalidateQueries({
         queryKey: ["getHistoryList"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["getAllMemberHistory"],
+      });
       setIsModalOpen(false);
     },
   });
@@ -55,10 +70,18 @@ function useDeleteHistory() {
       queryClient.invalidateQueries({
         queryKey: ["getHistoryList"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["getAllMemberHistory"],
+      });
     },
   });
 
   return { deleteHistoryMutate: mutate, isPending };
 }
 
-export { useGetHistoryList, usePostHistory, useDeleteHistory };
+export {
+  useGetAllMemeberHistory,
+  useGetHistoryList,
+  usePostHistory,
+  useDeleteHistory,
+};
