@@ -1,12 +1,12 @@
 import ProfileDiscription from "@/assist/ProfileDiscription";
 import RouterWrapper from "@/assist/RouterWrapper";
 import FlexBox from "@modules/layout/FlexBox";
-import { useGetRelation } from "@/hooks/query/relation";
+import { useGetRelationList } from "@/hooks/query/relation";
 import { useEffect, useState } from "react";
 import { Relation } from "@/apis/relation";
 
 export default function StaffInform() {
-  const { relations } = useGetRelation();
+  const { relations } = useGetRelationList();
   const [relationDict, setRelationDict] = useState<Record<string, Relation[]>>(
     {},
   );
