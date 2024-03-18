@@ -19,6 +19,11 @@ interface PostHistoryStatusBody {
   status: StatusType;
 }
 
+async function getAllMemberHistory(storeId: string): Promise<History[]> {
+  const { data } = await api.get(`/api/stores/${storeId}/histories`);
+  return data;
+}
+
 async function getHistoryList(
   storeId: string,
   memberId: string,
@@ -64,5 +69,11 @@ async function deleteHistory(
   );
 }
 
-export { deleteHistory, getHistoryList, postHistory, postHistoryStatus };
+export {
+  getAllMemberHistory,
+  getHistoryList,
+  postHistory,
+  postHistoryStatus,
+  deleteHistory,
+};
 export type { History, PostHistoryBody, PostHistoryStatusBody };
