@@ -6,10 +6,17 @@ import {
   postRelationAdmin,
 } from "@/apis/relation";
 import { useAtom } from "jotai";
-import { storeIdAtom, myMemberIdAtom } from "@/data/global";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { storeIdAtom } from "@/data/global";
+import { MutateOptions, useMutation, useQuery } from "@tanstack/react-query";
+import { ApiResponse } from "@/apis/network";
 
-function useGetRelation() {
+interface UsePostRelationProps {
+  storeId: string;
+  memberId: string;
+  body: PostRelationBody;
+}
+
+function useGetRelationList() {
   const [storeId] = useAtom(storeIdAtom);
   const { data: relations } = useQuery({
     queryKey: ["getRelationList"],
@@ -19,31 +26,48 @@ function useGetRelation() {
 }
 
 function usePostRelation() {
-  const [storeId] = useAtom(storeIdAtom);
-  const [memberId] = useAtom(myMemberIdAtom);
-  const { mutate } = useMutation({
-    mutationKey: ["postRelation"],
-    mutationFn: (body: PostRelationBody) =>
+  const { mutate, isSuccess } = useMutation({
+    mutationKey: ["postRelationMutate"],
+    mutationFn: ({ storeId, memberId, body }: UsePostRelationProps) =>
       postRelation(storeId, memberId, body),
   });
-  const postRelationMutate = (body: PostRelationBody) => {
-    mutate(body);
+  const postRelationMutate = (
+    storeId: string,
+    memberId: string,
+    body: PostRelationBody,
+    options: MutateOptions<ApiResponse, Error, UsePostRelationProps>,
+  ) => {
+    mutate(
+      {
+        storeId,
+        memberId,
+        body,
+      },
+      options,
+    );
   };
-  return { postRelationMutate };
+  return { postRelationMutate, isSuccess };
 }
 
 function usePostRelationAdmin() {
   const [storeId] = useAtom(storeIdAtom);
-  const [memberId] = useAtom(myMemberIdAtom);
   const { mutate } = useMutation({
-    mutationKey: ["postRelationAdmin"],
-    mutationFn: (body: PostRelationAdminBody) =>
-      postRelationAdmin(storeId, memberId, body),
+    mutationKey: ["postRelationMutate"],
+    mutationFn: ({
+      memberId,
+      body,
+    }: {
+      memberId: string;
+      body: PostRelationAdminBody;
+    }) => postRelationAdmin(storeId, memberId, body),
   });
-  const postRelationAdminMutate = (body: PostRelationAdminBody) => {
-    mutate(body);
+  const postRelationAdminMutate = (
+    memberId: string,
+    body: PostRelationBody,
+  ) => {
+    mutate({ memberId, body });
   };
   return { postRelationAdminMutate };
 }
 
-export { useGetRelation, usePostRelation, usePostRelationAdmin };
+export { useGetRelationList, usePostRelation, usePostRelationAdmin };

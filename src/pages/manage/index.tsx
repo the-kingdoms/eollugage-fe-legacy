@@ -22,15 +22,15 @@ export default function Manage() {
           pageHandle={option => setManageMenu(option)}
         />
         <div className="w-full px-4">
-          {manageMenu === "right" && role === "owner" && <CeoBanner />}
+          {manageMenu === "right" && role === "OWNER" && <CeoBanner />}
         </div>
         {manageMenu === "left" ? <Schedule /> : <StaffInform />}
       </FlexBox>
       <div className="ml-auto my-6 mx-4">
-        {manageMenu === "left" && role === "owner" && (
+        {manageMenu === "left" && role === "OWNER" && (
           <FloatingActionButton text="근무 추가" />
         )}
-        {manageMenu === "right" && role === "owner" && (
+        {manageMenu === "right" && role === "OWNER" && (
           <FloatingActionButton text="직원 추가" />
         )}
       </div>
