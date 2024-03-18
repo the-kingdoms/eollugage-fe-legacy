@@ -1,3 +1,5 @@
+import { Plan } from "@/apis/plan";
+import { useGetPlanList } from "@/hooks/query/plan";
 import StaffTimeApproval from "@/screen/manage/StaffTimeApproval";
 import StaffTimeInput from "@/screen/manage/StaffTimeInput";
 import WeekButtons from "@/screen/manage/WeekButtons";
@@ -5,10 +7,21 @@ import Divider from "@modules/layout/Divider";
 import FlexBox from "@modules/layout/FlexBox";
 import TopTitle from "@modules/layout/TopTitle";
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Staff() {
   const [activeDays, setActiveDays] = useState<string | string[]>("");
+  const { plans } = useGetPlanList();
+  const [planList, setPlanList] = useState<Plan[]>([]);
+
+  useEffect(() => {
+    console.log(plans);
+    if (plans && plans.length > 0) {
+      setPlanList(plans);
+    } else {
+      setPlanList([]);
+    }
+  }, [plans]);
 
   return (
     <div className="bg-Black">
