@@ -1,21 +1,19 @@
 import Calender from "@modules/components/calender/Calender";
-import ScheduleList, {
-  ScheduleListProps,
-} from "@modules/components/list/ScheduleList";
+import ScheduleList from "@modules/components/list/ScheduleList";
 import Divider from "@modules/layout/Divider";
 import FlexBox from "@modules/layout/FlexBox";
 import dayjs from "dayjs";
 import useDialog from "@modules/hooks/useDialog";
 import { useState } from "react";
-import { useDeleteHistory } from "@/hooks/query/history";
+import {
+  useDeleteHistory,
+  useGetAllMemeberHistory,
+} from "@/hooks/query/history";
+import { getTimeString } from "@/libs/timeValidation";
 
 export default function Schedule() {
+  const { data: historyList } = useGetAllMemeberHistory();
   const { deleteHistoryMutate, isPending } = useDeleteHistory();
-  const schedules: ScheduleListProps[] = [
-    { name: "방기연", position: "etc", time: "00:00 ~ 00:00" },
-    { name: "방기연", position: "manager", time: "00:00 ~ 00:00" },
-    { name: "방기연", position: "parttime", time: "00:00 ~ 00:00" },
-  ];
   const { openDialog } = useDialog();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
@@ -58,12 +56,12 @@ export default function Schedule() {
           <div className="w-full h-px bg-Gray2" />
         </FlexBox>
         <FlexBox direction="col" className="w-full gap-2">
-          {schedules.map((plan, index) => (
+          {historyList?.map((historyInfo, index) => (
             <ScheduleList
               key={index}
-              name={plan.name}
-              position={plan.position}
-              time={plan.time}
+              name="임시이름"
+              position="etc"
+              time={getTimeString(historyInfo.startTime, historyInfo.endTime)}
               onDelete={onClickDeleteBtn}
             />
           ))}
