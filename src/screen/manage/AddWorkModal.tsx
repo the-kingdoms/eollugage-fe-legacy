@@ -16,7 +16,7 @@ export default function AddWorkModal({
   isModalOpen,
   setIsModalOpen,
 }: AddWorkModalProps) {
-  const { postHistory, isPending } = usePostHistory();
+  const { postHistoryMutate, isPending } = usePostHistory();
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -38,7 +38,7 @@ export default function AddWorkModal({
       return;
     }
 
-    postHistory({
+    postHistoryMutate({
       startTime: `${startWorkTime.substring(0, 2)}:${startWorkTime.substring(2)}`,
       endTime: `${endWorkTime.substring(0, 2)}:${endWorkTime.substring(2)}`,
       restStartTime: `${startRestTime.substring(0, 2)}:${startRestTime.substring(2)}`,

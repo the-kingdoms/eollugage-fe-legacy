@@ -31,7 +31,7 @@ function usePostHistory() {
     },
   });
 
-  return { postHistory: mutate, isPending };
+  return { postHistoryMutate: mutate, isPending };
 }
 
 export { useGetHistoryList, usePostHistory };
