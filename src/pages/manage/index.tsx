@@ -33,7 +33,7 @@ export default function Manage() {
             text={["근무 스케쥴", "직원 정보"]}
             pageHandle={Options => setSelectTab(Options)}
           />
-          {selectTab === "right" && role === "owner" && (
+          {selectTab === "right" && role === "OWNER" && (
             <div className="w-full px-4">
               <FlexBox
                 direction="row"
@@ -60,7 +60,7 @@ export default function Manage() {
           {selectTab === "left" && (
             <FloatingActionButton onClick={addWork} text="근무 추가" />
           )}
-          {selectTab === "right" && role === "owner" && (
+          {selectTab === "right" && role === "OWNER" && (
             <FloatingActionButton text="직원 추가" />
           )}
         </div>
