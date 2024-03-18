@@ -1,5 +1,10 @@
 import { ApiResponse } from "@/apis/network";
-import { PostHistoryBody, getHistoryList, postHistory } from "@/apis/history";
+import {
+  PostHistoryBody,
+  deleteHistory,
+  getHistoryList,
+  postHistory,
+} from "@/apis/history";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { myAtom, storeIdAtom } from "@/data/global";
@@ -37,4 +42,23 @@ function usePostHistory() {
   return { postHistoryMutate: mutate, isPending };
 }
 
-export { useGetHistoryList, usePostHistory };
+function useDeleteHistory() {
+  const [storeId] = useAtom(storeIdAtom);
+  const [my] = useAtom(myAtom);
+
+  const queryClient = useQueryClient();
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["deleteHistory"],
+    mutationFn: (historyId: string) =>
+      deleteHistory(storeId, String(my?.id), historyId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["getHistoryList"],
+      });
+    },
+  });
+
+  return { deleteHistoryMutate: mutate, isPending };
+}
+
+export { useGetHistoryList, usePostHistory, useDeleteHistory };
