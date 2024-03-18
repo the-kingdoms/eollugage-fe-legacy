@@ -1,4 +1,4 @@
-import { useGetHistory } from "@/hooks/query/history";
+import { useGetHistoryList } from "@/hooks/query/history";
 import WorkInfoCard from "@modules/components/card/WorkInfoCard";
 import FlexBox from "@modules/layout/FlexBox";
 import dayjs from "dayjs";
@@ -19,7 +19,7 @@ interface WorkHistory {
 
 export default function WorkHistoryList({ memberId }: WorkHistoryListProps) {
   const { push } = useRouter();
-  const { historys } = useGetHistory(memberId);
+  const { data: historys } = useGetHistoryList(memberId);
   const [workHistoryList, setWorkHistoryList] = useState<WorkHistory[]>([]);
   useEffect(() => {
     if (historys) {

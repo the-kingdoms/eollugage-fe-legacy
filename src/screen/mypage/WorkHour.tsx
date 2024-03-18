@@ -1,4 +1,4 @@
-import { useGetHistory } from "@/hooks/query/history";
+import { useGetHistoryList } from "@/hooks/query/history";
 import WorkInfoBanner from "@modules/components/banner/WorkInfoBanner";
 import FlexBox from "@modules/layout/FlexBox";
 import dayjs from "dayjs";
@@ -10,7 +10,7 @@ interface WorkHourProps {
 
 export default function WorkHour({ memberId }: WorkHourProps) {
   const [workingMinutes, setWorkingMinutes] = useState(0);
-  const { historys } = useGetHistory(memberId);
+  const { data: historys } = useGetHistoryList(memberId);
   const currentDate = dayjs().format("MM/DD");
   useEffect(() => {
     if (historys) {
