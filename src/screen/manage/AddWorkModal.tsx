@@ -6,20 +6,16 @@ import Dropdown from "@modules/components/selections/Dropdown";
 import { usePostHistory } from "@/hooks/query/history";
 import { useState } from "react";
 import { checkIsValidTime } from "@/libs/timeValidation";
+import { useAtom, atom } from "jotai";
+import { addWorkModalAtom } from "@/data/historyAtom";
 
-interface AddWorkModalProps {
-  isModalOpen: boolean;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-export default function AddWorkModal({
-  isModalOpen,
-  setIsModalOpen,
-}: AddWorkModalProps) {
+export default function AddWorkModal() {
   const { postHistoryMutate, isPending } = usePostHistory();
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  const [isModalOpen, setIsModalOpen] = useAtom(addWorkModalAtom);
 
   const [startWorkTime, setStartWorkTime] = useState<string>("0000");
   const [endWorkTime, setEndWorkTime] = useState<string>("1100");
@@ -46,7 +42,6 @@ export default function AddWorkModal({
       status: "approve",
       date: "2024-03-14",
     });
-    // closeModal();
   };
 
   return (

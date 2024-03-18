@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import AddWorkModal from "@/screen/manage/AddWorkModal";
 import { useEffect, useState } from "react";
 import Icon from "@modules/layout/Icon";
+import { addWorkModalAtom } from "@/data/historyAtom";
 
 export default function Manage() {
   const router = useRouter();
@@ -18,7 +19,7 @@ export default function Manage() {
   const [role] = useAtom(roleAtom);
   const [selectTab, setSelectTab] = useState("left");
 
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [, setIsModalOpen] = useAtom(addWorkModalAtom);
 
   const addWork = () => {
     setIsModalOpen(true);
@@ -66,7 +67,7 @@ export default function Manage() {
         </div>
         <TabBarGage />
       </FlexBox>
-      <AddWorkModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      <AddWorkModal />
     </>
   );
 }
