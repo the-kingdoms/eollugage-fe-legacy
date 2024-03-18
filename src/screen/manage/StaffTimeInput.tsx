@@ -1,17 +1,22 @@
 import TimeField from "@modules/components/textfields/TimeField";
 import FlexBox from "@modules/layout/FlexBox";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface StaffTimeProps {
   title: string;
-  start: string;
-  end: string;
+  startTime: string;
+  setStartTime: React.Dispatch<React.SetStateAction<string>>;
+  endTime: string;
+  setEndTime: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function StaffTimeInput({ title, start, end }: StaffTimeProps) {
-  const [startTime, setStartTime] = useState<string>(start);
-  const [endTime, setEndTime] = useState<string>(end);
-
+export default function StaffTimeInput({
+  title,
+  startTime,
+  setStartTime,
+  endTime,
+  setEndTime,
+}: StaffTimeProps) {
   return (
     <FlexBox direction="col" className="gap-2 w-full items-start">
       <div className="text-Gray6 B4-medium">{title}</div>
