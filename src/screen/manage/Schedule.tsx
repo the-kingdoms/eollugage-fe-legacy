@@ -4,7 +4,7 @@ import Divider from "@modules/layout/Divider";
 import FlexBox from "@modules/layout/FlexBox";
 import dayjs from "dayjs";
 import useDialog from "@modules/hooks/useDialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   useDeleteHistory,
   useGetAllMemeberHistory,
@@ -32,6 +32,15 @@ export default function Schedule() {
   const onClickCalendar = (date: dayjs.Dayjs) => {
     setSelectedDate(date);
   };
+
+  // 임시
+  const [filteredList, setFilteredList] = useState(historyList);
+  useEffect(() => {
+    const tempList = historyList?.filter(historyInfo => {
+      return historyInfo.date === selectedDate.format("YYYY-MM-DD");
+    });
+    setFilteredList(tempList);
+  }, [historyList, selectedDate]);
 
   return (
     <FlexBox direction="col" className="gap-3 w-full">
@@ -67,7 +76,7 @@ export default function Schedule() {
           <div className="w-full h-px bg-Gray2" />
         </FlexBox>
         <FlexBox direction="col" className="w-full gap-2">
-          {historyList?.map((historyInfo, index) => (
+          {filteredList?.map((historyInfo, index) => (
             <ScheduleList
               key={index}
               name={historyInfo.relation.member.name}
