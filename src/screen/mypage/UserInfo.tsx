@@ -14,7 +14,7 @@ export default function UserInfo() {
         </div>
         <div className="B1-medium text-Gray7">오늘도 수고했어요</div>
       </div>
-      <Profile size="M" name={my?.name ?? ""} />
+      <Profile size="M2" name={my?.name ?? ""} />
     </FlexBox>
   );
 }

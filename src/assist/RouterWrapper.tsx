@@ -25,10 +25,14 @@ export default function RouterWrapper({
 }: RouterWrapperProps) {
   const router = useRouter();
   return (
-    <button onClick={() => router.push(routerdest)} className="w-full">
+    <button
+      onClick={() => router.push(routerdest)}
+      className="w-full"
+      type="button"
+    >
       <FlexBox direction="row" className={`py-3 border ${style[type]}`}>
         {children}
-        <Icon src={"/icon/direction/right.svg"} sz={iconsz[type]} />
+        <Icon src="/icon/direction/right.svg" sz={iconsz[type]} />
       </FlexBox>
     </button>
   );

@@ -25,7 +25,7 @@ export default function OwnerWelcome({ storeName }: OwnerWelcomeProps) {
         </FlexBox>
       </FlexBox>
       <TextButton
-        size="L"
+        size="full"
         text="직원 추가하러 가기"
         className="mb-4"
         onClick={() => router.push("/manage")}

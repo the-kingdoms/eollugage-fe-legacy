@@ -13,7 +13,7 @@ export default function Redirect() {
   const token = query?.token;
   const [my] = useAtom(myAtom);
   const { refetch } = useGetMy();
-  const { postRelationMutate, isSuccess } = usePostRelation();
+  const { postRelationMutate } = usePostRelation();
   const { postPlanListMutate } = usePostPlanList();
 
   useEffect(() => {
@@ -24,13 +24,10 @@ export default function Redirect() {
   }, [token]);
 
   useEffect(() => {
-    if (my?.relationList.length == 0) {
+    if (my?.id === undefined || my?.id === null) return;
+    if (my?.relationList.length === 0) {
       push("/signup");
-    } else if (
-      my?.id !== undefined &&
-      my?.id !== null &&
-      localStorage.getItem("inviteData") !== null
-    ) {
+    } else if (localStorage.getItem("inviteData") !== null) {
       const inviteData: InviteDataType = JSON.parse(
         localStorage.getItem("inviteData") as string,
       );

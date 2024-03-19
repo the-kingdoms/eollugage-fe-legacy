@@ -1,6 +1,6 @@
 import ProfileDiscription from "@/assist/ProfileDiscription";
 import StateButtonWrapper from "@/assist/StateButtonWrapper";
-import TimeBanner from "@/assist/TimeBanner";
+import TimeBanner from "@/assist/banner/TimeBanner";
 import ButtonBar from "@modules/components/bars/ButtonBar";
 import TextButton from "@modules/components/button/TextButton";
 import FlexBox from "@modules/layout/FlexBox";
