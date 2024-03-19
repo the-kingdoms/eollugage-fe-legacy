@@ -70,8 +70,8 @@ export default function Schedule() {
           {historyList?.map((historyInfo, index) => (
             <ScheduleList
               key={index}
-              name="임시이름"
-              position="etc"
+              name={historyInfo.relation.member.name}
+              role={historyInfo.relation.role}
               time={getTimeString(historyInfo.startTime, historyInfo.endTime)}
               onDelete={onClickDeleteBtn}
             />
