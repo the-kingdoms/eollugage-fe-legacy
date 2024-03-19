@@ -10,6 +10,8 @@ import {
   useGetAllMemeberHistory,
 } from "@/hooks/query/history";
 import { getTimeString } from "@/libs/timeValidation";
+import { useAtom } from "jotai";
+import { selectedDateAtom } from "@/data/historyAtom";
 
 export default function Schedule() {
   const { data: historyList } = useGetAllMemeberHistory();
@@ -26,15 +28,24 @@ export default function Schedule() {
     });
   };
 
+  const [selectedDate, setSelectedDate] = useAtom(selectedDateAtom);
+  const onClickCalendar = (date: dayjs.Dayjs) => {
+    setSelectedDate(date);
+  };
+
   return (
     <FlexBox direction="col" className="gap-3 w-full">
-      <Calender />
+      <Calender day={selectedDate} onClick={onClickCalendar} />
       <Divider />
       <FlexBox direction="col" className="w-full px-4 gap-3">
         <FlexBox className="w-full justify-between">
           <FlexBox className="gap-1">
-            <div className="H4-bold text-Gray7">{dayjs().format("DD")}</div>
-            <div className="B3-medium text-Gray5">{dayjs().format("ddd")}</div>
+            <div className="H4-bold text-Gray7">
+              {selectedDate.format("DD")}
+            </div>
+            <div className="B3-medium text-Gray5">
+              {selectedDate.format("ddd")}
+            </div>
           </FlexBox>
           <FlexBox className="gap-4">
             <FlexBox className="gap-1">
