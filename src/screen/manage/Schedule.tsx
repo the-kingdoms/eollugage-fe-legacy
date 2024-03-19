@@ -19,12 +19,12 @@ export default function Schedule() {
   const { openDialog } = useDialog();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
-  const onClickDeleteBtn = () => {
+  const onClickDeleteBtn = (historyId: string) => {
     openDialog({
       title: "근무 삭제하기",
       discription: "근무를 삭제하시나요?",
       type: "confirm",
-      onAction: () => deleteHistoryMutate(""), // 임시
+      onAction: () => deleteHistoryMutate(historyId),
     });
   };
 
@@ -82,7 +82,7 @@ export default function Schedule() {
               name={historyInfo.relation.member.name}
               role={historyInfo.relation.role}
               time={getTimeString(historyInfo.startTime, historyInfo.endTime)}
-              onDelete={onClickDeleteBtn}
+              onDelete={() => onClickDeleteBtn(historyInfo.id)}
             />
           ))}
         </FlexBox>
