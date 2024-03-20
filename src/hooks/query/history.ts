@@ -1,9 +1,11 @@
 import {
   PostHistoryBody,
+  PostHistoryStatusBody,
   deleteHistory,
   getAllMemberHistory,
   getHistoryList,
   postHistory,
+  postHistoryStatus,
 } from "@/apis/history";
 import { myMemberIdAtom, storeIdAtom } from "@/data/global";
 import { addWorkModalAtom } from "@/data/historyAtom";
@@ -53,6 +55,30 @@ function usePostHistory() {
   return { postHistoryMutate: mutate, isPending };
 }
 
+function usePostHistoryStatus() {
+  const [storeId] = useAtom(storeIdAtom);
+  const queryClient = useQueryClient();
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["postHistoryStatus"],
+    mutationFn: ({
+      memberId,
+      historyId,
+      status,
+    }: {
+      memberId: string;
+      historyId: string;
+      status: PostHistoryStatusBody["status"];
+    }) => postHistoryStatus(storeId, memberId, historyId, { status }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["getAllMemberHistory"],
+      });
+    },
+  });
+
+  return { postHistoryStatusMutate: mutate, isPending };
+}
+
 function useDeleteHistory() {
   const [storeId] = useAtom(storeIdAtom);
   const [memberId] = useAtom(myMemberIdAtom);
@@ -80,4 +106,5 @@ export {
   useGetAllMemeberHistory,
   useGetHistoryList,
   usePostHistory,
+  usePostHistoryStatus,
 };
