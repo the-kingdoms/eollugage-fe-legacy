@@ -1,21 +1,17 @@
-import FlexBox from "@modules/layout/FlexBox";
-import Sheet from "react-modal-sheet";
-import StaffTimeInput from "./StaffTimeInput";
+import { addWorkModalAtom, selectedDateAtom } from "@/data/historyAtom";
+import { usePostHistory } from "@/hooks/query/history";
+import { checkIsValidTime } from "@/libs/timeValidation";
 import TextButton from "@modules/components/button/TextButton";
 import Dropdown from "@modules/components/selections/Dropdown";
-import { usePostHistory } from "@/hooks/query/history";
+import FlexBox from "@modules/layout/FlexBox";
+import { useAtom } from "jotai";
 import { useState } from "react";
-import { checkIsValidTime } from "@/libs/timeValidation";
-import { useAtom, atom } from "jotai";
-import { addWorkModalAtom, selectedDateAtom } from "@/data/historyAtom";
+import Sheet from "react-modal-sheet";
+import StaffTimeInput from "./StaffTimeInput";
 
 export default function AddWorkModal() {
-  const { postHistoryMutate, isPending } = usePostHistory();
+  const { postHistoryMutate } = usePostHistory();
   const [selectedDate] = useAtom(selectedDateAtom);
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
   const [isModalOpen, setIsModalOpen] = useAtom(addWorkModalAtom);
 
   const [startWorkTime, setStartWorkTime] = useState<string>("0000");
@@ -23,6 +19,10 @@ export default function AddWorkModal() {
   const [startRestTime, setStartRestTime] = useState<string>("0000");
   const [endRestTime, setEndRestTime] = useState<string>("1100");
   const options = ["홍길동", "홍길동", "홍길동"];
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const onClickAddBtn = () => {
     if (

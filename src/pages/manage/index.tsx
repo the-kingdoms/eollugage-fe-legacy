@@ -1,21 +1,19 @@
-import CeoBanner from "@/assist/banner/CeoBanner";
-import { manageMenuAtom, roleAtom } from "@/data/global";
+import { roleAtom } from "@/data/global";
+import { addWorkModalAtom } from "@/data/historyAtom";
+import AddWorkModal from "@/screen/manage/AddWorkModal";
 import Schedule from "@/screen/manage/Schedule";
 import StaffInform from "@/screen/manage/StaffInform";
 import TabBarGage from "@modules/components/bars/TabBarGage";
 import FloatingActionButton from "@modules/components/button/FloatingActionButton";
 import LongTab from "@modules/components/tabs/LongTab";
 import FlexBox from "@modules/layout/FlexBox";
+import Icon from "@modules/layout/Icon";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
-import AddWorkModal from "@/screen/manage/AddWorkModal";
-import { useEffect, useState } from "react";
-import Icon from "@modules/layout/Icon";
-import { addWorkModalAtom } from "@/data/historyAtom";
+import { useState } from "react";
 
 export default function Manage() {
   const router = useRouter();
-  const [manageMenu, setManageMenu] = useAtom(manageMenuAtom);
   const [role] = useAtom(roleAtom);
   const [selectTab, setSelectTab] = useState("left");
 
@@ -47,7 +45,7 @@ export default function Manage() {
                   </div>
                 </FlexBox>
                 <Icon
-                  src={"/icon/direction/right.svg"}
+                  src="/icon/direction/right.svg"
                   sz={24}
                   onClick={() => router.push("/manage/attendance")}
                 />

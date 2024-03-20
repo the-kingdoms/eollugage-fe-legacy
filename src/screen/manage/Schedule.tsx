@@ -15,9 +15,8 @@ import { selectedDateAtom } from "@/data/historyAtom";
 
 export default function Schedule() {
   const { data: historyList } = useGetAllMemeberHistory();
-  const { deleteHistoryMutate, isPending } = useDeleteHistory();
+  const { deleteHistoryMutate } = useDeleteHistory();
   const { openDialog } = useDialog();
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
   const onClickDeleteBtn = (historyId: string) => {
     openDialog({
