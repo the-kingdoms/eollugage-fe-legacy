@@ -88,4 +88,10 @@ export {
   postHistoryStatus,
   deleteHistory,
 };
-export type { History, PostHistoryBody, PostHistoryStatusBody };
+export type {
+  History,
+  PostHistoryBody,
+  PostHistoryStatusBody,
+  AllHistory,
+  HistoryRelation,
+};

@@ -12,6 +12,7 @@ import {
 import { getTimeString } from "@/libs/timeValidation";
 import { useAtom } from "jotai";
 import { selectedDateAtom } from "@/data/historyAtom";
+import { AllHistory } from "@/apis/history";
 
 export default function Schedule() {
   const { data: historyList } = useGetAllMemeberHistory();
@@ -32,13 +33,13 @@ export default function Schedule() {
     setSelectedDate(date);
   };
 
-  // 임시
-  const [filteredList, setFilteredList] = useState(historyList);
+  // 임시, 일자별 query 가능한 새 api 가 나오면 수정 필요
+  const [filteredList, setFilteredList] = useState<AllHistory[]>([]);
   useEffect(() => {
     const tempList = historyList?.filter(historyInfo => {
       return historyInfo.date === selectedDate.format("YYYY-MM-DD");
     });
-    setFilteredList(tempList);
+    setFilteredList(tempList ?? []);
   }, [historyList, selectedDate]);
 
   return (
