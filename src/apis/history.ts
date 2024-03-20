@@ -6,7 +6,7 @@ import { Plan } from "@/apis/plan";
 
 interface HistoryRelation extends Relation {
   member: My;
-  planList: Plan;
+  planList: Plan[];
 }
 
 interface AllHistory extends History {
