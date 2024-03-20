@@ -1,5 +1,6 @@
 import { myAtom, myMemberIdAtom } from "@/data/global";
 import { useGetAllMemeberHistory } from "@/hooks/query/history";
+import { getTimeString } from "@/libs/timeValidation";
 import WorkInfo from "@/screen/main/WorkInfo";
 import FlexBox from "@modules/layout/FlexBox";
 import dayjs from "dayjs";
@@ -26,9 +27,9 @@ export default function TodayShift() {
       {filteredList?.map(historyInfo => (
         <WorkInfo
           key={historyInfo.id}
-          time={`${historyInfo.startTime.slice(0, 5)} ~ ${historyInfo.endTime.slice(0, 5)}`}
           name={historyInfo.relation.member.name}
           position={historyInfo.relation.position}
+          time={getTimeString(historyInfo.startTime, historyInfo.endTime)}
         />
       ))}
     </FlexBox>
