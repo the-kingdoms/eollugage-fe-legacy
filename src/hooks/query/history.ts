@@ -5,14 +5,13 @@ import {
   getHistoryList,
   postHistory,
 } from "@/apis/history";
-import { myAtom, storeIdAtom } from "@/data/global";
+import { myMemberIdAtom, storeIdAtom } from "@/data/global";
 import { addWorkModalAtom } from "@/data/historyAtom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 
 function useGetAllMemeberHistory() {
   const [storeId] = useAtom(storeIdAtom);
-
   const { data } = useQuery({
     queryKey: ["getAllMemberHistory"],
     queryFn: () => getAllMemberHistory(storeId),
@@ -33,14 +32,13 @@ function useGetHistoryList(memberId: string) {
 
 function usePostHistory() {
   const [storeId] = useAtom(storeIdAtom);
-  const [my] = useAtom(myAtom);
+  const [memberId] = useAtom(myMemberIdAtom);
   const [, setIsModalOpen] = useAtom(addWorkModalAtom);
 
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationKey: ["postHistory"],
-    mutationFn: (body: PostHistoryBody) =>
-      postHistory(storeId, String(my?.id), body),
+    mutationFn: (body: PostHistoryBody) => postHistory(storeId, memberId, body),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["getHistoryList"],
@@ -57,13 +55,13 @@ function usePostHistory() {
 
 function useDeleteHistory() {
   const [storeId] = useAtom(storeIdAtom);
-  const [my] = useAtom(myAtom);
+  const [memberId] = useAtom(myMemberIdAtom);
 
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationKey: ["deleteHistory"],
     mutationFn: (historyId: string) =>
-      deleteHistory(storeId, String(my?.id), historyId),
+      deleteHistory(storeId, memberId, historyId),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["getHistoryList"],

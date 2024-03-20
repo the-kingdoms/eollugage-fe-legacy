@@ -4,12 +4,14 @@ import Divider from "@modules/layout/Divider";
 import FlexBox from "@modules/layout/FlexBox";
 import dayjs from "dayjs";
 import useDialog from "@modules/hooks/useDialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   useDeleteHistory,
   useGetAllMemeberHistory,
 } from "@/hooks/query/history";
 import { getTimeString } from "@/libs/timeValidation";
+import { useAtom } from "jotai";
+import { selectedDateAtom } from "@/data/historyAtom";
 
 export default function Schedule() {
   const { data: historyList } = useGetAllMemeberHistory();
@@ -17,24 +19,42 @@ export default function Schedule() {
   const { openDialog } = useDialog();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
-  const onClickDeleteBtn = () => {
+  const onClickDeleteBtn = (historyId: string) => {
     openDialog({
       title: "근무 삭제하기",
       discription: "근무를 삭제하시나요?",
       type: "confirm",
-      onAction: () => deleteHistoryMutate(""), // 임시
+      onAction: () => deleteHistoryMutate(historyId),
     });
   };
 
+  const [selectedDate, setSelectedDate] = useAtom(selectedDateAtom);
+  const onClickCalendar = (date: dayjs.Dayjs) => {
+    setSelectedDate(date);
+  };
+
+  // 임시
+  const [filteredList, setFilteredList] = useState(historyList);
+  useEffect(() => {
+    const tempList = historyList?.filter(historyInfo => {
+      return historyInfo.date === selectedDate.format("YYYY-MM-DD");
+    });
+    setFilteredList(tempList);
+  }, [historyList, selectedDate]);
+
   return (
     <FlexBox direction="col" className="gap-3 w-full">
-      <Calender />
+      <Calender day={selectedDate} onClick={onClickCalendar} />
       <Divider />
       <FlexBox direction="col" className="w-full px-4 gap-3">
         <FlexBox className="w-full justify-between">
           <FlexBox className="gap-1">
-            <div className="H4-bold text-Gray7">{dayjs().format("DD")}</div>
-            <div className="B3-medium text-Gray5">{dayjs().format("ddd")}</div>
+            <div className="H4-bold text-Gray7">
+              {selectedDate.format("DD")}
+            </div>
+            <div className="B3-medium text-Gray5">
+              {selectedDate.format("ddd")}
+            </div>
           </FlexBox>
           <FlexBox className="gap-4">
             <FlexBox className="gap-1">
@@ -56,13 +76,13 @@ export default function Schedule() {
           <div className="w-full h-px bg-Gray2" />
         </FlexBox>
         <FlexBox direction="col" className="w-full gap-2">
-          {historyList?.map((historyInfo, index) => (
+          {filteredList?.map((historyInfo, index) => (
             <ScheduleList
               key={index}
-              name="임시이름"
-              position="etc"
+              name={historyInfo.relation.member.name}
+              role={historyInfo.relation.role}
               time={getTimeString(historyInfo.startTime, historyInfo.endTime)}
-              onDelete={onClickDeleteBtn}
+              onDelete={() => onClickDeleteBtn(historyInfo.id)}
             />
           ))}
         </FlexBox>

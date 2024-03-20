@@ -1,5 +1,17 @@
 import { StatusType } from "@/apis/_type";
 import api, { ApiResponse } from "@/apis/network";
+import { Relation } from "@/apis/relation";
+import { My } from "@/apis/my";
+import { Plan } from "@/apis/plan";
+
+interface HistoryRelation extends Relation {
+  member: My;
+  planList: Plan;
+}
+
+interface AllHistory extends History {
+  relation: HistoryRelation;
+}
 
 interface History extends PostHistoryBody {
   id: string;
@@ -19,7 +31,7 @@ interface PostHistoryStatusBody {
   status: StatusType;
 }
 
-async function getAllMemberHistory(storeId: string): Promise<History[]> {
+async function getAllMemberHistory(storeId: string): Promise<AllHistory[]> {
   const { data } = await api.get(`/api/stores/${storeId}/histories`);
   return data;
 }

@@ -7,10 +7,11 @@ import { usePostHistory } from "@/hooks/query/history";
 import { useState } from "react";
 import { checkIsValidTime } from "@/libs/timeValidation";
 import { useAtom, atom } from "jotai";
-import { addWorkModalAtom } from "@/data/historyAtom";
+import { addWorkModalAtom, selectedDateAtom } from "@/data/historyAtom";
 
 export default function AddWorkModal() {
   const { postHistoryMutate, isPending } = usePostHistory();
+  const [selectedDate] = useAtom(selectedDateAtom);
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -40,7 +41,7 @@ export default function AddWorkModal() {
       restStartTime: `${startRestTime.substring(0, 2)}:${startRestTime.substring(2)}`,
       restEndTime: `${endRestTime.substring(0, 2)}:${endRestTime.substring(2)}`,
       status: "approve",
-      date: "2024-03-14",
+      date: selectedDate.format("YYYY-MM-DD"),
     });
   };
 

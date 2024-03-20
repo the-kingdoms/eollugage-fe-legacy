@@ -38,12 +38,11 @@ export default function Manage() {
             <div className="w-full px-4">
               <FlexBox
                 direction="row"
-                className="pl-4 py-3 pr-2.5 rounded-lg border border-neutral-500 gap-5
-          justify-between"
+                className="pl-4 py-3 pr-2.5 rounded-lg border border-Gray5 gap-5 justify-between"
               >
                 <FlexBox direction="col" className="gap-1 items-start">
-                  <div className="B5-medium text-neutral-500">출퇴근 관리</div>
-                  <div className="B4-medium text-zinc-800">
+                  <div className="B5-medium text-Gray5">출퇴근 관리</div>
+                  <div className="B4-medium text-Gray7">
                     직원들의 출퇴근을 승인 및 거절해보세요
                   </div>
                 </FlexBox>
