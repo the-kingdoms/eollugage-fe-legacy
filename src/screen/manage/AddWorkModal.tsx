@@ -53,7 +53,7 @@ export default function AddWorkModal() {
       relationInfo => relationInfo.member.name,
     );
     setMemberNameList(tempList ?? []);
-  });
+  }, [relationList]);
 
   return (
     <Sheet isOpen={isModalOpen} onClose={closeModal} detent="content-height">
