@@ -30,6 +30,7 @@ export default function TodayShift() {
           name={historyInfo.relation.member.name}
           position={historyInfo.relation.position}
           time={getTimeString(historyInfo.startTime, historyInfo.endTime)}
+          role={historyInfo.relation.role}
         />
       ))}
     </FlexBox>
