@@ -1,5 +1,5 @@
 import { myAtom, myMemberIdAtom } from "@/data/global";
-import { useGetHistoryList } from "@/hooks/query/history";
+import { useGetAllMemeberHistory } from "@/hooks/query/history";
 import WorkInfo from "@/screen/main/WorkInfo";
 import FlexBox from "@modules/layout/FlexBox";
 import dayjs from "dayjs";
@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 export default function TodayShift() {
   const [my] = useAtom(myAtom);
   const [myMemberId] = useAtom(myMemberIdAtom);
-  const { data: historyList } = useGetHistoryList(myMemberId);
+  const { data: historyList } = useGetAllMemeberHistory();
 
   // 임시
   const [filteredList, setFilteredList] = useState(historyList);
@@ -26,9 +26,9 @@ export default function TodayShift() {
       {filteredList?.map(historyInfo => (
         <WorkInfo
           key={historyInfo.id}
-          name={String(my?.name)} // 임시
-          position={String(my?.relationList[0].position)} // 임시
           time={`${historyInfo.startTime.slice(0, 5)} ~ ${historyInfo.endTime.slice(0, 5)}`}
+          name={historyInfo.relation.member.name}
+          position={historyInfo.relation.position}
         />
       ))}
     </FlexBox>
