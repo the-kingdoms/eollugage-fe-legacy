@@ -4,10 +4,11 @@ import StaffTimeInput from "./StaffTimeInput";
 import TextButton from "@modules/components/button/TextButton";
 import Dropdown from "@modules/components/selections/Dropdown";
 import { usePostHistory } from "@/hooks/query/history";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { checkIsValidTime } from "@/libs/timeValidation";
 import { useAtom, atom } from "jotai";
 import { addWorkModalAtom, selectedDateAtom } from "@/data/historyAtom";
+import { useGetRelationList } from "@/hooks/query/relation";
 
 export default function AddWorkModal() {
   const { postHistoryMutate, isPending } = usePostHistory();
@@ -45,6 +46,15 @@ export default function AddWorkModal() {
     });
   };
 
+  const { relations: relationList } = useGetRelationList();
+  const [memberNameList, setMemberNameList] = useState<string[]>([]);
+  useEffect(() => {
+    const tempList = relationList?.map(
+      relationInfo => relationInfo.member.name,
+    );
+    setMemberNameList(tempList ?? []);
+  });
+
   return (
     <Sheet isOpen={isModalOpen} onClose={closeModal} detent="content-height">
       <Sheet.Container
@@ -56,7 +66,7 @@ export default function AddWorkModal() {
       >
         <Sheet.Content>
           <div className="mb-6 text-Gray7 B1-medium">근무 추가</div>
-          <Dropdown options={options} defaultValue={options[0]} />
+          <Dropdown options={memberNameList} defaultValue={memberNameList[0]} />
           <FlexBox direction="col" className="gap-4 mb-8 mt-4">
             <StaffTimeInput
               title="근무 시간"
