@@ -9,9 +9,11 @@ import FloatingActionButton from "@modules/components/button/FloatingActionButto
 import LongTab from "@modules/components/tabs/LongTab";
 import FlexBox from "@modules/layout/FlexBox";
 import { useAtom } from "jotai";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function Manage() {
+  const { push } = useRouter();
   const [role] = useAtom(roleAtom);
   const [selectTab, setSelectTab] = useState("left");
 
@@ -42,7 +44,10 @@ export default function Manage() {
             <FloatingActionButton onClick={addWork} text="근무 추가" />
           )}
           {selectTab === "right" && role === "OWNER" && (
-            <FloatingActionButton text="직원 추가" />
+            <FloatingActionButton
+              onClick={() => push("/manage/invite")}
+              text="직원 추가"
+            />
           )}
         </div>
         <TabBarGage />
