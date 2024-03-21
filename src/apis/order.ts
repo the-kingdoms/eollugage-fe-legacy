@@ -1,4 +1,4 @@
-import api from "./network";
+import api, { ApiResponse } from "./network";
 
 interface Order extends PostOrderBody {
   id: string;
@@ -15,16 +15,19 @@ async function getOrderList(storeId: string): Promise<Order[]> {
   return data;
 }
 
-async function postOrder(storeId: string, body: PostOrderBody): Promise<void> {
-  await api.post(`/api/stores/${storeId}/orders`, body);
+async function postOrder(
+  storeId: string,
+  body: PostOrderBody,
+): Promise<ApiResponse> {
+  return await api.post(`/api/stores/${storeId}/orders`, body);
 }
 
 async function putOrder(
   storeId: string,
   orderId: string,
   body: PostOrderBody,
-): Promise<void> {
-  await api.put(`/api/stores/${storeId}/orders/${orderId}`, body);
+): Promise<ApiResponse> {
+  return await api.put(`/api/stores/${storeId}/orders/${orderId}`, body);
 }
 
 export { getOrderList, postOrder, putOrder };
