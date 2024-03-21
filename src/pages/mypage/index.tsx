@@ -8,15 +8,17 @@ import TabBarGage from "@modules/components/bars/TabBarGage";
 import FlexBox from "@modules/layout/FlexBox";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { Relation } from "@/apis/relation";
 import { useGetRelationList } from "@/hooks/query/relation";
+import { Relation } from "@/apis/relation";
 import { History } from "@/apis/history";
+import { useGetHistoryList } from "@/hooks/query/history";
 
 export default function Manage() {
   const [memberId] = useAtom(myMemberIdAtom);
   const [role] = useAtom(roleAtom);
-  const [currentRelation, setCurrentRelation] = useState<History[]>([]);
+  const [currentRelation, setCurrentRelation] = useState<Relation[]>([]);
   const { relations } = useGetRelationList();
+  const { histories } = useGetHistoryList(memberId);
 
   useEffect(() => {
     if (relations) {
