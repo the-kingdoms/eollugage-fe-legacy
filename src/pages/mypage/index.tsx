@@ -12,19 +12,14 @@ import { useGetRelationList } from "@/hooks/query/relation";
 import { Relation } from "@/apis/relation";
 import { History } from "@/apis/history";
 import { useGetHistoryList } from "@/hooks/query/history";
+import { historyToWorkHistory } from "@/libs/historyToWorkHistory";
 
 export default function Manage() {
   const [memberId] = useAtom(myMemberIdAtom);
   const [role] = useAtom(roleAtom);
   const [currentRelation, setCurrentRelation] = useState<Relation[]>([]);
   const { relations } = useGetRelationList();
-  const { histories } = useGetHistoryList(memberId);
-
-  useEffect(() => {
-    if (relations) {
-      setCurrentRelation(relations ?? []);
-    }
-  }, [relations]);
+  const { data } = useGetHistoryList(memberId);
 
   return (
     <FlexBox direction="col" className="relative h-full justify-between">
