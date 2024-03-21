@@ -18,29 +18,6 @@ interface WorkHistory {
   overtimeMinutes: number;
 }
 
-const calculateWorkMinutes = (
-  endTime: string,
-  startTime: string,
-  restEndTime: string,
-  restStartTime: string,
-) => {
-  function parseTime(timeString: string) {
-    const [hours, minutes] = timeString.split(":").map(Number);
-    const time = new Date();
-    time.setHours(hours, minutes, 0, 0);
-    return time;
-  }
-  const shiftEnd = parseTime(endTime);
-  const shiftStart = parseTime(startTime);
-  const restStart = parseTime(restStartTime);
-  const restEnd = parseTime(restEndTime);
-
-  const totalWorkMinute =
-    (shiftEnd.getTime() - shiftStart.getTime()) / (1000 * 60);
-  const restMinute = (restEnd.getTime() - restStart.getTime()) / (1000 * 60);
-
-  return totalWorkMinute - restMinute;
-};
 export default function WorkHistoryList({ memberId }: WorkHistoryListProps) {
   const { push } = useRouter();
   const { data: historys } = useGetHistoryList(memberId);
@@ -48,7 +25,6 @@ export default function WorkHistoryList({ memberId }: WorkHistoryListProps) {
   useEffect(() => {
     if (historys) {
       let newWorkHistoryList: WorkHistory[] = historyToWorkHistory(historys);
-      // historys를 1주일 단위로 묶어서 리스트에 추가
       setWorkHistoryList(newWorkHistoryList);
     }
   }, [historys]);

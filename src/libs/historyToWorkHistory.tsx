@@ -27,16 +27,13 @@ function calculateWorkMinutes(
 
 export function historyToWorkHistory(historys: History[]) {
   const endDate = dayjs().endOf("week");
-  console.log(endDate);
   const startDate = endDate.subtract(9, "day");
-  console.log(startDate);
 
   const filteredHistorys = historys.filter(history => {
     const historyDate = dayjs(history.date);
     return historyDate.isAfter(startDate) && historyDate.isBefore(endDate);
   });
 
-  console.log(filteredHistorys);
   const newWorkHistoryList = filteredHistorys.map(history => ({
     startDate: dayjs(history.date),
     endDate: dayjs(history.date),

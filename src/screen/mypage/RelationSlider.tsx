@@ -30,7 +30,7 @@ export default function RelationSlider({
               focus={relation.id === currentRelation.id}
             />
             <div className="w-full text-center B5-medium text-Gray5">
-              {relation.id.slice(0, 5)}
+              {relation.member.name.slice(0, 5)}
               {relation.id.length > 5 && "..."}
             </div>
           </FlexBox>

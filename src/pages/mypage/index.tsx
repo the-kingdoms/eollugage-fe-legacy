@@ -10,27 +10,34 @@ import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { useGetRelationList } from "@/hooks/query/relation";
 import { Relation } from "@/apis/relation";
-import { History } from "@/apis/history";
-import { useGetHistoryList } from "@/hooks/query/history";
-import { historyToWorkHistory } from "@/libs/historyToWorkHistory";
 
 export default function Manage() {
   const [memberId] = useAtom(myMemberIdAtom);
   const [role] = useAtom(roleAtom);
-  const [currentRelation, setCurrentRelation] = useState<Relation[]>([]);
+  const [currentRelation, setCurrentRelation] = useState<Relation>();
+  const [selectedMemberId, setSelectedMemberId] = useState<string>(memberId);
   const { relations } = useGetRelationList();
-  const { data } = useGetHistoryList(memberId);
+
+  useEffect(() => {
+    if (role === "STAFF") {
+      setSelectedMemberId(memberId);
+    } else if (relations && relations.length > 0) {
+      setCurrentRelation(relations[0]);
+      setSelectedMemberId(relations[0].member.id);
+    }
+  }, [relations]);
+
+  const handleRelationSelect = (selectedRelation: Relation) => {
+    setCurrentRelation(selectedRelation);
+    setSelectedMemberId(selectedRelation.member.id);
+  };
 
   return (
     <FlexBox direction="col" className="relative h-full justify-between">
       <FlexBox direction="col" className="w-full gap-6 py-4">
         <UserInfo />
         <FlexBox direction="col" className="w-full gap-2">
-          <WorkHour
-            memberId={
-              role === "STAFF" ? memberId : "" // currentRelation.member.id
-            }
-          />
+          <WorkHour memberId={selectedMemberId} />
           <div className="w-full px-4">
             {role === "OWNER" && <AdminControlBanner />}
           </div>
@@ -38,16 +45,13 @@ export default function Manage() {
             {(role === "MANAGER" || role === "OWNER") && (
               <RelationSlider
                 relationList={relations ?? []}
-                currentRelation={currentRelation[0] ?? ""}
+                currentRelation={(currentRelation as Relation) ?? ""}
+                onClick={handleRelationSelect}
               />
             )}
           </div>
         </FlexBox>
-        <WorkHistoryList
-          memberId={
-            role === "STAFF" ? memberId : "" // currentRelation.member.id
-          }
-        />
+        <WorkHistoryList memberId={selectedMemberId} />
       </FlexBox>
       <TabBarGage />
     </FlexBox>
