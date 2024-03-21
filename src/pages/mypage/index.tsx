@@ -10,17 +10,18 @@ import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { Relation } from "@/apis/relation";
 import { useGetRelationList } from "@/hooks/query/relation";
+import { History } from "@/apis/history";
 
 export default function Manage() {
   const [memberId] = useAtom(myMemberIdAtom);
   const [role] = useAtom(roleAtom);
-  const [currentRelation, setCurrentRelation] = useState<Relation>(
-    {} as Relation,
-  );
+  const [currentRelation, setCurrentRelation] = useState<History[]>([]);
   const { relations } = useGetRelationList();
 
   useEffect(() => {
-    if (relations) setCurrentRelation(relations[0] ?? {});
+    if (relations) {
+      setCurrentRelation(relations ?? []);
+    }
   }, [relations]);
 
   return (
@@ -40,7 +41,7 @@ export default function Manage() {
             {(role === "MANAGER" || role === "OWNER") && (
               <RelationSlider
                 relationList={relations ?? []}
-                currentRelation={currentRelation}
+                currentRelation={currentRelation[0] ?? ""}
               />
             )}
           </div>

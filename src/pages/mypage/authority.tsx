@@ -9,18 +9,15 @@ import Checkbox from "@modules/components/selections/Checkbox";
 import FlexBox from "@modules/layout/FlexBox";
 import GridBox from "@modules/layout/GridBox";
 import TopTitle from "@modules/layout/TopTitle";
-import { PostRelationBody } from "@/apis/relation";
+import { Relation } from "@/apis/relation";
 
 export default function MyPageAuthorithy() {
   const { relations } = useGetRelationList();
   const { postRelationAdminMutate } = usePostRelationAdmin();
-  const [checkedEmployees, setCheckedEmployees] = useState<PostRelationBody[]>(
-    [],
-  );
+  const [checkedEmployees, setCheckedEmployees] = useState<Relation[]>([]);
 
   const handleCheckboxChange =
-    (employee: PostRelationBody) =>
-    (event: React.ChangeEvent<HTMLInputElement>) => {
+    (employee: Relation) => (event: React.ChangeEvent<HTMLInputElement>) => {
       const index = checkedEmployees.findIndex(
         checkedEmployee => checkedEmployee.member.id === employee.member.id,
       );
@@ -45,7 +42,10 @@ export default function MyPageAuthorithy() {
           <div className="B3-medium">현재 관리자</div>
           <GridBox className="w-full gap-2">
             {relations
-              ?.filter(relation => relation.position !== "MANAGER")
+              ?.filter(
+                relation =>
+                  relation.role === "MANAGER" || relation.role === "OWNER",
+              )
               .map(relation => (
                 <FlexBox
                   key={relation.id}
