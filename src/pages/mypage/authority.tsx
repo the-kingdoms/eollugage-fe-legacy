@@ -10,8 +10,8 @@ export default function MyPageAuthorithy() {
   const { relations } = useGetRelationList();
   return (
     <FlexBox direction="col">
-      <TopTitle title="관리자 권한 설정" />
-      <FlexBox direction="col" className="p-4 w-full items-start gap-8">
+      <FlexBox direction="col" className="px-4 w-full items-start gap-8">
+        <TopTitle title="관리자 권한 설정" />
         <FlexBox direction="col" className="w-full items-start gap-3">
           <div className="B3-medium">현재 관리자</div>
           <GridBox className="w-full gap-2">
