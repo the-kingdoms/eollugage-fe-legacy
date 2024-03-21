@@ -9,6 +9,14 @@ interface Relation extends PostRelationBody {
 interface PostRelationBody {
   role: RoleType;
   position: string;
+  member: {
+    id: string;
+    name: string;
+    phone: string;
+    providerType: "KAKAO";
+    relationList: null;
+    storeList: null;
+  };
 }
 
 interface PostRelationAdminBody {
