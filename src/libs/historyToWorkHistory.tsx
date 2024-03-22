@@ -1,5 +1,15 @@
 import dayjs from "dayjs";
+import isoWeek from "dayjs/plugin/isoWeek";
+dayjs.extend(isoWeek);
 import { History } from "@/apis/history";
+
+interface WorkHistory {
+  startDate: dayjs.Dayjs;
+  endDate: dayjs.Dayjs;
+  workingDays: number;
+  workingMinutes: number;
+  overtimeMinutes: number;
+}
 
 function calculateWorkMinutes(
   endTime: string,
@@ -26,25 +36,66 @@ function calculateWorkMinutes(
 }
 
 export function historyToWorkHistory(historys: History[]) {
-  const endDate = dayjs().endOf("week");
-  const startDate = endDate.subtract(9, "day");
+  const sortedHistorys = historys.sort((a, b) =>
+    dayjs(a.date).diff(dayjs(b.date)),
+  );
 
-  const filteredHistorys = historys.filter(history => {
-    const historyDate = dayjs(history.date);
-    return historyDate.isAfter(startDate) && historyDate.isBefore(endDate);
-  });
+  let workHistoryList: WorkHistory[] = [];
 
-  const newWorkHistoryList = filteredHistorys.map(history => ({
-    startDate: dayjs(history.date),
-    endDate: dayjs(history.date),
-    workingDays: 1,
-    workingMinutes: calculateWorkMinutes(
-      history.endTime,
-      history.startTime,
-      history.restEndTime,
-      history.restStartTime,
-    ),
-    overtimeMinutes: 0, // 나중에 필요시 개선
-  }));
-  return newWorkHistoryList;
+  if (sortedHistorys.length > 0) {
+    let currentWeekStart = dayjs(sortedHistorys[0].date).startOf("isoWeek");
+    let weekHistories: History[] = [];
+
+    sortedHistorys.forEach(history => {
+      const historyDate = dayjs(history.date);
+      if (historyDate.isBefore(currentWeekStart.add(7, "day"))) {
+        weekHistories.push(history);
+      } else {
+        const weekEnd = currentWeekStart.endOf("isoWeek");
+        const workingMinutes = weekHistories.reduce(
+          (acc, curr) =>
+            acc +
+            calculateWorkMinutes(
+              curr.endTime,
+              curr.startTime,
+              curr.restEndTime,
+              curr.restStartTime,
+            ),
+          0,
+        );
+        workHistoryList.push({
+          startDate: currentWeekStart,
+          endDate: weekEnd,
+          workingDays: weekHistories.length,
+          workingMinutes,
+          overtimeMinutes: 0, // 나중에 추가해야할듯합니다
+        });
+
+        currentWeekStart = historyDate.startOf("isoWeek");
+        weekHistories = [history];
+      }
+    });
+
+    const lastWeekEnd = currentWeekStart.endOf("isoWeek");
+    const lastWorkingMinutes = weekHistories.reduce(
+      (acc, curr) =>
+        acc +
+        calculateWorkMinutes(
+          curr.endTime,
+          curr.startTime,
+          curr.restEndTime,
+          curr.restStartTime,
+        ),
+      0,
+    );
+    workHistoryList.push({
+      startDate: currentWeekStart,
+      endDate: lastWeekEnd,
+      workingDays: weekHistories.length,
+      workingMinutes: lastWorkingMinutes,
+      overtimeMinutes: 0,
+    });
+  }
+
+  return workHistoryList;
 }

@@ -23,11 +23,15 @@ interface UsePostRelationProps {
 
 function useGetRelationList() {
   const [storeId] = useAtom(storeIdAtom);
-  const { data: relations } = useQuery({
+  const {
+    data: relations,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["getRelationList"],
     queryFn: () => getRelationList(storeId),
   });
-  return { relations };
+  return { relations, isLoading };
 }
 
 function usePostRelation() {

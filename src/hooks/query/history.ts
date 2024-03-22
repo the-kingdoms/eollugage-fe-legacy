@@ -22,12 +22,12 @@ function useGetAllMemeberHistory() {
 
 function useGetHistoryList(memberId: string) {
   const [storeId] = useAtom(storeIdAtom);
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["getHistoryList"],
     queryFn: () => getHistoryList(storeId, memberId),
   });
 
-  return { data };
+  return { data, isLoading };
 }
 
 function usePostHistory() {

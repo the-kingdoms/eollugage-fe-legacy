@@ -20,19 +20,23 @@ interface WorkHistory {
 
 export default function WorkHistoryList({ memberId }: WorkHistoryListProps) {
   const { push } = useRouter();
-  const { data: historys } = useGetHistoryList(memberId);
+  const { data: historys, isLoading } = useGetHistoryList(memberId);
   const [workHistoryList, setWorkHistoryList] = useState<WorkHistory[]>([]);
+
   useEffect(() => {
-    if (historys) {
-      let newWorkHistoryList: WorkHistory[] = historyToWorkHistory(historys);
+    if (historys && !isLoading) {
+      const newWorkHistoryList: WorkHistory[] = historyToWorkHistory(historys);
       setWorkHistoryList(newWorkHistoryList);
     }
-  }, [historys, memberId]);
+  }, [historys]);
+
+  const reversedWorkHistoryList = [...workHistoryList].reverse(); // 최신날짜기준으로 랜더링되도록 넣어놨습니다
+
   return (
     <FlexBox direction="col" className="w-full px-4 gap-4">
       <FlexBox className="w-full justify-start B3-medium">근무 일지</FlexBox>
       <FlexBox direction="col" className="w-full gap-5">
-        {workHistoryList.map((workHistory, index) => (
+        {reversedWorkHistoryList.map((workHistory, index) => (
           <WorkInfoCard
             key={index}
             startDate={workHistory.startDate}

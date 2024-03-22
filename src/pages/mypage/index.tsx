@@ -15,21 +15,26 @@ export default function Manage() {
   const [memberId] = useAtom(myMemberIdAtom);
   const [role] = useAtom(roleAtom);
   const [currentRelation, setCurrentRelation] = useState<Relation>();
-  const [selectedMemberId, setSelectedMemberId] = useState<string>(memberId);
-  const { relations } = useGetRelationList();
+  const [currentMemberId, setCurrentMemberId] = useState<string>("");
+  const { relations, isLoading } = useGetRelationList();
 
   useEffect(() => {
-    if (role === "STAFF" && relations) {
-      setSelectedMemberId(memberId);
-    } else if (relations) {
-      setCurrentRelation(relations[0]);
-      setSelectedMemberId(relations[0].member.id); // 사장님 마이페이지 진입시 기본값 설정
+    if (!isLoading && relations) {
+      if (role !== "STAFF") {
+        const firstMemberId = relations[0]?.member.id;
+        if (!currentMemberId) {
+          setCurrentMemberId(firstMemberId);
+          setCurrentRelation(relations[0]);
+        }
+      } else {
+        setCurrentMemberId(memberId);
+      }
     }
-  }, [relations]);
+  }, [relations, isLoading]);
 
   const handleRelationSelect = (selectedRelation: Relation) => {
     setCurrentRelation(selectedRelation);
-    setSelectedMemberId(selectedRelation.member.id);
+    setCurrentMemberId(selectedRelation.member.id);
   };
 
   return (
@@ -37,7 +42,7 @@ export default function Manage() {
       <FlexBox direction="col" className="w-full gap-6 py-4">
         <UserInfo />
         <FlexBox direction="col" className="w-full gap-2">
-          <WorkHour memberId={selectedMemberId} />
+          <WorkHour memberId={currentMemberId} />
           <div className="w-full px-4">
             {role === "OWNER" && <AdminControlBanner />}
           </div>
@@ -46,13 +51,13 @@ export default function Manage() {
             {(role === "MANAGER" || role === "OWNER") && (
               <RelationSlider
                 relationList={relations ?? []}
-                currentRelation={(currentRelation as Relation) ?? ""}
+                currentRelation={currentRelation}
                 onClick={handleRelationSelect}
               />
             )}
           </div>
         </FlexBox>
-        <WorkHistoryList memberId={selectedMemberId} />
+        <WorkHistoryList memberId={currentMemberId} />
       </FlexBox>
       <TabBarGage />
     </FlexBox>
