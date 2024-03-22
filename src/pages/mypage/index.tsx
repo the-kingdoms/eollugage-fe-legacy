@@ -19,11 +19,11 @@ export default function Manage() {
   const { relations } = useGetRelationList();
 
   useEffect(() => {
-    if (role === "STAFF") {
+    if (role === "STAFF" && relations) {
       setSelectedMemberId(memberId);
-    } else if (relations && relations.length > 0) {
+    } else if (relations) {
       setCurrentRelation(relations[0]);
-      setSelectedMemberId(relations[0].member.id);
+      setSelectedMemberId(relations[0].member.id); // 사장님 마이페이지 진입시 기본값 설정
     }
   }, [relations]);
 
@@ -41,6 +41,7 @@ export default function Manage() {
           <div className="w-full px-4">
             {role === "OWNER" && <AdminControlBanner />}
           </div>
+          ``
           <div className="w-full">
             {(role === "MANAGER" || role === "OWNER") && (
               <RelationSlider

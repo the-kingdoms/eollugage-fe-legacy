@@ -18,7 +18,7 @@ export default function RelationSlider({
     <Slider className="px-4 gap-2">
       {relationList.map(relation => (
         <button
-          key={relation.id}
+          key={relation.member.id}
           className="shrink-0"
           type="button"
           onClick={() => onClick && onClick(relation)}
@@ -26,8 +26,8 @@ export default function RelationSlider({
           <FlexBox direction="col" className="gap-1">
             <Profile
               size="M1"
-              name={relation.id}
-              focus={relation.id === currentRelation.id}
+              name={relation.member.name}
+              focus={relation.member.id === currentRelation.member?.id}
             />
             <div className="w-full text-center B5-medium text-Gray5">
               {relation.member.name.slice(0, 5)}

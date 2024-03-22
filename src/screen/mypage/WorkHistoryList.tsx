@@ -27,7 +27,7 @@ export default function WorkHistoryList({ memberId }: WorkHistoryListProps) {
       let newWorkHistoryList: WorkHistory[] = historyToWorkHistory(historys);
       setWorkHistoryList(newWorkHistoryList);
     }
-  }, [historys]);
+  }, [historys, memberId]);
   return (
     <FlexBox direction="col" className="w-full px-4 gap-4">
       <FlexBox className="w-full justify-start B3-medium">근무 일지</FlexBox>
