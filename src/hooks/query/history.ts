@@ -52,21 +52,29 @@ function useGetHistoryListByDate(memberId: string, date: string) {
   return { data };
 }
 
+interface postHistoryParams {
+  body: PostHistoryBody;
+  memberId: string;
+}
+
 function usePostHistory() {
   const [storeId] = useAtom(storeIdAtom);
-  const [memberId] = useAtom(myMemberIdAtom);
   const [, setIsModalOpen] = useAtom(addWorkModalAtom);
 
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationKey: ["postHistory"],
-    mutationFn: (body: PostHistoryBody) => postHistory(storeId, memberId, body),
+    mutationFn: ({ body, memberId }: postHistoryParams) =>
+      postHistory(storeId, memberId, body),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["getHistoryList"],
       });
       queryClient.invalidateQueries({
         queryKey: ["getAllMemberHistory"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["getAllMemberHistoryByDate"],
       });
       setIsModalOpen(false);
     },

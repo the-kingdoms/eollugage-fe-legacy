@@ -24,6 +24,18 @@ export default function AddWorkModal() {
   const [startRestTime, setStartRestTime] = useState<string>("0000");
   const [endRestTime, setEndRestTime] = useState<string>("1100");
 
+  const { relations: relationList } = useGetRelationList();
+  const [memberNameList, setMemberNameList] = useState<string[]>([]);
+  useEffect(() => {
+    const tempList = relationList?.map(
+      relationInfo => relationInfo.member.name,
+    );
+    setMemberNameList(tempList ?? []);
+  }, [relationList]);
+
+  const [selectedMemberName, setSelectedMemberName] = useState<string>(
+    memberNameList[0],
+  );
   const onClickAddBtn = () => {
     if (
       !checkIsValidTime(startWorkTime) ||
@@ -36,23 +48,21 @@ export default function AddWorkModal() {
     }
 
     postHistoryMutate({
-      startTime: `${startWorkTime.substring(0, 2)}:${startWorkTime.substring(2)}`,
-      endTime: `${endWorkTime.substring(0, 2)}:${endWorkTime.substring(2)}`,
-      restStartTime: `${startRestTime.substring(0, 2)}:${startRestTime.substring(2)}`,
-      restEndTime: `${endRestTime.substring(0, 2)}:${endRestTime.substring(2)}`,
-      status: "approve",
-      date: selectedDate.format("YYYY-MM-DD"),
+      body: {
+        startTime: `${startWorkTime.substring(0, 2)}:${startWorkTime.substring(2)}`,
+        endTime: `${endWorkTime.substring(0, 2)}:${endWorkTime.substring(2)}`,
+        restStartTime: `${startRestTime.substring(0, 2)}:${startRestTime.substring(2)}`,
+        restEndTime: `${endRestTime.substring(0, 2)}:${endRestTime.substring(2)}`,
+        status: "approve",
+        date: selectedDate.format("YYYY-MM-DD"),
+      },
+      memberId: String(
+        relationList?.find(
+          relationInfo => relationInfo.member.name === selectedMemberName,
+        )?.member.id,
+      ),
     });
   };
-
-  const { relations: relationList } = useGetRelationList();
-  const [memberNameList, setMemberNameList] = useState<string[]>([]);
-  useEffect(() => {
-    const tempList = relationList?.map(
-      relationInfo => relationInfo.member.name,
-    );
-    setMemberNameList(tempList ?? []);
-  }, [relationList]);
 
   return (
     <Sheet isOpen={isModalOpen} onClose={closeModal} detent="content-height">
@@ -65,7 +75,11 @@ export default function AddWorkModal() {
       >
         <Sheet.Content>
           <div className="mb-6 text-Gray7 B1-medium">근무 추가</div>
-          <Dropdown options={memberNameList} defaultValue={memberNameList[0]} />
+          <Dropdown
+            options={memberNameList}
+            defaultValue={memberNameList[0]}
+            onChange={setSelectedMemberName}
+          />
           <FlexBox direction="col" className="gap-4 mb-8 mt-4">
             <StaffTimeInput
               title="근무 시간"
