@@ -2,7 +2,9 @@ import {
   PostHistoryBody,
   deleteHistory,
   getAllMemberHistory,
+  getAllMemberHistoryByDate,
   getHistoryList,
+  getHistoryListByDate,
   postHistory,
 } from "@/apis/history";
 import { myMemberIdAtom, storeIdAtom } from "@/data/global";
@@ -25,6 +27,27 @@ function useGetHistoryList(memberId: string) {
   const { data } = useQuery({
     queryKey: ["getHistoryList"],
     queryFn: () => getHistoryList(storeId, memberId),
+  });
+
+  return { data };
+}
+
+function useGetAllMemberHistoryByDate(date: string) {
+  const [storeId] = useAtom(storeIdAtom);
+  const { data } = useQuery({
+    queryKey: ["getAllMemberHistoryByDate", date],
+    queryFn: () => getAllMemberHistoryByDate(storeId, date),
+  });
+
+  return { data };
+}
+
+function useGetHistoryListByDate(memberId: string, date: string) {
+  const [storeId] = useAtom(storeIdAtom);
+  const [selectedDate] = useAtom(selectedDateAtom);
+  const { data } = useQuery({
+    queryKey: ["getHistoryList", date],
+    queryFn: () => getHistoryListByDate(storeId, memberId, date),
   });
 
   return { data };
@@ -79,5 +102,7 @@ export {
   useDeleteHistory,
   useGetAllMemeberHistory,
   useGetHistoryList,
+  useGetAllMemberHistoryByDate,
+  useGetHistoryListByDate,
   usePostHistory,
 };
