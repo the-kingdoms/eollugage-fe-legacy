@@ -12,6 +12,11 @@ import { addWorkModalAtom } from "@/data/historyAtom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 
+interface postHistoryParams {
+  body: PostHistoryBody;
+  memberId: string;
+}
+
 function useGetAllMemeberHistory() {
   const [storeId] = useAtom(storeIdAtom);
   const { data } = useQuery({
@@ -50,11 +55,6 @@ function useGetHistoryListByDate(memberId: string, date: string) {
   });
 
   return { data };
-}
-
-interface postHistoryParams {
-  body: PostHistoryBody;
-  memberId: string;
 }
 
 function usePostHistory() {
