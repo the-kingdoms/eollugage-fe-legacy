@@ -44,7 +44,6 @@ function useGetAllMemberHistoryByDate(date: string) {
 
 function useGetHistoryListByDate(memberId: string, date: string) {
   const [storeId] = useAtom(storeIdAtom);
-  const [selectedDate] = useAtom(selectedDateAtom);
   const { data } = useQuery({
     queryKey: ["getHistoryList", date],
     queryFn: () => getHistoryListByDate(storeId, memberId, date),

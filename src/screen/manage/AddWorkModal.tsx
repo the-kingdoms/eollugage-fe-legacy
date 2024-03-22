@@ -23,7 +23,6 @@ export default function AddWorkModal() {
   const [endWorkTime, setEndWorkTime] = useState<string>("1100");
   const [startRestTime, setStartRestTime] = useState<string>("0000");
   const [endRestTime, setEndRestTime] = useState<string>("1100");
-  const options = ["홍길동", "홍길동", "홍길동"];
 
   const onClickAddBtn = () => {
     if (
