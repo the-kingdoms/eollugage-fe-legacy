@@ -5,7 +5,11 @@ import TextButton from "@modules/components/button/TextButton";
 import Dropdown from "@modules/components/selections/Dropdown";
 import { usePostHistory } from "@/hooks/query/history";
 import { useEffect, useState } from "react";
-import { checkIsValidTime } from "@/libs/timeValidation";
+import {
+  checkIsValidPeriod,
+  checkIsValidRest,
+  checkIsValidTime,
+} from "@/libs/timeValidation";
 import { useAtom, atom } from "jotai";
 import { addWorkModalAtom, selectedDateAtom } from "@/data/historyAtom";
 import { useGetRelationList } from "@/hooks/query/relation";
@@ -50,6 +54,21 @@ export default function AddWorkModal() {
       !checkIsValidTime(endRestTime)
     ) {
       alert("00:00 ~ 23:59 사이 시간대만 입력할 수 있습니다.");
+      return;
+    }
+
+    if (
+      !checkIsValidPeriod(startWorkTime, endWorkTime) ||
+      !checkIsValidPeriod(startRestTime, endRestTime)
+    ) {
+      alert("근무(휴식) 시작시간은 종료시간보다 선행되어야 합니다.");
+      return;
+    }
+
+    if (
+      !checkIsValidRest(startWorkTime, endWorkTime, startRestTime, endRestTime)
+    ) {
+      alert("휴식시간은 근무시간 내에서 지정할 수 있습니다.");
       return;
     }
 
