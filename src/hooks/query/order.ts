@@ -26,7 +26,7 @@ function usePostOrder() {
 
 function usePutOrder() {
   const [storeId] = useAtom(storeIdAtom);
-  const { mutate } = useMutation({
+  const { mutate, isSuccess } = useMutation({
     mutationKey: ["putOrder"],
     mutationFn: ({ orderId, body }: { orderId: string; body: PostOrderBody }) =>
       putOrder(storeId, orderId, body),
@@ -34,7 +34,7 @@ function usePutOrder() {
   const putOrderMutate = (orderId: string, body: PostOrderBody) => {
     mutate({ orderId, body });
   };
-  return { putOrderMutate };
+  return { putOrderMutate, isSuccess };
 }
 
 export { useGetOrder, usePostOrder, usePutOrder };
