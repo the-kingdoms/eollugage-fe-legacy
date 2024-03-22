@@ -33,6 +33,12 @@ export default function AddWorkModal() {
     setMemberNameList(tempList ?? []);
   }, [relationList]);
 
+  const getIdByName = (name: string) => {
+    return relationList?.find(
+      relationInfo => relationInfo.member.name === selectedMemberName,
+    )?.member.id;
+  };
+
   const [selectedMemberName, setSelectedMemberName] = useState<string>(
     memberNameList[0],
   );
@@ -56,11 +62,7 @@ export default function AddWorkModal() {
         status: "approve",
         date: selectedDate.format("YYYY-MM-DD"),
       },
-      memberId: String(
-        relationList?.find(
-          relationInfo => relationInfo.member.name === selectedMemberName,
-        )?.member.id,
-      ),
+      memberId: String(getIdByName(selectedMemberName)),
     });
   };
 
