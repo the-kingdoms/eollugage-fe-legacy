@@ -7,7 +7,7 @@ function usePostFcmToken() {
     mutationFn: ({ token }: { token: string }) => postFcmToken({ token }),
   });
 
-  return { postHistoryStatusMutate: mutate };
+  return { mutate };
 }
 
 export { usePostFcmToken };

@@ -1,22 +1,16 @@
-import { ApiResponse } from "@/apis/network";
 import { PostStoreBody, getStore, postStore } from "@/apis/store";
 import { storeIdAtom } from "@/data/global";
 import { useGetMyQueryKey } from "@/hooks/query/my";
-import {
-  MutateOptions,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 
 function useGetStore() {
   const [storeId] = useAtom(storeIdAtom);
-  const { data: store } = useQuery({
+  const { data } = useQuery({
     queryKey: ["getStore"],
     queryFn: () => getStore(storeId),
   });
-  return { store };
+  return { data };
 }
 
 function usePostStore() {
@@ -30,13 +24,7 @@ function usePostStore() {
       });
     },
   });
-  const postStoreMutate = (
-    body: PostStoreBody,
-    options?: MutateOptions<ApiResponse, Error, PostStoreBody>,
-  ) => {
-    mutate(body, options);
-  };
-  return { postStoreMutate };
+  return { mutate };
 }
 
 export { useGetStore, usePostStore };

@@ -25,7 +25,7 @@ function createPostPlanBody(
 }
 
 function usePostPlanList() {
-  const { mutate: postPlanListMutate } = useMutation({
+  const { mutate } = useMutation({
     mutationKey: ["postPlanListMutate"],
     mutationFn: ({
       storeId,
@@ -48,11 +48,11 @@ function usePostPlanList() {
       return Promise.all(promiseList);
     },
   });
-  return { postPlanListMutate };
+  return { mutate };
 }
 
 function usePostPlan() {
-  const { mutate: postPlanMutate, isSuccess } = useMutation({
+  const { mutate, isSuccess } = useMutation({
     mutationKey: ["postPlanMutate"],
     mutationFn: ({
       storeId,
@@ -66,12 +66,12 @@ function usePostPlan() {
       return postPlan(storeId, memberId, body);
     },
   });
-  return { postPlanMutate, isSuccess };
+  return { mutate, isSuccess };
 }
 
 function usePutPlan() {
   const [storeId] = useAtom(storeIdAtom);
-  const { mutate: putPlanMutate } = useMutation({
+  const { mutate } = useMutation({
     mutationKey: ["putPlanMutate"],
     mutationFn: ({
       planId,
@@ -85,16 +85,16 @@ function usePutPlan() {
       return putPlan(storeId, memberId, planId, body);
     },
   });
-  return { putPlanMutate };
+  return { mutate };
 }
 
 function useGetPlanList(memberId: string) {
   const [storeId] = useAtom(storeIdAtom);
-  const { data: plans } = useQuery({
+  const { data } = useQuery({
     queryKey: ["getPlanList"],
     queryFn: () => getPlanList(storeId, memberId),
   });
-  return { plans };
+  return { data };
 }
 
 export { usePostPlan, usePutPlan, usePostPlanList, useGetPlanList };
