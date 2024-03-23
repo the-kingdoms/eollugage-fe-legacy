@@ -1,12 +1,15 @@
 import { Relation } from "@/apis/relation";
 import ProfileDiscription from "@/assist/ProfileDiscription";
 import RouterWrapper from "@/assist/RouterWrapper";
-import { useGetRelationList } from "@/hooks/query/relation";
+import {
+  useGetAllRelationList,
+  useGetRelationList,
+} from "@/hooks/query/relation";
 import FlexBox from "@modules/layout/FlexBox";
 import { useEffect, useState } from "react";
 
 export default function StaffInform() {
-  const { relations } = useGetRelationList();
+  const { relations } = useGetAllRelationList();
   const [relationDict, setRelationDict] = useState<Record<string, Relation[]>>(
     {},
   );
@@ -14,7 +17,7 @@ export default function StaffInform() {
   useEffect(() => {
     if (relations && relations.length > 0) {
       const updatedDict = relations.reduce(
-        (dict: Record<string, Relation[]>, relates) => {
+        (dict: Record<string, Relation[]>, relates: Relation) => {
           if (dict[relates.position]) dict[relates.position].push(relates);
           // eslint-disable-next-line no-param-reassign
           else dict[relates.position] = [relates];
@@ -45,7 +48,7 @@ export default function StaffInform() {
                 type="profile"
               >
                 <ProfileDiscription
-                  name="얼루가"
+                  name={relate.member.name}
                   position={relate.position}
                   time="00:00 - 00:00"
                 />

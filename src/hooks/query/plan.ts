@@ -1,13 +1,13 @@
 import { DayType } from "@/apis/_type";
 import { ApiResponse } from "@/apis/network";
-import { PostPlanBody, postPlan, putPlan } from "@/apis/plan";
+import { PostPlanBody, getPlanList, postPlan, putPlan } from "@/apis/plan";
 import { storeIdAtom } from "@/data/global";
 import {
   InviteSchedule,
   Schedule,
   dayTypeConvert,
 } from "@/data/inviteSchedule";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 
 function createPostPlanBody(
@@ -88,9 +88,8 @@ function usePutPlan() {
   return { putPlanMutate };
 }
 
-function useGetPlanList() {
+function useGetPlanList(memberId: string) {
   const [storeId] = useAtom(storeIdAtom);
-  const [memberId] = useAtom(myMemberIdAtom);
   const { data: plans } = useQuery({
     queryKey: ["getPlanList"],
     queryFn: () => getPlanList(storeId, memberId),

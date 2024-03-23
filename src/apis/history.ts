@@ -4,6 +4,13 @@ import api, { ApiResponse } from "@/apis/network";
 interface History extends PostHistoryBody {
   id: string;
   relationId: string;
+  relation: {
+    position: string;
+    member: {
+      name: string;
+      phone: string;
+    };
+  };
 }
 
 interface PostHistoryBody {
