@@ -1,8 +1,37 @@
 import WorkDetailCard from "@modules/components/card/WorkDetailCard";
 import FlexBox from "@modules/layout/FlexBox";
 import TopTitle from "@modules/layout/TopTitle";
+import dayjs from "dayjs";
+import { useEffect, useState } from "react";
+
+interface WorkHistoryDetail {
+  date: string;
+  type: "regular" | "extra";
+  startTime: string;
+  endTime: string;
+  totalWorkHours: number;
+}
 
 export default function MyPageDetail() {
+  const [workHistoryList, setWorkHistoryList] = useState<WorkHistoryDetail[]>(
+    [],
+  );
+
+  useEffect(() => {
+    const storedHistory = localStorage.getItem("selectedWorkHistory");
+    if (storedHistory) {
+      const historyItems = JSON.parse(storedHistory);
+      const processedItems = historyItems.map((item: WorkHistoryDetail) => ({
+        type: "regular",
+        date: item.date,
+        startTime: item.startTime.slice(0, -3), // 마지막 초 단위 삭제
+        endTime: item.endTime.slice(0, -3),
+      }));
+      setWorkHistoryList(processedItems);
+      console.log(workHistoryList);
+    }
+  }, []);
+
   return (
     <FlexBox direction="col" className="px-4 w-full gap-4">
       <TopTitle title="상세 보기" />
@@ -17,24 +46,15 @@ export default function MyPageDetail() {
         </FlexBox>
       </FlexBox>
       <FlexBox direction="col" className="w-full gap-2">
-        <WorkDetailCard
-          type="regular"
-          date="2023-12-13"
-          startTime="2023-12-13 15:00:00"
-          endTime="2023-12-13 18:00:00"
-        />
-        <WorkDetailCard
-          type="extra"
-          date="2023-12-13"
-          startTime="2023-12-13 15:00:00"
-          endTime="2023-12-13 18:00:00"
-        />
-        <WorkDetailCard
-          type="regular"
-          date="2023-12-13"
-          startTime="2023-12-13 15:00:00"
-          endTime="2023-12-13 18:00:00"
-        />
+        {workHistoryList.map((item, index) => (
+          <WorkDetailCard
+            key={index}
+            type={"regular"}
+            date={dayjs(item.date).format("YYYY-MM-DD")}
+            startTime={item.startTime}
+            endTime={item.endTime}
+          />
+        ))}
       </FlexBox>
     </FlexBox>
   );

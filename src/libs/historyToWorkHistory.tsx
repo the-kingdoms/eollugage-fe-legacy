@@ -11,7 +11,7 @@ interface WorkHistory {
   overtimeMinutes: number;
 }
 
-function calculateWorkMinutes(
+export function calculateWorkMinutes(
   endTime: string,
   startTime: string,
   restEndTime: string,
