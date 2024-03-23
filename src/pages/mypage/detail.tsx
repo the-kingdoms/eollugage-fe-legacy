@@ -1,8 +1,37 @@
+import { useGetHistoryList } from "@/hooks/query/history";
 import WorkDetailCard from "@modules/components/card/WorkDetailCard";
 import FlexBox from "@modules/layout/FlexBox";
 import TopTitle from "@modules/layout/TopTitle";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+
+interface MyPageDetailProps {
+  memberId: string;
+  startDate: string;
+  endDate: string;
+}
 
 export default function MyPageDetail() {
+  const { query } = useRouter();
+  const { memberId, startDate, endDate }: MyPageDetailProps = {
+    memberId: query.memberId as string,
+    startDate: query.startDate as string,
+    endDate: query.endDate as string,
+  };
+  const { data: historys, refetch } = useGetHistoryList(memberId);
+
+  useEffect(() => {
+    refetch();
+  }, [memberId]);
+
+  useEffect(() => {
+    if (historys) {
+      console.log(historys);
+      console.log(startDate);
+      console.log(endDate);
+    }
+  }, [historys]);
+
   return (
     <FlexBox direction="col" className="px-4 w-full gap-4">
       <TopTitle title="상세 보기" />

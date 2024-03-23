@@ -31,12 +31,12 @@ function useGetAllMemeberHistory() {
 
 function useGetHistoryList(memberId: string) {
   const [storeId] = useAtom(storeIdAtom);
-  const { data, isLoading } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ["getHistoryList"],
     queryFn: () => getHistoryList(storeId, memberId),
   });
 
-  return { data, isLoading };
+  return { data, refetch };
 }
 
 function useGetAllMemberHistoryByDate(date: string) {
