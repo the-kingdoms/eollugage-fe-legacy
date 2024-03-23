@@ -2,35 +2,39 @@ import { useGetHistoryList } from "@/hooks/query/history";
 import WorkDetailCard from "@modules/components/card/WorkDetailCard";
 import FlexBox from "@modules/layout/FlexBox";
 import TopTitle from "@modules/layout/TopTitle";
+import dayjs from "dayjs";
+import { History } from "@/apis/history";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useAtom } from "jotai";
+import { filteredHistoryAtom } from "@/data/historyAtom";
 
-interface MyPageDetailProps {
-  memberId: string;
-  startDate: string;
-  endDate: string;
+interface WorkHistoryDetail {
+  date: string;
+  type: "regular" | "extra";
+  startTime: string;
+  endTime: string;
 }
 
 export default function MyPageDetail() {
-  const { query } = useRouter();
-  const { memberId, startDate, endDate }: MyPageDetailProps = {
-    memberId: query.memberId as string,
-    startDate: query.startDate as string,
-    endDate: query.endDate as string,
-  };
-  const { data: historys, refetch } = useGetHistoryList(memberId);
+  const [workHistoryList, setWorkHistoryList] = useState<WorkHistoryDetail[]>(
+    [],
+  );
+  const [filteredHistory] = useAtom<History[]>(filteredHistoryAtom);
 
   useEffect(() => {
-    refetch();
-  }, [memberId]);
+    if (filteredHistory) {
+      console.log(filteredHistory);
+      const processedItems = filteredHistory.map(item => ({
+        type: "regular",
+        date: item.date,
+        startTime: item.startTime.slice(0, -3), // 마지막 초 단위 삭제
+        endTime: item.endTime.slice(0, -3),
+      }));
 
-  useEffect(() => {
-    if (historys) {
-      console.log(historys);
-      console.log(startDate);
-      console.log(endDate);
+      setWorkHistoryList(processedItems);
     }
-  }, [historys]);
+  }, [filteredHistory]);
 
   return (
     <FlexBox direction="col" className="px-4 w-full gap-4">
@@ -46,25 +50,18 @@ export default function MyPageDetail() {
         </FlexBox>
       </FlexBox>
       <FlexBox direction="col" className="w-full gap-2">
-        <WorkDetailCard
-          type="regular"
-          date="2023-12-13"
-          startTime="2023-12-13 15:00:00"
-          endTime="2023-12-13 18:00:00"
-        />
-        <WorkDetailCard
-          type="extra"
-          date="2023-12-13"
-          startTime="2023-12-13 15:00:00"
-          endTime="2023-12-13 18:00:00"
-        />
-        <WorkDetailCard
-          type="regular"
-          date="2023-12-13"
-          startTime="2023-12-13 15:00:00"
-          endTime="2023-12-13 18:00:00"
-        />
+        {workHistoryList.map((item, index) => (
+          <WorkDetailCard
+            key={index}
+            type={"regular"}
+            date={dayjs(item.date).format("YYYY-MM-DD")}
+            startTime={item.startTime}
+            endTime={item.endTime}
+          />
+        ))}
       </FlexBox>
     </FlexBox>
   );
 }
+
+export type { WorkHistoryDetail };

@@ -1,23 +1,30 @@
+import { filteredHistoryAtom } from "@/data/historyAtom";
 import { useGetHistoryList } from "@/hooks/query/history";
-import { historyToWorkHistory, WorkHistory } from "@/libs/historyToWorkHistory";
+import { historyToWorkHistory } from "@/libs/historyToWorkHistory";
 import WorkInfoCard from "@modules/components/card/WorkInfoCard";
 import FlexBox from "@modules/layout/FlexBox";
-import { Dayjs } from "dayjs";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import dayjs, { Dayjs } from "dayjs";
+import { useAtom } from "jotai";
+import router, { useRouter } from "next/router";
+import React, { useEffect, useState, memo } from "react";
 
 interface WorkHistoryListProps {
   memberId: string;
+}
+
+interface WorkHistory {
+  startDate: dayjs.Dayjs;
+  endDate: dayjs.Dayjs;
+  workingDays: number;
+  workingMinutes: number;
+  overtimeMinutes: number;
 }
 
 export default function WorkHistoryList({ memberId }: WorkHistoryListProps) {
   const { push } = useRouter();
   const { data: historys, refetch } = useGetHistoryList(memberId);
   const [workHistoryList, setWorkHistoryList] = useState<WorkHistory[]>([]);
-
-  useEffect(() => {
-    refetch();
-  }, [memberId]);
+  const [filteredHistory, setFilteredHistory] = useAtom(filteredHistoryAtom);
 
   useEffect(() => {
     if (historys) {
@@ -26,13 +33,25 @@ export default function WorkHistoryList({ memberId }: WorkHistoryListProps) {
     }
   }, [historys]);
 
-  const makePathQuery = (startDate: Dayjs, endDate: Dayjs) => {
-    return `memberId=${memberId}&startDate=${startDate.format("YYYY-MM-DD")}&endDate=${endDate.format("YYYY-MM-DD")}`;
+  const handleDetailClick = (startDate: dayjs.Dayjs, endDate: dayjs.Dayjs) => {
+    const filteredHistorys = historys?.filter(history => {
+      const historyDate = dayjs(history.date);
+
+      const isSameOrAfterStartDate =
+        historyDate.isSame(startDate) || historyDate.isAfter(startDate);
+      const isSameOrBeforeEndDate =
+        historyDate.isSame(endDate) || historyDate.isBefore(endDate);
+
+      return isSameOrAfterStartDate && isSameOrBeforeEndDate;
+    });
+
+    setFilteredHistory(filteredHistorys as []);
+    push(`/mypage/detail`);
   };
 
   return (
     <FlexBox direction="col" className="w-full px-4 gap-4">
-      <FlexBox className="w-full justify-start B3-medium">근무 일지</FlexBox>
+      <div className="w-full justify-start B3-medium">근무 일지</div>
       <FlexBox direction="col" className="w-full gap-5">
         {workHistoryList.reverse().map((workHistory, index) => (
           <WorkInfoCard
@@ -42,11 +61,9 @@ export default function WorkHistoryList({ memberId }: WorkHistoryListProps) {
             workingDays={workHistory.workingDays}
             workingMinutes={workHistory.workingMinutes}
             overtimeMinutes={workHistory.overtimeMinutes}
-            onClick={() => {
-              push(
-                `/mypage/detail?${makePathQuery(workHistory.startDate, workHistory.endDate)}`,
-              );
-            }}
+            onClick={() =>
+              handleDetailClick(workHistory.startDate, workHistory.endDate)
+            }
           />
         ))}
       </FlexBox>
