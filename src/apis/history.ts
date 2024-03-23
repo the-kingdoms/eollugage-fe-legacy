@@ -1,8 +1,21 @@
 import { StatusType } from "@/apis/_type";
 import api, { ApiResponse } from "@/apis/network";
+import { Relation } from "@/apis/relation";
+import { My } from "@/apis/my";
+import { Plan } from "@/apis/plan";
+
+interface HistoryRelation extends Relation {
+  member: My;
+  planList: Plan[];
+}
+
+interface AllHistory extends History {
+  relation: HistoryRelation;
+}
 
 interface History extends PostHistoryBody {
   id: string;
+  status: StatusType;
   relationId: string;
   relation: {
     position: string;
@@ -18,7 +31,6 @@ interface PostHistoryBody {
   endTime: string;
   restStartTime: string;
   restEndTime: string;
-  status: StatusType;
   date: string;
 }
 
@@ -26,7 +38,7 @@ interface PostHistoryStatusBody {
   status: StatusType;
 }
 
-async function getAllMemberHistory(storeId: string): Promise<History[]> {
+async function getAllMemberHistory(storeId: string): Promise<AllHistory[]> {
   const { data } = await api.get(`/api/stores/${storeId}/histories`);
   return data;
 }
@@ -37,6 +49,27 @@ async function getHistoryList(
 ): Promise<History[]> {
   const { data } = await api.get(
     `/api/stores/${storeId}/relations/${memberId}/histories`,
+  );
+  return data;
+}
+
+async function getAllMemberHistoryByDate(
+  storeId: string,
+  date: string,
+): Promise<AllHistory[]> {
+  const { data } = await api.get(
+    `/api/stores/${storeId}/histories/date/${date}`,
+  );
+  return data;
+}
+
+async function getHistoryListByDate(
+  storeId: string,
+  memberId: string,
+  date: string,
+): Promise<History[]> {
+  const { data } = await api.get(
+    `/api/stores/${storeId}/relations/${memberId}/histories/date/${date}`,
   );
   return data;
 }
@@ -79,8 +112,16 @@ async function deleteHistory(
 export {
   getAllMemberHistory,
   getHistoryList,
+  getAllMemberHistoryByDate,
+  getHistoryListByDate,
   postHistory,
   postHistoryStatus,
   deleteHistory,
 };
-export type { History, PostHistoryBody, PostHistoryStatusBody };
+export type {
+  History,
+  PostHistoryBody,
+  PostHistoryStatusBody,
+  AllHistory,
+  HistoryRelation,
+};

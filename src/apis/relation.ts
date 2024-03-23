@@ -1,14 +1,13 @@
 import { RoleType } from "@/apis/_type";
 import api, { ApiResponse } from "@/apis/network";
+import { My } from "@/apis/my";
+import { Plan } from "@/apis/plan";
 
 interface Relation extends PostRelationBody {
   id: string;
   storeId: string;
-  member: {
-    id: string;
-    name: string;
-    phone: string;
-  };
+  member: My;
+  planList: Plan[];
 }
 
 interface PostRelationBody {

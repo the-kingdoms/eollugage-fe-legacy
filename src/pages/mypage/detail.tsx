@@ -1,12 +1,41 @@
+import { useGetHistoryList } from "@/hooks/query/history";
 import WorkDetailCard from "@modules/components/card/WorkDetailCard";
 import FlexBox from "@modules/layout/FlexBox";
 import TopTitle from "@modules/layout/TopTitle";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+
+interface MyPageDetailProps {
+  memberId: string;
+  startDate: string;
+  endDate: string;
+}
 
 export default function MyPageDetail() {
+  const { query } = useRouter();
+  const { memberId, startDate, endDate }: MyPageDetailProps = {
+    memberId: query.memberId as string,
+    startDate: query.startDate as string,
+    endDate: query.endDate as string,
+  };
+  const { data: historys, refetch } = useGetHistoryList(memberId);
+
+  useEffect(() => {
+    refetch();
+  }, [memberId]);
+
+  useEffect(() => {
+    if (historys) {
+      console.log(historys);
+      console.log(startDate);
+      console.log(endDate);
+    }
+  }, [historys]);
+
   return (
-    <>
+    <FlexBox direction="col" className="px-4 w-full gap-4">
       <TopTitle title="상세 보기" />
-      <FlexBox className="mt-2.5 gap-4 justify-end mb-6">
+      <FlexBox className="w-full gap-4 justify-end">
         <FlexBox className="gap-1">
           <div className="rounded border-2 border-Black w-3 h-4" />
           <div className="text-Gray6 B5-medium">정규근무</div>
@@ -16,7 +45,7 @@ export default function MyPageDetail() {
           <div className="text-Gray6 B5-medium">연장근무</div>
         </FlexBox>
       </FlexBox>
-      <FlexBox direction="col" className="px-4 gap-2">
+      <FlexBox direction="col" className="w-full gap-2">
         <WorkDetailCard
           type="regular"
           date="2023-12-13"
@@ -36,6 +65,6 @@ export default function MyPageDetail() {
           endTime="2023-12-13 18:00:00"
         />
       </FlexBox>
-    </>
+    </FlexBox>
   );
 }

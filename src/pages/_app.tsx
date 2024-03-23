@@ -1,5 +1,6 @@
 import { storeIdAtom } from "@/data/global";
 import { useGetMy } from "@/hooks/query/my";
+import RNListener from "@/libs/RNListener";
 import "@/styles/fonts/fonts.css";
 import "@/styles/globals.scss";
 import "@/styles/scroll.scss";
@@ -46,6 +47,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools />
       <DevTools />
+      <RNListener />
       <Layout className={pathname === "/" ? "bg-black" : "bg-white"}>
         {dialog}
         {rendor && <Component {...pageProps} />}

@@ -1,28 +1,51 @@
-import FlexBox from "@modules/layout/FlexBox";
-import Sheet from "react-modal-sheet";
-import StaffTimeInput from "./StaffTimeInput";
+import { addWorkModalAtom, selectedDateAtom } from "@/data/historyAtom";
+import { usePostHistory } from "@/hooks/query/history";
+import { useGetRelationList } from "@/hooks/query/relation";
+import {
+  checkIsValidPeriod,
+  checkIsValidRest,
+  checkIsValidTime,
+} from "@/libs/timeValidation";
 import TextButton from "@modules/components/button/TextButton";
 import Dropdown from "@modules/components/selections/Dropdown";
-import { usePostHistory } from "@/hooks/query/history";
-import { useState } from "react";
-import { checkIsValidTime } from "@/libs/timeValidation";
-import { useAtom, atom } from "jotai";
-import { addWorkModalAtom } from "@/data/historyAtom";
+import FlexBox from "@modules/layout/FlexBox";
+import { useAtom } from "jotai";
+import { useEffect, useState } from "react";
+import Sheet from "react-modal-sheet";
+import StaffTimeInput from "./StaffTimeInput";
 
 export default function AddWorkModal() {
-  const { postHistoryMutate, isPending } = usePostHistory();
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
+  const { postHistoryMutate } = usePostHistory();
+  const [selectedDate] = useAtom(selectedDateAtom);
   const [isModalOpen, setIsModalOpen] = useAtom(addWorkModalAtom);
 
   const [startWorkTime, setStartWorkTime] = useState<string>("0000");
   const [endWorkTime, setEndWorkTime] = useState<string>("1100");
   const [startRestTime, setStartRestTime] = useState<string>("0000");
   const [endRestTime, setEndRestTime] = useState<string>("1100");
-  const options = ["홍길동", "홍길동", "홍길동"];
 
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const { relations: relationList } = useGetRelationList();
+  const [memberNameList, setMemberNameList] = useState<string[]>([]);
+  useEffect(() => {
+    const tempList = relationList?.map(
+      relationInfo => relationInfo.member.name,
+    );
+    setMemberNameList(tempList ?? []);
+  }, [relationList]);
+
+  const getIdByName = (name: string) => {
+    return relationList?.find(
+      relationInfo => relationInfo.member.name === selectedMemberName,
+    )?.member.id;
+  };
+
+  const [selectedMemberName, setSelectedMemberName] = useState<string>(
+    memberNameList[0],
+  );
   const onClickAddBtn = () => {
     if (
       !checkIsValidTime(startWorkTime) ||
@@ -34,13 +57,30 @@ export default function AddWorkModal() {
       return;
     }
 
+    if (
+      !checkIsValidPeriod(startWorkTime, endWorkTime) ||
+      !checkIsValidPeriod(startRestTime, endRestTime)
+    ) {
+      alert("근무(휴식) 시작시간은 종료시간보다 선행되어야 합니다.");
+      return;
+    }
+
+    if (
+      !checkIsValidRest(startWorkTime, endWorkTime, startRestTime, endRestTime)
+    ) {
+      alert("휴식시간은 근무시간 내에서 지정할 수 있습니다.");
+      return;
+    }
+
     postHistoryMutate({
-      startTime: `${startWorkTime.substring(0, 2)}:${startWorkTime.substring(2)}`,
-      endTime: `${endWorkTime.substring(0, 2)}:${endWorkTime.substring(2)}`,
-      restStartTime: `${startRestTime.substring(0, 2)}:${startRestTime.substring(2)}`,
-      restEndTime: `${endRestTime.substring(0, 2)}:${endRestTime.substring(2)}`,
-      status: "approve",
-      date: "2024-03-14",
+      body: {
+        startTime: `${startWorkTime.substring(0, 2)}:${startWorkTime.substring(2)}`,
+        endTime: `${endWorkTime.substring(0, 2)}:${endWorkTime.substring(2)}`,
+        restStartTime: `${startRestTime.substring(0, 2)}:${startRestTime.substring(2)}`,
+        restEndTime: `${endRestTime.substring(0, 2)}:${endRestTime.substring(2)}`,
+        date: selectedDate.format("YYYY-MM-DD"),
+      },
+      memberId: String(getIdByName(selectedMemberName)),
     });
   };
 
@@ -55,7 +95,11 @@ export default function AddWorkModal() {
       >
         <Sheet.Content>
           <div className="mb-6 text-Gray7 B1-medium">근무 추가</div>
-          <Dropdown options={options} defaultValue={options[0]} />
+          <Dropdown
+            options={memberNameList}
+            defaultValue={memberNameList[0]}
+            onChange={setSelectedMemberName}
+          />
           <FlexBox direction="col" className="gap-4 mb-8 mt-4">
             <StaffTimeInput
               title="근무 시간"

@@ -1,5 +1,7 @@
+import { Relation } from "@/apis/relation";
 import AdminControlBanner from "@/assist/banner/AdminControlBanner";
 import { myMemberIdAtom, roleAtom } from "@/data/global";
+import { useGetRelationList } from "@/hooks/query/relation";
 import RelationSlider from "@/screen/mypage/RelationSlider";
 import UserInfo from "@/screen/mypage/UserInfo";
 import WorkHistoryList from "@/screen/mypage/WorkHistoryList";
@@ -8,31 +10,36 @@ import TabBarGage from "@modules/components/bars/TabBarGage";
 import FlexBox from "@modules/layout/FlexBox";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { Relation } from "@/apis/relation";
-import { useGetRelationList } from "@/hooks/query/relation";
 
 export default function Manage() {
   const [memberId] = useAtom(myMemberIdAtom);
   const [role] = useAtom(roleAtom);
-  const [currentRelation, setCurrentRelation] = useState<Relation>(
-    {} as Relation,
-  );
+  const [currentMemberId, setCurrentMemberId] = useState<string>("");
   const { relations } = useGetRelationList();
 
   useEffect(() => {
-    if (relations) setCurrentRelation(relations[0] ?? {});
+    if (role !== "STAFF") {
+      if (relations) {
+        const firstMemberId = relations[0]?.member.id;
+        if (!currentMemberId) {
+          setCurrentMemberId(firstMemberId);
+        }
+      }
+    } else {
+      setCurrentMemberId(memberId);
+    }
   }, [relations]);
+
+  const handleRelationSelect = (selectedRelation: Relation) => {
+    setCurrentMemberId(selectedRelation.member.id);
+  };
 
   return (
     <FlexBox direction="col" className="relative h-full justify-between">
       <FlexBox direction="col" className="w-full gap-6 py-4">
         <UserInfo />
         <FlexBox direction="col" className="w-full gap-2">
-          <WorkHour
-            memberId={
-              role === "STAFF" ? memberId : "" // currentRelation.member.id
-            }
-          />
+          <WorkHour memberId={currentMemberId} />
           <div className="w-full px-4">
             {role === "OWNER" && <AdminControlBanner />}
           </div>
@@ -40,16 +47,13 @@ export default function Manage() {
             {(role === "MANAGER" || role === "OWNER") && (
               <RelationSlider
                 relationList={relations ?? []}
-                currentRelation={currentRelation}
+                currentMemberId={currentMemberId}
+                onClick={handleRelationSelect}
               />
             )}
           </div>
         </FlexBox>
-        <WorkHistoryList
-          memberId={
-            role === "STAFF" ? memberId : "" // currentRelation.member.id
-          }
-        />
+        <WorkHistoryList memberId={currentMemberId} />
       </FlexBox>
       <TabBarGage />
     </FlexBox>

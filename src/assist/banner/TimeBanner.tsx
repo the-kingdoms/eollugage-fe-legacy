@@ -20,14 +20,12 @@ export default function TimeBanner({ DayClick, dayDate }: TimeBannerProps) {
         {dayDate.isSame(dayjs(), "day") && "오늘 "}
         {`(${dayDate.format("MM")} / ${dayDate.format("DD")})`}
       </div>
-      {dayDate.isBefore(dayjs(), "day") && (
-        <Icon
-          src="/icon/direction/right.svg"
-          sz={24}
-          className="mr-auto"
-          onClick={() => DayClick("right")}
-        />
-      )}
+      <Icon
+        src="/icon/direction/right.svg"
+        sz={24}
+        className="mr-auto"
+        onClick={() => DayClick("right")}
+      />
     </FlexBox>
   );
 }
