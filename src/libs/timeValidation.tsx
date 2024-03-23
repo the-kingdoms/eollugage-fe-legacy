@@ -21,6 +21,7 @@ export function checkIsValidPeriod(startTime: string, endTime: string) {
 
 // 1. 근무시작시간이 휴식시작시간보다 느린 경우
 // 2. 근무종료시간이 휴식종료시간보다 빠른 경우
+// 3. 근무시작시간==휴식시작시간 && 근무종료시간==휴식종류시간인 경우
 // 에는 return false. 나머지는 return true
 export function checkIsValidRest(
   startWork: string,
@@ -30,6 +31,11 @@ export function checkIsValidRest(
 ) {
   if (Number(startWork) > Number(startRest)) return false;
   if (Number(endWork) < Number(endRest)) return false;
+  if (
+    Number(startRest) === Number(startWork) &&
+    Number(endWork) === Number(endRest)
+  )
+    return false;
   return true;
 }
 
