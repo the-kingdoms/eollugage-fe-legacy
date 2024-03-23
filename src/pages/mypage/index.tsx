@@ -14,26 +14,23 @@ import { Relation } from "@/apis/relation";
 export default function Manage() {
   const [memberId] = useAtom(myMemberIdAtom);
   const [role] = useAtom(roleAtom);
-  const [currentRelation, setCurrentRelation] = useState<Relation>();
   const [currentMemberId, setCurrentMemberId] = useState<string>("");
-  const { relations, isLoading } = useGetRelationList();
+  const { relations } = useGetRelationList();
 
   useEffect(() => {
-    if (!isLoading && relations) {
-      if (role !== "STAFF") {
+    if (role !== "STAFF") {
+      if (relations) {
         const firstMemberId = relations[0]?.member.id;
         if (!currentMemberId) {
           setCurrentMemberId(firstMemberId);
-          setCurrentRelation(relations[0]);
         }
-      } else {
-        setCurrentMemberId(memberId);
       }
+    } else {
+      setCurrentMemberId(memberId);
     }
-  }, [relations, isLoading]);
+  }, [relations]);
 
   const handleRelationSelect = (selectedRelation: Relation) => {
-    setCurrentRelation(selectedRelation);
     setCurrentMemberId(selectedRelation.member.id);
   };
 
@@ -46,12 +43,11 @@ export default function Manage() {
           <div className="w-full px-4">
             {role === "OWNER" && <AdminControlBanner />}
           </div>
-          ``
           <div className="w-full">
             {(role === "MANAGER" || role === "OWNER") && (
               <RelationSlider
                 relationList={relations ?? []}
-                currentRelation={currentRelation}
+                currentMemberId={currentMemberId}
                 onClick={handleRelationSelect}
               />
             )}
