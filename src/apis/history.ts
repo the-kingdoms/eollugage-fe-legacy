@@ -6,7 +6,7 @@ import { Plan } from "@/apis/plan";
 
 interface HistoryRelation extends Relation {
   member: My;
-  planList: Plan;
+  planList: Plan[];
 }
 
 interface AllHistory extends History {
@@ -42,6 +42,27 @@ async function getHistoryList(
 ): Promise<History[]> {
   const { data } = await api.get(
     `/api/stores/${storeId}/relations/${memberId}/histories`,
+  );
+  return data;
+}
+
+async function getAllMemberHistoryByDate(
+  storeId: string,
+  date: string,
+): Promise<AllHistory[]> {
+  const { data } = await api.get(
+    `/api/stores/${storeId}/histories/date/${date}`,
+  );
+  return data;
+}
+
+async function getHistoryListByDate(
+  storeId: string,
+  memberId: string,
+  date: string,
+): Promise<History[]> {
+  const { data } = await api.get(
+    `/api/stores/${storeId}/relations/${memberId}/histories/date/${date}`,
   );
   return data;
 }
@@ -84,6 +105,8 @@ async function deleteHistory(
 export {
   getAllMemberHistory,
   getHistoryList,
+  getAllMemberHistoryByDate,
+  getHistoryListByDate,
   postHistory,
   postHistoryStatus,
   deleteHistory,
