@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.4",
     "@tanstack/react-query": "^5.24.7",
     "@tanstack/react-query-devtools": "^5.24.7",
     "@types/node": "20.11.1",
@@ -22,15 +21,12 @@
     "eslint-config-next": "13.4.13",
     "framer-motion": "^11.0.8",
     "jotai": "^2.6.1",
-    "jotai-devtools": "^0.8.0",
     "next": "^13.4.13",
     "postcss": "8.4.27",
-    "query": "^0.2.0",
-    "react": "^18.2.0",
+    "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-modal-sheet": "^2.2.0",
-    "react-query": "^3.39.3",
-    "sass": "^1.71.1",
+    "sass": "^1.69.7",
     "tailwindcss": "3.3.3",
     "typescript": "5.3.3",
     "yarn": "^1.22.21"
