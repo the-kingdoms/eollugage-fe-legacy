@@ -19,7 +19,7 @@ async function postOrder(
   storeId: string,
   body: PostOrderBody,
 ): Promise<ApiResponse> {
-  return await api.post(`/api/stores/${storeId}/orders`, body);
+  return api.post(`/api/stores/${storeId}/orders`, body);
 }
 
 async function putOrder(
@@ -27,7 +27,7 @@ async function putOrder(
   orderId: string,
   body: PostOrderBody,
 ): Promise<ApiResponse> {
-  return await api.put(`/api/stores/${storeId}/orders/${orderId}`, body);
+  return api.put(`/api/stores/${storeId}/orders/${orderId}`, body);
 }
 
 export { getOrderList, postOrder, putOrder };

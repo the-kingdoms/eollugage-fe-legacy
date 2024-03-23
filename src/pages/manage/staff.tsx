@@ -1,55 +1,51 @@
+import { Plan } from "@/apis/plan";
 import { myMemberIdAtom } from "@/data/global";
+import { dayTypeConvert } from "@/data/inviteSchedule";
 import { useGetHistoryList } from "@/hooks/query/history";
 import { useGetPlanList } from "@/hooks/query/plan";
+import { useGetRelation } from "@/hooks/query/relation";
 import StaffTimeApproval from "@/screen/manage/StaffTimeApproval";
 import StaffTimeInput from "@/screen/manage/StaffTimeInput";
-import WeekButtons from "@/screen/manage/WeekButtons";
+import WeekButtons, { DayInfo } from "@/screen/manage/WeekButtons";
 import Divider from "@modules/layout/Divider";
 import FlexBox from "@modules/layout/FlexBox";
 import TopTitle from "@modules/layout/TopTitle";
-import { useAtom } from "jotai";
-import { DayInfo } from "@/screen/manage/WeekButtons";
-import { useEffect, useState } from "react";
-import { dayTypeConvert } from "@/data/inviteSchedule";
-import { Plan } from "@/apis/plan";
 import dayjs from "dayjs";
-import { useGetRelationList } from "@/hooks/query/relation";
-import { Relation } from "@/apis/relation";
+import { useAtom } from "jotai";
+import { useEffect, useState } from "react";
 
 export default function Staff() {
   const [activeDays, setActiveDays] = useState<string | string[]>("");
   const [myPlan, setMyPlan] = useState<Plan[]>([]);
   const [memberId] = useAtom(myMemberIdAtom);
-  const { plans } = useGetPlanList(memberId);
-  const { histories } = useGetHistoryList(memberId);
-  const { relations } = useGetRelationList(memberId);
-  const plansArray = plans || [];
+  const { data: plans } = useGetPlanList(memberId);
+  const { data: histories } = useGetHistoryList(memberId);
+  const { data: relations } = useGetRelation(memberId);
+
+  function getKorDay(object: Record<string, string>, value: string) {
+    return Object.keys(object).find(key => object[key] === value) || "";
+  }
 
   useEffect(() => {
-    const daysArray = plansArray.map(plan =>
+    const daysArray = (plans ?? []).map(plan =>
       getKorDay(dayTypeConvert, plan.day),
     );
     setActiveDays(daysArray);
   }, [plans]);
 
   const toggleDayPlan = (dayInfo: DayInfo) => {
-    if (dayInfo.type === "inputed") {
-      dayInfo.type = "workday";
-      const clickDay = plansArray.filter(
+    const newDayInfo = dayInfo;
+    if (newDayInfo.type === "inputed") {
+      newDayInfo.type = "workday";
+      const clickDay = (plans ?? []).filter(
         plan => getKorDay(dayTypeConvert, plan.day) === dayInfo.dayName,
       );
       setMyPlan(clickDay);
-    } else if (dayInfo.type === "workday") {
-      dayInfo.type = "inputed";
+    } else if (newDayInfo.type === "workday") {
+      newDayInfo.type = "inputed";
     }
-    return dayInfo;
+    return newDayInfo;
   };
-
-  useEffect(() => {}, [myPlan]);
-
-  function getKorDay(object: Record<string, string>, value: string) {
-    return Object.keys(object).find(key => object[key] === value) || "";
-  }
 
   return (
     <div className="bg-Black">
@@ -105,7 +101,7 @@ export default function Staff() {
                   starttime={myhistory.startTime}
                   endtime={myhistory.endTime}
                   date={myhistory.date}
-                  status={myhistory.status.slice(0, -1).toLowerCase()}
+                  status={myhistory.status}
                 />
                 <Divider />
               </>

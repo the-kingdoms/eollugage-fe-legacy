@@ -1,7 +1,7 @@
 import {
   PostRelationAdminBody,
   PostRelationBody,
-  getAllRelationList,
+  getRelation,
   getRelationList,
   postRelation,
   postRelationAdmin,
@@ -16,20 +16,20 @@ interface UsePostRelationProps {
   body: PostRelationBody;
 }
 
-function useGetRelationList(memberId: string) {
+function useGetRelation(memberId: string) {
   const [storeId] = useAtom(storeIdAtom);
   const { data } = useQuery({
-    queryKey: ["getRelationList"],
-    queryFn: () => getRelationList(storeId, memberId),
+    queryKey: ["getRelation"],
+    queryFn: () => getRelation(storeId, memberId),
   });
   return { data };
 }
 
-function useGetAllRelationList() {
+function useGetRelationList() {
   const [storeId] = useAtom(storeIdAtom);
   const { data } = useQuery({
-    queryKey: ["getAllRelationList"],
-    queryFn: () => getAllRelationList(storeId),
+    queryKey: ["getRelationList"],
+    queryFn: () => getRelationList(storeId),
   });
   return { data };
 }
@@ -65,7 +65,7 @@ function usePostRelationAdmin() {
 }
 
 export {
-  useGetAllRelationList,
+  useGetRelation,
   useGetRelationList,
   usePostRelation,
   usePostRelationAdmin,

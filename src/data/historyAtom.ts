@@ -1,4 +1,4 @@
-import { WorkHistoryDetail } from "@/pages/mypage/detail";
+import { History } from "@/apis/history";
 import dayjs from "dayjs";
 import { atom } from "jotai";
 
@@ -10,3 +10,4 @@ export const selectedDateAtom = atom<dayjs.Dayjs>(dayjs());
 selectedDateAtom.debugLabel = "selectedDateAtom";
 
 export const filteredHistoryAtom = atom<History[]>([]);
+selectedDateAtom.debugLabel = "filteredHistoryAtom";

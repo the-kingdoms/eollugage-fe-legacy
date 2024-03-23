@@ -13,8 +13,8 @@ export default function Redirect() {
   const token = query?.token;
   const [my] = useAtom(myAtom);
   const { refetch } = useGetMy();
-  const { postRelationMutate } = usePostRelation();
-  const { postPlanListMutate } = usePostPlanList();
+  const { mutate: postRelationMutate } = usePostRelation();
+  const { mutate: postPlanListMutate } = usePostPlanList();
 
   useEffect(() => {
     if (token) {
@@ -35,14 +35,17 @@ export default function Redirect() {
         role: "STAFF",
         position: inviteData.position,
       };
-      postRelationMutate(inviteData.storeId, my?.id as string, body, {
-        onSettled: () =>
-          postPlanListMutate({
-            storeId: inviteData.storeId,
-            memberId: my?.id,
-            inviteSchedule: inviteData.schedule,
-          }),
-      });
+      postRelationMutate(
+        { storeId: inviteData.storeId, memberId: my?.id as string, body },
+        {
+          onSettled: () =>
+            postPlanListMutate({
+              storeId: inviteData.storeId,
+              memberId: my?.id,
+              inviteSchedule: inviteData.schedule,
+            }),
+        },
+      );
       localStorage.removeItem("inviteData");
       push("/main");
     } else {

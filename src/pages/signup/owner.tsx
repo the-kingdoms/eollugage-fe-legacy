@@ -8,7 +8,7 @@ import { useState } from "react";
 type View = "owner_input" | "owner_welcome";
 
 export default function Home() {
-  const { postStoreMutate } = usePostStore();
+  const { mutate: postStoreMutate } = usePostStore();
   const [storeName, setStoreName] = useState<string>("");
   const [currentView, setCurrentView] = useState<View>("owner_input");
 

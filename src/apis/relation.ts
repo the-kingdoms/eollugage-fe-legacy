@@ -18,15 +18,15 @@ interface PostRelationAdminBody {
   role: RoleType;
 }
 
-async function getAllRelationList(storeId: string): Promise<Relation[]> {
+async function getRelationList(storeId: string): Promise<Relation[]> {
   const { data } = await api.get(`/api/stores/${storeId}/relations`);
   return data;
 }
 
-async function getRelationList(
+async function getRelation(
   storeId: string,
   memberId: string,
-): Promise<Relation[]> {
+): Promise<Relation> {
   const { data } = await api.get(
     `/api/stores/${storeId}/relations/${memberId}`,
   );
@@ -57,5 +57,5 @@ async function postRelationAdmin(
   return data;
 }
 
-export { getAllRelationList, getRelationList, postRelation, postRelationAdmin };
+export { getRelation, getRelationList, postRelation, postRelationAdmin };
 export type { PostRelationAdminBody, PostRelationBody, Relation };

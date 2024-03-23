@@ -5,7 +5,7 @@ import { useAtom } from "jotai";
 import { useEffect } from "react";
 
 function RNListener() {
-  const { postHistoryStatusMutate } = usePostFcmToken();
+  const { mutate: postHistoryStatusMutate } = usePostFcmToken();
   const [fcmToken, setFcmToken] = useAtom(fcmTokenAtom);
   const [myMemberId] = useAtom(myMemberIdAtom);
 
