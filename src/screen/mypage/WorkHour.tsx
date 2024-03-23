@@ -1,4 +1,5 @@
 import { useGetHistoryList } from "@/hooks/query/history";
+import { calculateWorkMinutes } from "@/libs/historyToWorkHistory";
 import WorkInfoBanner from "@modules/components/banner/WorkInfoBanner";
 import FlexBox from "@modules/layout/FlexBox";
 import dayjs from "dayjs";
@@ -19,14 +20,11 @@ export default function WorkHour({ memberId }: WorkHourProps) {
 
   useEffect(() => {
     if (historys) {
-      let newWorkingMinutes = 0;
-      historys.forEach(item => {
-        const startDate = dayjs(`${item.date}T${item.startTime}`);
-        const endDate = dayjs(`${item.date}T${item.endTime}`);
-        const diffMinutes = endDate.diff(startDate, "minute");
-        if (startDate.month() === currentDate.month())
-          newWorkingMinutes += diffMinutes;
-      });
+      const newWorkingMinutes = calculateWorkMinutes(
+        historys.filter(
+          item => dayjs(item.date).month() === currentDate.month(),
+        ),
+      );
       setWorkingMinutes(newWorkingMinutes);
     }
   }, [historys]);
