@@ -1,32 +1,32 @@
-import FlexBox from "@modules/layout/FlexBox";
-import Sheet from "react-modal-sheet";
-import StaffTimeInput from "./StaffTimeInput";
-import TextButton from "@modules/components/button/TextButton";
-import Dropdown from "@modules/components/selections/Dropdown";
+import { addWorkModalAtom, selectedDateAtom } from "@/data/historyAtom";
 import { usePostHistory } from "@/hooks/query/history";
-import { useEffect, useState } from "react";
+import { useGetRelationList } from "@/hooks/query/relation";
 import {
   checkIsValidPeriod,
   checkIsValidRest,
   checkIsValidTime,
 } from "@/libs/timeValidation";
-import { useAtom, atom } from "jotai";
-import { addWorkModalAtom, selectedDateAtom } from "@/data/historyAtom";
-import { useGetRelationList } from "@/hooks/query/relation";
+import TextButton from "@modules/components/button/TextButton";
+import Dropdown from "@modules/components/selections/Dropdown";
+import FlexBox from "@modules/layout/FlexBox";
+import { useAtom } from "jotai";
+import { useEffect, useState } from "react";
+import Sheet from "react-modal-sheet";
+import StaffTimeInput from "./StaffTimeInput";
 
 export default function AddWorkModal() {
-  const { postHistoryMutate, isPending } = usePostHistory();
+  const { postHistoryMutate } = usePostHistory();
   const [selectedDate] = useAtom(selectedDateAtom);
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
   const [isModalOpen, setIsModalOpen] = useAtom(addWorkModalAtom);
 
   const [startWorkTime, setStartWorkTime] = useState<string>("0000");
   const [endWorkTime, setEndWorkTime] = useState<string>("1100");
   const [startRestTime, setStartRestTime] = useState<string>("0000");
   const [endRestTime, setEndRestTime] = useState<string>("1100");
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const { relations: relationList } = useGetRelationList();
   const [memberNameList, setMemberNameList] = useState<string[]>([]);
@@ -78,7 +78,6 @@ export default function AddWorkModal() {
         endTime: `${endWorkTime.substring(0, 2)}:${endWorkTime.substring(2)}`,
         restStartTime: `${startRestTime.substring(0, 2)}:${startRestTime.substring(2)}`,
         restEndTime: `${endRestTime.substring(0, 2)}:${endRestTime.substring(2)}`,
-        status: "approve",
         date: selectedDate.format("YYYY-MM-DD"),
       },
       memberId: String(getIdByName(selectedMemberName)),

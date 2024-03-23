@@ -15,6 +15,7 @@ interface AllHistory extends History {
 
 interface History extends PostHistoryBody {
   id: string;
+  status: StatusType;
   relationId: string;
 }
 
@@ -23,7 +24,6 @@ interface PostHistoryBody {
   endTime: string;
   restStartTime: string;
   restEndTime: string;
-  status: StatusType;
   date: string;
 }
 
@@ -111,4 +111,10 @@ export {
   postHistoryStatus,
   deleteHistory,
 };
-export type { History, PostHistoryBody, PostHistoryStatusBody };
+export type {
+  History,
+  PostHistoryBody,
+  PostHistoryStatusBody,
+  AllHistory,
+  HistoryRelation,
+};

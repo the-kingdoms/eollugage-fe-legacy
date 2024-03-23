@@ -1,10 +1,11 @@
+import { StatusType } from "@/apis/_type";
 import StateButton from "@modules/components/button/StateButton";
 import FlexBox from "@modules/layout/FlexBox";
 
 interface StateButtonWrapperProps {
   children: React.ReactNode;
   buttonClick: () => void;
-  buttonState: "approve" | "disapprove" | "decline";
+  buttonState: StatusType;
 }
 
 export default function StateButtonWrapper({

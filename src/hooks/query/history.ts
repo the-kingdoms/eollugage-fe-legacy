@@ -1,18 +1,20 @@
 import {
   PostHistoryBody,
+  PostHistoryStatusBody,
   deleteHistory,
   getAllMemberHistory,
   getAllMemberHistoryByDate,
   getHistoryList,
   getHistoryListByDate,
   postHistory,
+  postHistoryStatus,
 } from "@/apis/history";
 import { myMemberIdAtom, storeIdAtom } from "@/data/global";
 import { addWorkModalAtom } from "@/data/historyAtom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 
-interface postHistoryParams {
+interface PostHistoryParams {
   body: PostHistoryBody;
   memberId: string;
 }
@@ -64,7 +66,7 @@ function usePostHistory() {
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationKey: ["postHistory"],
-    mutationFn: ({ body, memberId }: postHistoryParams) =>
+    mutationFn: ({ body, memberId }: PostHistoryParams) =>
       postHistory(storeId, memberId, body),
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -81,6 +83,30 @@ function usePostHistory() {
   });
 
   return { postHistoryMutate: mutate, isPending };
+}
+
+function usePostHistoryStatus() {
+  const [storeId] = useAtom(storeIdAtom);
+  const queryClient = useQueryClient();
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["postHistoryStatus"],
+    mutationFn: ({
+      memberId,
+      historyId,
+      status,
+    }: {
+      memberId: string;
+      historyId: string;
+      status: PostHistoryStatusBody["status"];
+    }) => postHistoryStatus(storeId, memberId, historyId, { status }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["getAllMemberHistory"],
+      });
+    },
+  });
+
+  return { postHistoryStatusMutate: mutate, isPending };
 }
 
 function useDeleteHistory() {
@@ -112,4 +138,5 @@ export {
   useGetAllMemberHistoryByDate,
   useGetHistoryListByDate,
   usePostHistory,
+  usePostHistoryStatus,
 };

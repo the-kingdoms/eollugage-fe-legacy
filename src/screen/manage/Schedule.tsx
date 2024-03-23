@@ -1,23 +1,20 @@
-import Calender from "@modules/components/calender/Calender";
-import ScheduleList from "@modules/components/list/ScheduleList";
-import Divider from "@modules/layout/Divider";
-import FlexBox from "@modules/layout/FlexBox";
-import dayjs from "dayjs";
-import useDialog from "@modules/hooks/useDialog";
-import { useEffect, useState } from "react";
+import { selectedDateAtom } from "@/data/historyAtom";
 import {
   useDeleteHistory,
   useGetAllMemberHistoryByDate,
-  useGetAllMemeberHistory,
 } from "@/hooks/query/history";
 import { getTimeString } from "@/libs/timeValidation";
+import Calender from "@modules/components/calender/Calender";
+import ScheduleList from "@modules/components/list/ScheduleList";
+import useDialog from "@modules/hooks/useDialog";
+import Divider from "@modules/layout/Divider";
+import FlexBox from "@modules/layout/FlexBox";
+import dayjs from "dayjs";
 import { useAtom } from "jotai";
-import { selectedDateAtom } from "@/data/historyAtom";
 
 export default function Schedule() {
-  const { deleteHistoryMutate, isPending } = useDeleteHistory();
+  const { deleteHistoryMutate } = useDeleteHistory();
   const { openDialog } = useDialog();
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
   const onClickDeleteBtn = (historyId: string) => {
     openDialog({
