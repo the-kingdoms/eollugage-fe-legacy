@@ -4,6 +4,7 @@ import FlexBox from "@modules/layout/FlexBox";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { historyToWorkHistory } from "@/libs/historyToWorkHistory";
 
 interface WorkHistoryListProps {
   memberId: string;
@@ -19,20 +20,23 @@ interface WorkHistory {
 
 export default function WorkHistoryList({ memberId }: WorkHistoryListProps) {
   const { push } = useRouter();
-  const { data: historys } = useGetHistoryList(memberId);
+  const { data: historys, isLoading } = useGetHistoryList(memberId);
   const [workHistoryList, setWorkHistoryList] = useState<WorkHistory[]>([]);
+
   useEffect(() => {
-    if (historys) {
-      const newWorkHistoryList: WorkHistory[] = [];
-      // historys를 1주일 단위로 묶어서 리스트에 추가
+    if (historys && !isLoading) {
+      const newWorkHistoryList: WorkHistory[] = historyToWorkHistory(historys);
       setWorkHistoryList(newWorkHistoryList);
     }
   }, [historys]);
+
+  const reversedWorkHistoryList = [...workHistoryList].reverse(); // 최신날짜기준으로 랜더링되도록 넣어놨습니다
+
   return (
     <FlexBox direction="col" className="w-full px-4 gap-4">
       <FlexBox className="w-full justify-start B3-medium">근무 일지</FlexBox>
       <FlexBox direction="col" className="w-full gap-5">
-        {workHistoryList.map((workHistory, index) => (
+        {reversedWorkHistoryList.map((workHistory, index) => (
           <WorkInfoCard
             key={index}
             startDate={workHistory.startDate}
