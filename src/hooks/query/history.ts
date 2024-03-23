@@ -35,7 +35,7 @@ function useGetHistoryList(memberId: string) {
     queryKey: ["getHistoryList"],
     queryFn: () => getHistoryList(storeId, memberId),
   });
-
+  
   return { data, refetch };
 }
 

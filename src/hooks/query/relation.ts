@@ -1,9 +1,10 @@
 import {
   PostRelationBody,
   PostRelationAdminBody,
-  getRelationList,
+  getAllRelationList,
   postRelation,
   postRelationAdmin,
+  getRelationList,
 } from "@/apis/relation";
 import { useAtom } from "jotai";
 import { storeIdAtom } from "@/data/global";
@@ -21,7 +22,7 @@ interface UsePostRelationProps {
   body: PostRelationBody;
 }
 
-function useGetRelationList() {
+function useGetRelationList(memberId: string) {
   const [storeId] = useAtom(storeIdAtom);
   const {
     data: relations,
@@ -29,7 +30,16 @@ function useGetRelationList() {
     isError,
   } = useQuery({
     queryKey: ["getRelationList"],
-    queryFn: () => getRelationList(storeId),
+    queryFn: () => getRelationList(storeId, memberId),
+  });
+  return { relations };
+}
+
+function useGetAllRelationList() {
+  const [storeId] = useAtom(storeIdAtom);
+  const { data: relations } = useQuery({
+    queryKey: ["getAllRelationList"],
+    queryFn: () => getAllRelationList(storeId),
   });
   return { relations, isLoading };
 }
@@ -85,4 +95,9 @@ function usePostRelationAdmin() {
   return { postRelationAdminMutate };
 }
 
-export { useGetRelationList, usePostRelation, usePostRelationAdmin };
+export {
+  useGetAllRelationList,
+  usePostRelation,
+  usePostRelationAdmin,
+  useGetRelationList,
+};

@@ -17,6 +17,13 @@ interface History extends PostHistoryBody {
   id: string;
   status: StatusType;
   relationId: string;
+  relation: {
+    position: string;
+    member: {
+      name: string;
+      phone: string;
+    };
+  };
 }
 
 interface PostHistoryBody {

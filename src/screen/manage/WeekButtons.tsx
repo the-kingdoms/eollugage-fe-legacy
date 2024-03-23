@@ -7,14 +7,16 @@ type DayType = "workday" | "inputing" | "inputed" | "inactive";
 interface WeekButtonsProps {
   activeDays: string | string[];
   setActiveDays: React.Dispatch<React.SetStateAction<string | string[]>>;
+  dayChipClick: (dayInfo: DayInfo) => DayInfo;
   multiselect?: boolean;
   weekStartDay?: DayName;
 }
 
-interface DayInfo {
+export interface DayInfo {
   dayName: DayName;
   type: DayType;
 }
+
 const defaultDayList: DayInfo[] = [
   {
     dayName: "월",
@@ -51,6 +53,7 @@ const defaultDayList: DayInfo[] = [
  * @param value 선택된 요일 정보. 
  * multiselect=true인 경우 string[]으로/false인 경우 string으로 반환됩니다.
  * @param setValue 선택된 요일에 따라 value를 변경해주는 함수
+ * @param dayChipClick DayChip을 클릭했을 때 실행되는 함수
  * @param multiselect DayChip이 여러 개 선택되는지 여부를 저장. 가능한 경우 true
  * @param weekStartDay 일주일의 시작요일
  * @returns
@@ -63,24 +66,26 @@ const defaultDayList: DayInfo[] = [
 export default function WeekButtons({
   activeDays,
   setActiveDays,
+  dayChipClick,
   multiselect = true,
   weekStartDay = "일",
 }: WeekButtonsProps) {
   const [dayList, setDayList] = useState<DayInfo[]>(defaultDayList);
 
-  // DayChip 상태 workday <> inactive Toggle
-  const toggleDayType = (i: number) => {
-    const tempDayList = [...dayList];
-    if (multiselect) {
-      tempDayList[i].type =
-        dayList[i].type === "workday" ? "inactive" : "workday";
-    } else {
-      tempDayList.forEach((day, index) => {
-        tempDayList[index].type = "inactive";
+  const chipClick = (i: number) => {
+    const updatedDayList = [...dayList];
+    if (!multiselect && activeDays.includes(updatedDayList[i].dayName)) {
+      updatedDayList.forEach((day, index) => {
+        if (activeDays.includes(day.dayName)) {
+          updatedDayList[index].type = "inputed";
+        } else {
+          updatedDayList[index].type = "inactive";
+        }
       });
-      tempDayList[i].type = "workday";
     }
-    setDayList(tempDayList);
+    const toggleDayInfo = dayChipClick(updatedDayList[i]);
+    updatedDayList[i] = toggleDayInfo;
+    setDayList(updatedDayList);
   };
 
   useEffect(() => {
@@ -88,7 +93,7 @@ export default function WeekButtons({
       setDayList(prev => {
         return prev.map(day => {
           if (activeDays === day.dayName) {
-            return { ...day, type: "workday" };
+            return { ...day, type: "inputed" };
           }
           return { ...day, type: "inactive" };
         });
@@ -97,13 +102,13 @@ export default function WeekButtons({
       setDayList(prev => {
         return prev.map(day => {
           if (activeDays.includes(day.dayName)) {
-            return { ...day, type: "workday" };
+            return { ...day, type: "inputed" };
           }
           return { ...day, type: "inactive" };
         });
       });
     }
-  }, []);
+  }, [activeDays]);
 
   useEffect(() => {
     const dayIndex = dayList.findIndex(
@@ -116,20 +121,11 @@ export default function WeekButtons({
   }, [weekStartDay]);
 
   useEffect(() => {
-    if (multiselect) {
-      const activeDayList = dayList
-        .filter(dayInfo => dayInfo.type === "workday")
-        .map(dayInfo => dayInfo.dayName);
-      setActiveDays(activeDayList);
-    } else {
-      const isWorkDayExists = dayList.find(
-        dayInfo => dayInfo.type === "workday",
-      );
-
-      if (isWorkDayExists) setActiveDays(isWorkDayExists.dayName);
-      else setActiveDays("");
-    }
-  }, [dayList]);
+    const activeDayList = dayList
+      .filter(dayInfo => dayInfo.type === "inputed")
+      .map(dayInfo => dayInfo.dayName);
+    setActiveDays(activeDayList);
+  }, []);
 
   return (
     <FlexBox className="justify-between w-full">
@@ -138,7 +134,7 @@ export default function WeekButtons({
           key={i}
           day={dayInfo.dayName}
           type={dayInfo.type}
-          onChipClick={() => toggleDayType(i)}
+          onChipClick={() => chipClick(i)}
         />
       ))}
     </FlexBox>
