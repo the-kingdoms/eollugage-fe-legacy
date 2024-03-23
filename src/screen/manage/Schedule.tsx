@@ -1,21 +1,18 @@
+import { selectedDateAtom } from "@/data/historyAtom";
+import {
+  useDeleteHistory,
+  useGetAllMemberHistoryByDate,
+} from "@/hooks/query/history";
+import { getTimeString } from "@/libs/timeValidation";
 import Calender from "@modules/components/calender/Calender";
 import ScheduleList from "@modules/components/list/ScheduleList";
+import useDialog from "@modules/hooks/useDialog";
 import Divider from "@modules/layout/Divider";
 import FlexBox from "@modules/layout/FlexBox";
 import dayjs from "dayjs";
-import useDialog from "@modules/hooks/useDialog";
-import { useEffect, useState } from "react";
-import {
-  useDeleteHistory,
-  useGetAllMemeberHistory,
-} from "@/hooks/query/history";
-import { getTimeString } from "@/libs/timeValidation";
 import { useAtom } from "jotai";
-import { selectedDateAtom } from "@/data/historyAtom";
-import { AllHistory } from "@/apis/history";
 
 export default function Schedule() {
-  const { data: historyList } = useGetAllMemeberHistory();
   const { deleteHistoryMutate } = useDeleteHistory();
   const { openDialog } = useDialog();
 
@@ -32,15 +29,9 @@ export default function Schedule() {
   const onClickCalendar = (date: dayjs.Dayjs) => {
     setSelectedDate(date);
   };
-
-  // 임시, 일자별 query 가능한 새 api 가 나오면 수정 필요
-  const [filteredList, setFilteredList] = useState<AllHistory[]>([]);
-  useEffect(() => {
-    const tempList = historyList?.filter(historyInfo => {
-      return historyInfo.date === selectedDate.format("YYYY-MM-DD");
-    });
-    setFilteredList(tempList ?? []);
-  }, [historyList, selectedDate]);
+  const { data: historyList } = useGetAllMemberHistoryByDate(
+    selectedDate.format("YYYY-MM-DD"),
+  );
 
   return (
     <FlexBox direction="col" className="gap-3 w-full">
@@ -76,7 +67,7 @@ export default function Schedule() {
           <div className="w-full h-px bg-Gray2" />
         </FlexBox>
         <FlexBox direction="col" className="w-full gap-2">
-          {filteredList?.map((historyInfo, index) => (
+          {historyList?.map((historyInfo, index) => (
             <ScheduleList
               key={index}
               name={historyInfo.relation.member.name}

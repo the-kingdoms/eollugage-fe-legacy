@@ -3,7 +3,9 @@ import {
   PostHistoryStatusBody,
   deleteHistory,
   getAllMemberHistory,
+  getAllMemberHistoryByDate,
   getHistoryList,
+  getHistoryListByDate,
   postHistory,
   postHistoryStatus,
 } from "@/apis/history";
@@ -11,6 +13,11 @@ import { myMemberIdAtom, storeIdAtom } from "@/data/global";
 import { addWorkModalAtom } from "@/data/historyAtom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
+
+interface PostHistoryParams {
+  body: PostHistoryBody;
+  memberId: string;
+}
 
 function useGetAllMemeberHistory() {
   const [storeId] = useAtom(storeIdAtom);
@@ -24,9 +31,29 @@ function useGetAllMemeberHistory() {
 
 function useGetHistoryList(memberId: string) {
   const [storeId] = useAtom(storeIdAtom);
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["getHistoryList"],
     queryFn: () => getHistoryList(storeId, memberId),
+  });
+
+  return { data, isLoading };
+}
+
+function useGetAllMemberHistoryByDate(date: string) {
+  const [storeId] = useAtom(storeIdAtom);
+  const { data } = useQuery({
+    queryKey: ["getAllMemberHistoryByDate", date],
+    queryFn: () => getAllMemberHistoryByDate(storeId, date),
+  });
+
+  return { data };
+}
+
+function useGetHistoryListByDate(memberId: string, date: string) {
+  const [storeId] = useAtom(storeIdAtom);
+  const { data } = useQuery({
+    queryKey: ["getHistoryList", date],
+    queryFn: () => getHistoryListByDate(storeId, memberId, date),
   });
 
   return { data };
@@ -34,19 +61,22 @@ function useGetHistoryList(memberId: string) {
 
 function usePostHistory() {
   const [storeId] = useAtom(storeIdAtom);
-  const [memberId] = useAtom(myMemberIdAtom);
   const [, setIsModalOpen] = useAtom(addWorkModalAtom);
 
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationKey: ["postHistory"],
-    mutationFn: (body: PostHistoryBody) => postHistory(storeId, memberId, body),
+    mutationFn: ({ body, memberId }: PostHistoryParams) =>
+      postHistory(storeId, memberId, body),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["getHistoryList"],
       });
       queryClient.invalidateQueries({
         queryKey: ["getAllMemberHistory"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["getAllMemberHistoryByDate"],
       });
       setIsModalOpen(false);
     },
@@ -105,6 +135,8 @@ export {
   useDeleteHistory,
   useGetAllMemeberHistory,
   useGetHistoryList,
+  useGetAllMemberHistoryByDate,
+  useGetHistoryListByDate,
   usePostHistory,
   usePostHistoryStatus,
 };

@@ -7,7 +7,12 @@ import {
 } from "@/apis/relation";
 import { useAtom } from "jotai";
 import { storeIdAtom } from "@/data/global";
-import { MutateOptions, useMutation, useQuery } from "@tanstack/react-query";
+import {
+  MutateOptions,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { ApiResponse } from "@/apis/network";
 
 interface UsePostRelationProps {
@@ -18,11 +23,15 @@ interface UsePostRelationProps {
 
 function useGetRelationList() {
   const [storeId] = useAtom(storeIdAtom);
-  const { data: relations } = useQuery({
+  const {
+    data: relations,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["getRelationList"],
     queryFn: () => getRelationList(storeId),
   });
-  return { relations };
+  return { relations, isLoading };
 }
 
 function usePostRelation() {
@@ -51,6 +60,7 @@ function usePostRelation() {
 
 function usePostRelationAdmin() {
   const [storeId] = useAtom(storeIdAtom);
+  const queryClient = useQueryClient();
   const { mutate } = useMutation({
     mutationKey: ["postRelationMutate"],
     mutationFn: ({
@@ -60,6 +70,11 @@ function usePostRelationAdmin() {
       memberId: string;
       body: PostRelationAdminBody;
     }) => postRelationAdmin(storeId, memberId, body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["getRelationList"],
+      });
+    },
   });
   const postRelationAdminMutate = (
     memberId: string,
