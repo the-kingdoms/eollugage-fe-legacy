@@ -1,5 +1,8 @@
 import { History } from "@/apis/history";
 import dayjs from "dayjs";
+import isoWeek from "dayjs/plugin/isoWeek";
+
+dayjs.extend(isoWeek);
 
 interface WorkHistory {
   startDate: dayjs.Dayjs;
@@ -27,7 +30,7 @@ export function historyToWorkHistory(historys: History[]) {
 
   const workHistoryList: WorkHistory[] = [];
 
-  let currentWeekStart = dayjs(sortedHistorys[0].date).startOf("week");
+  let currentWeekStart = dayjs(sortedHistorys[0].date).startOf("isoWeek");
 
   let weekHistories: History[] = [];
 
@@ -36,7 +39,7 @@ export function historyToWorkHistory(historys: History[]) {
     if (historyDate.isBefore(currentWeekStart.add(7, "day"))) {
       weekHistories.push(history);
     } else {
-      const weekEnd = currentWeekStart.endOf("week");
+      const weekEnd = currentWeekStart.endOf("isoWeek");
       const workingMinutes = calculateWorkMinutes(weekHistories);
       workHistoryList.push({
         startDate: currentWeekStart,
@@ -46,12 +49,12 @@ export function historyToWorkHistory(historys: History[]) {
         overtimeMinutes: 0, // 나중에 추가해야할듯합니다
       });
 
-      currentWeekStart = historyDate.startOf("week");
+      currentWeekStart = historyDate.startOf("isoWeek");
       weekHistories = [history];
     }
   });
 
-  const lastWeekEnd = currentWeekStart.endOf("week");
+  const lastWeekEnd = currentWeekStart.endOf("isoWeek");
   const lastWorkingMinutes = calculateWorkMinutes(weekHistories);
   workHistoryList.push({
     startDate: currentWeekStart,

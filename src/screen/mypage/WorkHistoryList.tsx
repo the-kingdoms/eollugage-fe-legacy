@@ -2,6 +2,7 @@ import { useGetHistoryList } from "@/hooks/query/history";
 import { historyToWorkHistory, WorkHistory } from "@/libs/historyToWorkHistory";
 import WorkInfoCard from "@modules/components/card/WorkInfoCard";
 import FlexBox from "@modules/layout/FlexBox";
+import { Dayjs } from "dayjs";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -25,6 +26,10 @@ export default function WorkHistoryList({ memberId }: WorkHistoryListProps) {
     }
   }, [historys]);
 
+  const makePathQuery = (startDate: Dayjs, endDate: Dayjs) => {
+    return `memberId=${memberId}&startDate=${startDate.format("YYYY-MM-DD")}&endDate=${endDate.format("YYYY-MM-DD")}`;
+  };
+
   return (
     <FlexBox direction="col" className="w-full px-4 gap-4">
       <FlexBox className="w-full justify-start B3-medium">근무 일지</FlexBox>
@@ -38,7 +43,9 @@ export default function WorkHistoryList({ memberId }: WorkHistoryListProps) {
             workingMinutes={workHistory.workingMinutes}
             overtimeMinutes={workHistory.overtimeMinutes}
             onClick={() => {
-              push("/mypage/detail");
+              push(
+                `/mypage/detail?${makePathQuery(workHistory.startDate, workHistory.endDate)}`,
+              );
             }}
           />
         ))}
