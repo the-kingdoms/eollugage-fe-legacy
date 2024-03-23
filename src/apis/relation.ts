@@ -1,12 +1,11 @@
-import { RoleType } from "@/apis/_type";
+import { AbstractMember, RoleType } from "@/apis/_type";
 import api, { ApiResponse } from "@/apis/network";
-import { My } from "@/apis/my";
 import { Plan } from "@/apis/plan";
 
 interface Relation extends PostRelationBody {
   id: string;
   storeId: string;
-  member: My;
+  member: AbstractMember;
   planList: Plan[];
 }
 
@@ -27,7 +26,7 @@ async function getAllRelationList(storeId: string): Promise<Relation[]> {
 async function getRelationList(
   storeId: string,
   memberId: string,
-): Promise<Relation> {
+): Promise<Relation[]> {
   const { data } = await api.get(
     `/api/stores/${storeId}/relations/${memberId}`,
   );
@@ -58,5 +57,5 @@ async function postRelationAdmin(
   return data;
 }
 
-export { getAllRelationList, postRelation, postRelationAdmin, getRelationList };
-export type { PostRelationBody, Relation, PostRelationAdminBody };
+export { getAllRelationList, getRelationList, postRelation, postRelationAdmin };
+export type { PostRelationAdminBody, PostRelationBody, Relation };

@@ -1,15 +1,9 @@
-import { ProviderType } from "@/apis/_type";
+import { AbstractMember } from "@/apis/_type";
 import api from "@/apis/network";
 import { Relation } from "@/apis/relation";
-import { Store } from "@/apis/store";
 
-interface My {
-  id: string;
-  name: string;
-  phone: string;
-  providerType: ProviderType;
+interface My extends AbstractMember {
   relationList: Relation[];
-  storeList: Store[];
 }
 
 async function getMy(): Promise<My> {
