@@ -10,11 +10,11 @@ import { useAtom } from "jotai";
 
 function useGetNotice() {
   const [storeId] = useAtom(storeIdAtom);
-  const { data: notices } = useQuery({
+  const { data } = useQuery({
     queryKey: ["getNoticeList"],
     queryFn: () => getNoticeList(storeId),
   });
-  return { notices };
+  return { data };
 }
 
 function usePostNotice() {
@@ -23,10 +23,7 @@ function usePostNotice() {
     mutationKey: ["postNotice"],
     mutationFn: (body: PostNoticeBody) => postNotice(storeId, body),
   });
-  const postNoticeMutate = (body: PostNoticeBody) => {
-    mutate(body);
-  };
-  return { postNoticeMutate };
+  return { mutate };
 }
 
 function usePutNotice() {
@@ -43,10 +40,7 @@ function usePutNotice() {
       return putNotice(storeId, noticeId, body);
     },
   });
-  const putNoticeMutate = (noticeId: string, body: PostNoticeBody) => {
-    mutate({ noticeId, body });
-  };
-  return { putNoticeMutate };
+  return { mutate };
 }
 
 export { useGetNotice, usePostNotice, usePutNotice };

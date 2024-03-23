@@ -11,7 +11,9 @@ export default function Home() {
   const [viewState] = useState<StaffViewState>("with_store");
   const router = useRouter();
 
-  const handleManageClick = () => router.push("/manage");
+  const handleManageClick = () => {
+    router.push("/manage");
+  };
 
   return (
     <FlexBox direction="col" className="w-full h-full px-4">

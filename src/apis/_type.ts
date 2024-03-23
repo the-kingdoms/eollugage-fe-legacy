@@ -1,5 +1,5 @@
-type StatusType = "approve" | "disapprove" | "decline";
-type DateType =
+type StatusType = "APPROVED" | "DISAPPROVED" | "DECLINED";
+type DayType =
   | "Monday"
   | "Tuesday"
   | "Wednesday"
@@ -8,6 +8,20 @@ type DateType =
   | "Saturday"
   | "Sunday";
 type ProviderType = "KAKAO" | "GOOGLE" | "APPLE";
-type RoleType = "owner" | "manager" | "staff";
+type RoleType = "OWNER" | "MANAGER" | "STAFF";
 
-export type { StatusType, DateType, ProviderType, RoleType };
+interface Store {
+  storeId: string;
+  name: string;
+}
+
+interface AbstractMember {
+  id: string;
+  name: string;
+  phone: string;
+  providerType: ProviderType;
+  storeList: Store[];
+}
+
+export type { StatusType, DayType, ProviderType, RoleType };
+export type { Store, AbstractMember };

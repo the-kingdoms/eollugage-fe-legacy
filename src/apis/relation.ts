@@ -1,10 +1,12 @@
-import { RoleType } from "@/apis/_type";
+import { AbstractMember, RoleType } from "@/apis/_type";
 import api, { ApiResponse } from "@/apis/network";
+import { Plan } from "@/apis/plan";
 
 interface Relation extends PostRelationBody {
   id: string;
   storeId: string;
-  memberId: string;
+  member: AbstractMember;
+  planList: Plan[];
 }
 
 interface PostRelationBody {
@@ -12,50 +14,48 @@ interface PostRelationBody {
   position: string;
 }
 
-interface PutRelationAdminBody {
+interface PostRelationAdminBody {
   role: RoleType;
 }
 
 async function getRelationList(storeId: string): Promise<Relation[]> {
   const { data } = await api.get(`/api/stores/${storeId}/relations`);
-  return [
-    {
-      id: "1",
-      storeId,
-      memberId: "1",
-      role: "owner",
-      position: "대표",
-    },
-    {
-      id: "2",
-      storeId,
-      memberId: "2",
-      role: "staff",
-      position: "직원",
-    },
-  ]; // 추후 삭제 필요
+  return data;
+}
+
+async function getRelation(
+  storeId: string,
+  memberId: string,
+): Promise<Relation> {
+  const { data } = await api.get(
+    `/api/stores/${storeId}/relations/${memberId}`,
+  );
   return data;
 }
 
 async function postRelation(
   storeId: string,
+  memberId: string,
   body: PostRelationBody,
 ): Promise<ApiResponse> {
-  const { data } = await api.post(`/api/stores/${storeId}/relations`, body);
+  const { data } = await api.post(
+    `/api/stores/${storeId}/relations/${memberId}`,
+    body,
+  );
   return data;
 }
 
-async function putRelationAdmin(
+async function postRelationAdmin(
   storeId: string,
   memberId: string,
-  body: PutRelationAdminBody,
+  body: PostRelationAdminBody,
 ): Promise<ApiResponse> {
-  const { data } = await api.put(
+  const { data } = await api.post(
     `/api/stores/${storeId}/relations/${memberId}/admin`,
     body,
   );
   return data;
 }
 
-export { getRelationList, postRelation, putRelationAdmin };
-export type { PostRelationBody, Relation };
+export { getRelation, getRelationList, postRelation, postRelationAdmin };
+export type { PostRelationAdminBody, PostRelationBody, Relation };

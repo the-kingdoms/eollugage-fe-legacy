@@ -50,6 +50,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   width: 100%;
+  max-width: 360px;
   height: 392px;
 }
 

@@ -1,9 +1,28 @@
-import { StatusType } from "@/apis/_type";
+import { AbstractMember, StatusType } from "@/apis/_type";
 import api, { ApiResponse } from "@/apis/network";
+import { Plan } from "@/apis/plan";
+import { Relation } from "@/apis/relation";
+
+interface HistoryRelation extends Relation {
+  member: AbstractMember;
+  planList: Plan[];
+}
+
+interface AllHistory extends History {
+  relation: HistoryRelation;
+}
 
 interface History extends PostHistoryBody {
   id: string;
+  status: StatusType;
   relationId: string;
+  relation: {
+    position: string;
+    member: {
+      name: string;
+      phone: string;
+    };
+  };
 }
 
 interface PostHistoryBody {
@@ -11,12 +30,16 @@ interface PostHistoryBody {
   endTime: string;
   restStartTime: string;
   restEndTime: string;
-  status: StatusType;
   date: string;
 }
 
 interface PostHistoryStatusBody {
   status: StatusType;
+}
+
+async function getAllMemberHistory(storeId: string): Promise<AllHistory[]> {
+  const { data } = await api.get(`/api/stores/${storeId}/histories`);
+  return data;
 }
 
 async function getHistoryList(
@@ -26,18 +49,27 @@ async function getHistoryList(
   const { data } = await api.get(
     `/api/stores/${storeId}/relations/${memberId}/histories`,
   );
-  return [
-    {
-      id: "string",
-      relationId: "string",
-      startTime: "08:00:00.000Z",
-      endTime: "18:00:00.000Z",
-      restStartTime: "11:00:00.000Z",
-      restEndTime: "12:00:00.000Z",
-      status: "approve",
-      date: "2024-03-07",
-    },
-  ]; // 추후 삭제 필요
+  return data;
+}
+
+async function getAllMemberHistoryByDate(
+  storeId: string,
+  date: string,
+): Promise<AllHistory[]> {
+  const { data } = await api.get(
+    `/api/stores/${storeId}/histories/date/${date}`,
+  );
+  return data;
+}
+
+async function getHistoryListByDate(
+  storeId: string,
+  memberId: string,
+  date: string,
+): Promise<History[]> {
+  const { data } = await api.get(
+    `/api/stores/${storeId}/relations/${memberId}/histories/date/${date}`,
+  );
   return data;
 }
 
@@ -76,5 +108,19 @@ async function deleteHistory(
   );
 }
 
-export { deleteHistory, getHistoryList, postHistory, postHistoryStatus };
-export type { History, PostHistoryBody, PostHistoryStatusBody };
+export {
+  deleteHistory,
+  getAllMemberHistory,
+  getAllMemberHistoryByDate,
+  getHistoryList,
+  getHistoryListByDate,
+  postHistory,
+  postHistoryStatus,
+};
+export type {
+  AllHistory,
+  History,
+  HistoryRelation,
+  PostHistoryBody,
+  PostHistoryStatusBody,
+};

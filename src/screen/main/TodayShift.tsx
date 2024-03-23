@@ -1,12 +1,26 @@
+import { useGetAllMemberHistoryByDate } from "@/hooks/query/history";
+import { getTimeString } from "@/libs/timeValidation";
 import WorkInfo from "@/screen/main/WorkInfo";
 import FlexBox from "@modules/layout/FlexBox";
+import dayjs from "dayjs";
 
 export default function TodayShift() {
+  const { data: historyList } = useGetAllMemberHistoryByDate(
+    dayjs().format("YYYY-MM-DD"),
+  );
+
   return (
     <FlexBox direction="col" className="w-full gap-4 items-start">
       <div className="H5-bold">금일의 근무</div>
-      <WorkInfo name="김민수" position="팀장" time="09:00 ~ 18:00" />
-      <WorkInfo name="이민지" position="팀원" time="09:00 ~ 18:00" />
+      {historyList?.map(historyInfo => (
+        <WorkInfo
+          key={historyInfo.id}
+          name={historyInfo.relation.member.name}
+          position={historyInfo.relation.position}
+          time={getTimeString(historyInfo.startTime, historyInfo.endTime)}
+          role={historyInfo.relation.role}
+        />
+      ))}
     </FlexBox>
   );
 }

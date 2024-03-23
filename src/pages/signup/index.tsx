@@ -19,6 +19,14 @@ export default function Home() {
     }
   };
 
+  const handleNextButton = () => {
+    if (selectedImage === "owner") {
+      router.push("/signup/owner");
+    } else if (selectedImage === "staff") {
+      router.push("/signup/staff");
+    }
+  };
+
   return (
     <FlexBox direction="col" className="w-full h-full px-4 justify-between">
       <TopTitle title="" type="back" />
@@ -50,11 +58,11 @@ export default function Home() {
       </FlexBox>
 
       <TextButton
-        size="L"
+        size="full"
         text="다음"
         className="mb-4"
         inactive={selectedImage === null}
-        onClick={() => router.push("/signup/owner")}
+        onClick={handleNextButton}
       />
     </FlexBox>
   );

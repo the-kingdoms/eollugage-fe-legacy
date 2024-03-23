@@ -13,8 +13,14 @@ const myMemberIdAtom = atom<string>(get => {
 });
 const roleAtom = atom<RoleType>(get => {
   const my = get(myAtom);
-  return my?.relationList[0].role ?? "staff";
+  return my?.relationList[0].role ?? "STAFF";
 });
 const manageMenuAtom = atom<"left" | "right">("left");
+
+manageMenuAtom.debugLabel = "manageMenuAtom";
+myAtom.debugLabel = "myAtom";
+myMemberIdAtom.debugLabel = "myMemberIdAtom";
+roleAtom.debugLabel = "roleAtom";
+storeIdAtom.debugLabel = "storeIdAtom";
 
 export { manageMenuAtom, myAtom, myMemberIdAtom, roleAtom, storeIdAtom };

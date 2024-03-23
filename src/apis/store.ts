@@ -1,9 +1,5 @@
+import { Store } from "@/apis/_type";
 import api, { ApiResponse } from "@/apis/network";
-
-interface Store {
-  storeId: string;
-  name: string;
-}
 
 interface PostStoreBody {
   name: string;
