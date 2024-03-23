@@ -11,7 +11,6 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
 import { useAtom } from "jotai";
-import { DevTools } from "jotai-devtools";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -46,7 +45,6 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools />
-      <DevTools />
       <RNListener />
       <Layout className={pathname === "/" ? "bg-black" : "bg-white"}>
         {dialog}
