@@ -1,8 +1,10 @@
+import { filteredHistoryAtom } from "@/data/historyAtom";
 import { useGetHistoryList } from "@/hooks/query/history";
 import { historyToWorkHistory } from "@/libs/historyToWorkHistory";
 import WorkInfoCard from "@modules/components/card/WorkInfoCard";
 import FlexBox from "@modules/layout/FlexBox";
 import dayjs, { Dayjs } from "dayjs";
+import { useAtom } from "jotai";
 import router, { useRouter } from "next/router";
 import React, { useEffect, useState, memo } from "react";
 
@@ -22,6 +24,7 @@ export default function WorkHistoryList({ memberId }: WorkHistoryListProps) {
   const { push } = useRouter();
   const { data: historys, refetch } = useGetHistoryList(memberId);
   const [workHistoryList, setWorkHistoryList] = useState<WorkHistory[]>([]);
+  const [filteredHistory, setFilteredHistory] = useAtom(filteredHistoryAtom);
 
   useEffect(() => {
     if (historys) {
@@ -29,10 +32,6 @@ export default function WorkHistoryList({ memberId }: WorkHistoryListProps) {
       setWorkHistoryList(newWorkHistoryList);
     }
   }, [historys]);
-
-  const makePathQuery = (startDate: Dayjs, endDate: Dayjs) => {
-    return `memberId=${memberId}&startDate=${startDate.format("YYYY-MM-DD")}&endDate=${endDate.format("YYYY-MM-DD")}`;
-  };
 
   const handleDetailClick = (startDate: dayjs.Dayjs, endDate: dayjs.Dayjs) => {
     const filteredHistorys = historys?.filter(history => {
@@ -46,11 +45,7 @@ export default function WorkHistoryList({ memberId }: WorkHistoryListProps) {
       return isSameOrAfterStartDate && isSameOrBeforeEndDate;
     });
 
-    localStorage.setItem(
-      "selectedWorkHistory",
-      JSON.stringify(filteredHistorys),
-    );
-
+    setFilteredHistory(filteredHistorys as []);
     push(`/mypage/detail`);
   };
 
@@ -66,11 +61,9 @@ export default function WorkHistoryList({ memberId }: WorkHistoryListProps) {
             workingDays={workHistory.workingDays}
             workingMinutes={workHistory.workingMinutes}
             overtimeMinutes={workHistory.overtimeMinutes}
-            onClick={() => {
-              push(
-                `/mypage/detail?${makePathQuery(workHistory.startDate, workHistory.endDate)}`,
-              );
-            }}
+            onClick={() =>
+              handleDetailClick(workHistory.startDate, workHistory.endDate)
+            }
           />
         ))}
       </FlexBox>
