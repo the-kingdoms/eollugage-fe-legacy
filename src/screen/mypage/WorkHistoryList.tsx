@@ -20,11 +20,15 @@ interface WorkHistory {
 
 export default function WorkHistoryList({ memberId }: WorkHistoryListProps) {
   const { push } = useRouter();
-  const { data: historys, isLoading } = useGetHistoryList(memberId);
+  const { data: historys, refetch } = useGetHistoryList(memberId);
   const [workHistoryList, setWorkHistoryList] = useState<WorkHistory[]>([]);
 
   useEffect(() => {
-    if (historys && !isLoading) {
+    refetch();
+  }, [memberId]);
+
+  useEffect(() => {
+    if (historys) {
       const newWorkHistoryList: WorkHistory[] = historyToWorkHistory(historys);
       setWorkHistoryList(newWorkHistoryList);
     }

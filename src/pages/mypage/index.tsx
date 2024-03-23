@@ -1,5 +1,7 @@
+import { Relation } from "@/apis/relation";
 import AdminControlBanner from "@/assist/banner/AdminControlBanner";
 import { myMemberIdAtom, roleAtom } from "@/data/global";
+import { useGetRelationList } from "@/hooks/query/relation";
 import RelationSlider from "@/screen/mypage/RelationSlider";
 import UserInfo from "@/screen/mypage/UserInfo";
 import WorkHistoryList from "@/screen/mypage/WorkHistoryList";
@@ -8,8 +10,6 @@ import TabBarGage from "@modules/components/bars/TabBarGage";
 import FlexBox from "@modules/layout/FlexBox";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { useGetRelationList } from "@/hooks/query/relation";
-import { Relation } from "@/apis/relation";
 
 export default function Manage() {
   const [memberId] = useAtom(myMemberIdAtom);

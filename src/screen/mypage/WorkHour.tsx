@@ -10,8 +10,13 @@ interface WorkHourProps {
 
 export default function WorkHour({ memberId }: WorkHourProps) {
   const [workingMinutes, setWorkingMinutes] = useState(0);
-  const { data: historys } = useGetHistoryList(memberId);
-  const currentDate = dayjs().format("MM/DD");
+  const { data: historys, refetch } = useGetHistoryList(memberId);
+  const currentDate = dayjs();
+
+  useEffect(() => {
+    refetch();
+  }, [memberId]);
+
   useEffect(() => {
     if (historys) {
       let newWorkingMinutes = 0;
@@ -19,7 +24,8 @@ export default function WorkHour({ memberId }: WorkHourProps) {
         const startDate = dayjs(`${item.date}T${item.startTime}`);
         const endDate = dayjs(`${item.date}T${item.endTime}`);
         const diffMinutes = endDate.diff(startDate, "minute");
-        newWorkingMinutes += diffMinutes;
+        if (startDate.month() === currentDate.month())
+          newWorkingMinutes += diffMinutes;
       });
       setWorkingMinutes(newWorkingMinutes);
     }
@@ -36,7 +42,7 @@ export default function WorkHour({ memberId }: WorkHourProps) {
         />
       </FlexBox>
       <FlexBox className="w-full justify-end B4-medium text-Gray5 pr-4 mt-2">
-        {currentDate} 기준
+        {currentDate.format("MM/DD")} 기준
       </FlexBox>
     </FlexBox>
   );
