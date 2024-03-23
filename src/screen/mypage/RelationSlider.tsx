@@ -4,13 +4,13 @@ import FlexBox from "@modules/layout/FlexBox";
 import Slider from "@modules/layout/Slider";
 
 interface RelationSliderProps {
-  currentRelation?: Relation;
+  currentMemberId: string;
   relationList: Relation[];
   onClick?: (relation: Relation) => void;
 }
 
 export default function RelationSlider({
-  currentRelation,
+  currentMemberId,
   relationList,
   onClick,
 }: RelationSliderProps) {
@@ -27,7 +27,7 @@ export default function RelationSlider({
             <Profile
               size="M1"
               name={relation.member.name}
-              focus={relation.member.id === currentRelation?.member.id}
+              focus={relation.member.id === currentMemberId}
             />
             <div className="w-full text-center B5-medium text-Gray5">
               {relation.member.name.slice(0, 5)}

@@ -1,10 +1,10 @@
 import { useGetHistoryList } from "@/hooks/query/history";
+import { WorkHistory } from "@/libs/historyToWorkHistory";
 import WorkInfoCard from "@modules/components/card/WorkInfoCard";
 import FlexBox from "@modules/layout/FlexBox";
-import dayjs from "dayjs";
+import { Dayjs } from "dayjs";
 import router, { useRouter } from "next/router";
 import React, { useEffect, useState, memo } from "react";
-import { historyToWorkHistory } from "@/libs/historyToWorkHistory";
 
 interface WorkHistoryListProps {
   memberId: string;
@@ -18,19 +18,21 @@ interface WorkHistory {
   overtimeMinutes: number;
 }
 
-const WorkHistoryList = memo(({ memberId }: WorkHistoryListProps) => {
+export default function WorkHistoryList({ memberId }: WorkHistoryListProps) {
   const { push } = useRouter();
-  const { data: historys, isLoading } = useGetHistoryList(memberId);
+  const { data: historys, refetch } = useGetHistoryList(memberId);
   const [workHistoryList, setWorkHistoryList] = useState<WorkHistory[]>([]);
 
   useEffect(() => {
-    if (!isLoading && historys) {
+    if (historys) {
       const newWorkHistoryList: WorkHistory[] = historyToWorkHistory(historys);
       setWorkHistoryList(newWorkHistoryList);
     }
-  }, [historys, isLoading]);
+  }, [historys]);
 
-  const reversedWorkHistoryList = [...workHistoryList].reverse(); // 최신날짜기준으로 랜더링되도록 넣어놨습니다
+  const makePathQuery = (startDate: Dayjs, endDate: Dayjs) => {
+    return `memberId=${memberId}&startDate=${startDate.format("YYYY-MM-DD")}&endDate=${endDate.format("YYYY-MM-DD")}`;
+  };
 
   const handleDetailClick = (startDate: dayjs.Dayjs, endDate: dayjs.Dayjs) => {
     const filteredHistorys = historys?.filter(history => {
@@ -56,7 +58,7 @@ const WorkHistoryList = memo(({ memberId }: WorkHistoryListProps) => {
     <FlexBox direction="col" className="w-full px-4 gap-4">
       <div className="w-full justify-start B3-medium">근무 일지</div>
       <FlexBox direction="col" className="w-full gap-5">
-        {reversedWorkHistoryList.map((workHistory, index) => (
+        {workHistoryList.reverse().map((workHistory, index) => (
           <WorkInfoCard
             key={index}
             startDate={workHistory.startDate}
@@ -64,9 +66,11 @@ const WorkHistoryList = memo(({ memberId }: WorkHistoryListProps) => {
             workingDays={workHistory.workingDays}
             workingMinutes={workHistory.workingMinutes}
             overtimeMinutes={workHistory.overtimeMinutes}
-            onClick={() =>
-              handleDetailClick(workHistory.startDate, workHistory.endDate)
-            }
+            onClick={() => {
+              push(
+                `/mypage/detail?${makePathQuery(workHistory.startDate, workHistory.endDate)}`,
+              );
+            }}
           />
         ))}
       </FlexBox>
