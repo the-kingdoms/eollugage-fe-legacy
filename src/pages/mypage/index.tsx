@@ -15,7 +15,7 @@ export default function Manage() {
   const [memberId] = useAtom(myMemberIdAtom);
   const [role] = useAtom(roleAtom);
   const [currentMemberId, setCurrentMemberId] = useState<string>("");
-  const { relations } = useGetRelationList();
+  const { data: relations } = useGetRelationList();
 
   useEffect(() => {
     if (role !== "STAFF") {

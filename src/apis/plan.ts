@@ -2,8 +2,8 @@ import { DayType } from "@/apis/_type";
 import api, { ApiResponse } from "./network";
 
 interface Plan extends PostPlanBody {
-  id: "string";
-  relationId: "string";
+  id: string;
+  relationId: string;
 }
 
 interface PostPlanBody {

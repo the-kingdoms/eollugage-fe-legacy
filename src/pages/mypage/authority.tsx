@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Relation } from "@/apis/relation";
 import {
   useGetRelationList,
   usePostRelationAdmin,
@@ -9,29 +9,30 @@ import Checkbox from "@modules/components/selections/Checkbox";
 import FlexBox from "@modules/layout/FlexBox";
 import GridBox from "@modules/layout/GridBox";
 import TopTitle from "@modules/layout/TopTitle";
-import { Relation } from "@/apis/relation";
+import { useState } from "react";
 
 export default function MyPageAuthorithy() {
-  const { relations } = useGetRelationList();
-  const { postRelationAdminMutate } = usePostRelationAdmin();
+  const { data: relations } = useGetRelationList();
+  const { mutate: postRelationAdminMutate } = usePostRelationAdmin();
   const [checkedEmployees, setCheckedEmployees] = useState<Relation[]>([]);
 
-  const handleCheckboxChange =
-    (employee: Relation) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      const index = checkedEmployees.findIndex(
-        checkedEmployee => checkedEmployee.member.id === employee.member.id,
-      );
-      if (index !== -1) {
-        setCheckedEmployees([]);
-      } else {
-        setCheckedEmployees(current => [...current, employee]);
-      }
-    };
+  const handleCheckboxChange = (employee: Relation) => () => {
+    const index = checkedEmployees.findIndex(
+      checkedEmployee => checkedEmployee.member.id === employee.member.id,
+    );
+    if (index !== -1) {
+      setCheckedEmployees([]);
+    } else {
+      setCheckedEmployees(current => [...current, employee]);
+    }
+  };
 
   const addNewAdmin = () => {
     checkedEmployees.forEach(item => {
-      item.role = "MANAGER";
-      postRelationAdminMutate(item?.member.id, item);
+      postRelationAdminMutate({
+        memberId: item?.member.id,
+        body: { ...item, role: "MANAGER" },
+      });
     });
   };
   return (

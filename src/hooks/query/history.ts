@@ -29,16 +29,6 @@ function useGetAllMemeberHistory() {
   return { data };
 }
 
-function useGetHistoryList(memberId: string) {
-  const [storeId] = useAtom(storeIdAtom);
-  const { data, refetch } = useQuery({
-    queryKey: ["getHistoryList"],
-    queryFn: () => getHistoryList(storeId, memberId),
-  });
-  
-  return { data, refetch };
-}
-
 function useGetAllMemberHistoryByDate(date: string) {
   const [storeId] = useAtom(storeIdAtom);
   const { data } = useQuery({
@@ -47,6 +37,16 @@ function useGetAllMemberHistoryByDate(date: string) {
   });
 
   return { data };
+}
+
+function useGetHistoryList(memberId: string) {
+  const [storeId] = useAtom(storeIdAtom);
+  const { data, refetch } = useQuery({
+    queryKey: ["getHistoryList"],
+    queryFn: () => getHistoryList(storeId, memberId),
+  });
+
+  return { data, refetch };
 }
 
 function useGetHistoryListByDate(memberId: string, date: string) {
@@ -82,7 +82,7 @@ function usePostHistory() {
     },
   });
 
-  return { postHistoryMutate: mutate, isPending };
+  return { mutate, isPending };
 }
 
 function usePostHistoryStatus() {
@@ -106,7 +106,7 @@ function usePostHistoryStatus() {
     },
   });
 
-  return { postHistoryStatusMutate: mutate, isPending };
+  return { mutate, isPending };
 }
 
 function useDeleteHistory() {
@@ -128,7 +128,7 @@ function useDeleteHistory() {
     },
   });
 
-  return { deleteHistoryMutate: mutate, isPending };
+  return { mutate, isPending };
 }
 
 export {

@@ -8,9 +8,9 @@ import FlexBox from "@modules/layout/FlexBox";
 import { useEffect, useState } from "react";
 
 export default function ManagerNotice() {
-  const { notices } = useGetNotice();
-  const { postNoticeMutate } = usePostNotice();
-  const { putNoticeMutate } = usePutNotice();
+  const { data: notices } = useGetNotice();
+  const { mutate: postNoticeMutate } = usePostNotice();
+  const { mutate: putNoticeMutate } = usePutNotice();
   const [notice, setNotice] = useState("");
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export default function ManagerNotice() {
 
   const update = () => {
     if (notices && notices?.length > 0) {
-      putNoticeMutate(notices[0].id, { content: notice });
+      putNoticeMutate({ noticeId: notices[0].id, body: { content: notice } });
     } else {
       postNoticeMutate({ content: notice });
     }

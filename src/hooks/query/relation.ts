@@ -1,20 +1,14 @@
 import {
-  PostRelationBody,
   PostRelationAdminBody,
-  getAllRelationList,
+  PostRelationBody,
+  getRelation,
+  getRelationList,
   postRelation,
   postRelationAdmin,
-  getRelationList,
 } from "@/apis/relation";
-import { useAtom } from "jotai";
 import { storeIdAtom } from "@/data/global";
-import {
-  MutateOptions,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
-import { ApiResponse } from "@/apis/network";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useAtom } from "jotai";
 
 interface UsePostRelationProps {
   storeId: string;
@@ -22,26 +16,22 @@ interface UsePostRelationProps {
   body: PostRelationBody;
 }
 
-function useGetRelationList(memberId: string) {
+function useGetRelation(memberId: string) {
   const [storeId] = useAtom(storeIdAtom);
-  const {
-    data: relations,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["getRelationList"],
-    queryFn: () => getRelationList(storeId, memberId),
+  const { data } = useQuery({
+    queryKey: ["getRelation"],
+    queryFn: () => getRelation(storeId, memberId),
   });
-  return { relations };
+  return { data };
 }
 
-function useGetAllRelationList() {
+function useGetRelationList() {
   const [storeId] = useAtom(storeIdAtom);
-  const { data: relations } = useQuery({
-    queryKey: ["getAllRelationList"],
-    queryFn: () => getAllRelationList(storeId),
+  const { data } = useQuery({
+    queryKey: ["getRelationList"],
+    queryFn: () => getRelationList(storeId),
   });
-  return { relations, isLoading };
+  return { data };
 }
 
 function usePostRelation() {
@@ -50,22 +40,7 @@ function usePostRelation() {
     mutationFn: ({ storeId, memberId, body }: UsePostRelationProps) =>
       postRelation(storeId, memberId, body),
   });
-  const postRelationMutate = (
-    storeId: string,
-    memberId: string,
-    body: PostRelationBody,
-    options: MutateOptions<ApiResponse, Error, UsePostRelationProps>,
-  ) => {
-    mutate(
-      {
-        storeId,
-        memberId,
-        body,
-      },
-      options,
-    );
-  };
-  return { postRelationMutate, isSuccess };
+  return { mutate, isSuccess };
 }
 
 function usePostRelationAdmin() {
@@ -86,18 +61,12 @@ function usePostRelationAdmin() {
       });
     },
   });
-  const postRelationAdminMutate = (
-    memberId: string,
-    body: PostRelationBody,
-  ) => {
-    mutate({ memberId, body });
-  };
-  return { postRelationAdminMutate };
+  return { mutate };
 }
 
 export {
-  useGetAllRelationList,
+  useGetRelation,
+  useGetRelationList,
   usePostRelation,
   usePostRelationAdmin,
-  useGetRelationList,
 };

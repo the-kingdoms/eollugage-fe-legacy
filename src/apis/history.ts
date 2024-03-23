@@ -1,11 +1,10 @@
-import { StatusType } from "@/apis/_type";
+import { AbstractMember, StatusType } from "@/apis/_type";
 import api, { ApiResponse } from "@/apis/network";
-import { Relation } from "@/apis/relation";
-import { My } from "@/apis/my";
 import { Plan } from "@/apis/plan";
+import { Relation } from "@/apis/relation";
 
 interface HistoryRelation extends Relation {
-  member: My;
+  member: AbstractMember;
   planList: Plan[];
 }
 
@@ -110,18 +109,18 @@ async function deleteHistory(
 }
 
 export {
+  deleteHistory,
   getAllMemberHistory,
-  getHistoryList,
   getAllMemberHistoryByDate,
+  getHistoryList,
   getHistoryListByDate,
   postHistory,
   postHistoryStatus,
-  deleteHistory,
 };
 export type {
+  AllHistory,
   History,
+  HistoryRelation,
   PostHistoryBody,
   PostHistoryStatusBody,
-  AllHistory,
-  HistoryRelation,
 };

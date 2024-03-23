@@ -1,9 +1,10 @@
 import FlexBox from "@modules/layout/FlexBox";
 import StaffButton from "@modules/components/button/StateButton";
 import dayjs from "dayjs";
+import { StatusType } from "@/apis/_type";
 
 interface StaffTimeApprovalProps {
-  status: "approve" | "disapprove" | "decline";
+  status: StatusType;
   starttime: string;
   endtime: string;
   date: string;

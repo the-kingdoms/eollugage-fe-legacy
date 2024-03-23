@@ -15,7 +15,8 @@ import Sheet from "react-modal-sheet";
 import StaffTimeInput from "./StaffTimeInput";
 
 export default function AddWorkModal() {
-  const { postHistoryMutate } = usePostHistory();
+  const { mutate: postHistoryMutate } = usePostHistory();
+  const { data: relationList } = useGetRelationList();
   const [selectedDate] = useAtom(selectedDateAtom);
   const [isModalOpen, setIsModalOpen] = useAtom(addWorkModalAtom);
 
@@ -24,12 +25,12 @@ export default function AddWorkModal() {
   const [startRestTime, setStartRestTime] = useState<string>("0000");
   const [endRestTime, setEndRestTime] = useState<string>("1100");
 
+  const [memberNameList, setMemberNameList] = useState<string[]>([]);
+
   const closeModal = () => {
     setIsModalOpen(false);
   };
 
-  const { relations: relationList } = useGetRelationList();
-  const [memberNameList, setMemberNameList] = useState<string[]>([]);
   useEffect(() => {
     const tempList = relationList?.map(
       relationInfo => relationInfo.member.name,
@@ -38,9 +39,8 @@ export default function AddWorkModal() {
   }, [relationList]);
 
   const getIdByName = (name: string) => {
-    return relationList?.find(
-      relationInfo => relationInfo.member.name === selectedMemberName,
-    )?.member.id;
+    return relationList?.find(relationInfo => relationInfo.member.name === name)
+      ?.member.id;
   };
 
   const [selectedMemberName, setSelectedMemberName] = useState<string>(

@@ -1,18 +1,10 @@
-import { myAtom, myMemberIdAtom } from "@/data/global";
-import {
-  useGetAllMemberHistoryByDate,
-  useGetAllMemeberHistory,
-} from "@/hooks/query/history";
+import { useGetAllMemberHistoryByDate } from "@/hooks/query/history";
 import { getTimeString } from "@/libs/timeValidation";
 import WorkInfo from "@/screen/main/WorkInfo";
 import FlexBox from "@modules/layout/FlexBox";
 import dayjs from "dayjs";
-import { useAtom } from "jotai";
-import { useEffect, useState } from "react";
 
 export default function TodayShift() {
-  const [my] = useAtom(myAtom);
-  const [myMemberId] = useAtom(myMemberIdAtom);
   const { data: historyList } = useGetAllMemberHistoryByDate(
     dayjs().format("YYYY-MM-DD"),
   );

@@ -13,7 +13,7 @@ import dayjs from "dayjs";
 import { useAtom } from "jotai";
 
 export default function Schedule() {
-  const { deleteHistoryMutate } = useDeleteHistory();
+  const { mutate: deleteHistoryMutate } = useDeleteHistory();
   const { openDialog } = useDialog();
 
   const onClickDeleteBtn = (historyId: string) => {

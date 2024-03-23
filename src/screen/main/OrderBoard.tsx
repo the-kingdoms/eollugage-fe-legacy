@@ -1,7 +1,6 @@
-import { Order, PostOrderBody, putOrder } from "@/apis/order";
+import { Order, PostOrderBody } from "@/apis/order";
 import { storeIdAtom } from "@/data/global";
 import { useGetOrder, usePostOrder, usePutOrder } from "@/hooks/query/order";
-import { postOrder } from "@modules/apis/eolluga/order";
 import TextCheckField from "@modules/components/textfields/TextCheckField";
 import FlexBox from "@modules/layout/FlexBox";
 import Icon from "@modules/layout/Icon";
@@ -11,9 +10,9 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 export default function OrderBoard() {
   const [orderList, setOrderList] = useState<Order[]>([]);
   const [storeId] = useAtom(storeIdAtom);
-  const { orders } = useGetOrder();
-  const { postOrderMutate } = usePostOrder();
-  const { putOrderMutate } = usePutOrder();
+  const { data: orders } = useGetOrder();
+  const { mutate: postOrderMutate } = usePostOrder();
+  const { mutate: putOrderMutate } = usePutOrder();
 
   useEffect(() => {
     if (orders) {
@@ -42,16 +41,19 @@ export default function OrderBoard() {
     if (orderList[index].id === "") {
       postOrderMutate(orderList[index]);
     } else {
-      putOrderMutate(orderList[index].id, orderList[index]);
+      putOrderMutate({ orderId: orderList[index].id, body: orderList[index] });
     }
   }
 
   function setChecked(index: number): Dispatch<SetStateAction<boolean>> {
-    return value => {
+    return () => {
       const newOrderList = [...orderList];
       newOrderList[index].isClicked = !newOrderList[index].isClicked;
       setOrderList(newOrderList);
-      putOrderMutate(newOrderList[index].id, newOrderList[index]);
+      putOrderMutate({
+        orderId: newOrderList[index].id,
+        body: newOrderList[index],
+      });
     };
   }
 

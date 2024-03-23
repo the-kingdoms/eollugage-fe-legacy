@@ -1,3 +1,4 @@
+import { StatusType } from "@/apis/_type";
 import StateButton from "@modules/components/button/StateButton";
 import Profile from "@modules/components/profile/Profile";
 import FlexBox from "@modules/layout/FlexBox";
@@ -8,7 +9,7 @@ interface ApprovalProfileProps {
   name: string;
   position: string;
   time: string;
-  buttonstate?: "approve" | "disapprove" | "decline";
+  buttonstate?: StatusType;
   handleonClick?: () => void;
 }
 

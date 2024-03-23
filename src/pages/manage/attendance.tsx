@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 
 export default function Attendance() {
   const { data: historyList } = useGetAllMemeberHistory();
-  const { postHistoryStatusMutate } = usePostHistoryStatus();
+  const { mutate: postHistoryStatusMutate } = usePostHistoryStatus();
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [isInactive, setIsInactive] = useState(false);
 

@@ -1,13 +1,10 @@
-import { useGetHistoryList } from "@/hooks/query/history";
+import { filteredHistoryAtom } from "@/data/historyAtom";
 import WorkDetailCard from "@modules/components/card/WorkDetailCard";
 import FlexBox from "@modules/layout/FlexBox";
 import TopTitle from "@modules/layout/TopTitle";
 import dayjs from "dayjs";
-import { History } from "@/apis/history";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import { useAtom } from "jotai";
-import { filteredHistoryAtom } from "@/data/historyAtom";
+import { useEffect, useState } from "react";
 
 interface WorkHistoryDetail {
   date: string;
@@ -20,18 +17,17 @@ export default function MyPageDetail() {
   const [workHistoryList, setWorkHistoryList] = useState<WorkHistoryDetail[]>(
     [],
   );
-  const [filteredHistory] = useAtom<History[]>(filteredHistoryAtom);
+  const [filteredHistory] = useAtom(filteredHistoryAtom);
 
   useEffect(() => {
     if (filteredHistory) {
       console.log(filteredHistory);
-      const processedItems = filteredHistory.map(item => ({
+      const processedItems = filteredHistory.map<WorkHistoryDetail>(item => ({
         type: "regular",
         date: item.date,
         startTime: item.startTime.slice(0, -3), // 마지막 초 단위 삭제
         endTime: item.endTime.slice(0, -3),
       }));
-
       setWorkHistoryList(processedItems);
     }
   }, [filteredHistory]);
@@ -53,7 +49,7 @@ export default function MyPageDetail() {
         {workHistoryList.map((item, index) => (
           <WorkDetailCard
             key={index}
-            type={"regular"}
+            type="regular"
             date={dayjs(item.date).format("YYYY-MM-DD")}
             startTime={item.startTime}
             endTime={item.endTime}

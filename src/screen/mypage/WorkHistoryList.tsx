@@ -3,10 +3,10 @@ import { useGetHistoryList } from "@/hooks/query/history";
 import { historyToWorkHistory } from "@/libs/historyToWorkHistory";
 import WorkInfoCard from "@modules/components/card/WorkInfoCard";
 import FlexBox from "@modules/layout/FlexBox";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { useAtom } from "jotai";
-import router, { useRouter } from "next/router";
-import React, { useEffect, useState, memo } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 interface WorkHistoryListProps {
   memberId: string;
@@ -22,9 +22,9 @@ interface WorkHistory {
 
 export default function WorkHistoryList({ memberId }: WorkHistoryListProps) {
   const { push } = useRouter();
-  const { data: historys, refetch } = useGetHistoryList(memberId);
+  const { data: historys } = useGetHistoryList(memberId);
   const [workHistoryList, setWorkHistoryList] = useState<WorkHistory[]>([]);
-  const [filteredHistory, setFilteredHistory] = useAtom(filteredHistoryAtom);
+  const [, setFilteredHistory] = useAtom(filteredHistoryAtom);
 
   useEffect(() => {
     if (historys) {
@@ -34,7 +34,8 @@ export default function WorkHistoryList({ memberId }: WorkHistoryListProps) {
   }, [historys]);
 
   const handleDetailClick = (startDate: dayjs.Dayjs, endDate: dayjs.Dayjs) => {
-    const filteredHistorys = historys?.filter(history => {
+    if (!historys) return;
+    const filteredHistorys = historys.filter(history => {
       const historyDate = dayjs(history.date);
 
       const isSameOrAfterStartDate =
@@ -44,8 +45,7 @@ export default function WorkHistoryList({ memberId }: WorkHistoryListProps) {
 
       return isSameOrAfterStartDate && isSameOrBeforeEndDate;
     });
-
-    setFilteredHistory(filteredHistorys as []);
+    setFilteredHistory(filteredHistorys);
     push(`/mypage/detail`);
   };
 
