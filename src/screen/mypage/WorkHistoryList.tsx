@@ -1,8 +1,8 @@
 import { useGetHistoryList } from "@/hooks/query/history";
-import { WorkHistory } from "@/libs/historyToWorkHistory";
+import { historyToWorkHistory } from "@/libs/historyToWorkHistory";
 import WorkInfoCard from "@modules/components/card/WorkInfoCard";
 import FlexBox from "@modules/layout/FlexBox";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import router, { useRouter } from "next/router";
 import React, { useEffect, useState, memo } from "react";
 
@@ -76,6 +76,4 @@ export default function WorkHistoryList({ memberId }: WorkHistoryListProps) {
       </FlexBox>
     </FlexBox>
   );
-});
-
-export default WorkHistoryList;
+}

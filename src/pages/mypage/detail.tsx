@@ -2,6 +2,15 @@ import { useGetHistoryList } from "@/hooks/query/history";
 import WorkDetailCard from "@modules/components/card/WorkDetailCard";
 import FlexBox from "@modules/layout/FlexBox";
 import TopTitle from "@modules/layout/TopTitle";
+import dayjs from "dayjs";
+import { useEffect, useState } from "react";
+
+interface WorkHistoryDetail {
+  date: string;
+  type: "regular" | "extra";
+  startTime: string;
+  endTime: string;
+}
 
 export default function MyPageDetail() {
   const [workHistoryList, setWorkHistoryList] = useState<WorkHistoryDetail[]>(
