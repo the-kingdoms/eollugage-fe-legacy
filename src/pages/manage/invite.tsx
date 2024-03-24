@@ -129,7 +129,7 @@ export default function Invite() {
       </div>
       <div className="mt-8 w-full">
         <Dropdown
-          defaultValue="직책을 선택해주세요"
+          defaultValue="직책을 먼저 선택해주세요"
           options={positions}
           onChange={value => setSelectedPosition(value)}
         />
