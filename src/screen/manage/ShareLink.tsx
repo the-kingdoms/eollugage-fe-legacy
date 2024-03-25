@@ -4,6 +4,7 @@ import {
   inviteScheduleAtom,
   selectedPositionAtom,
 } from "@/data/inviteSchedule";
+import copy from "@/libs/copy";
 import FlexBox from "@modules/layout/FlexBox";
 import { useAtom } from "jotai";
 import Image from "next/image";
@@ -33,28 +34,20 @@ function ShareLink() {
 
   const handleCopyLink = () => {
     const link = window.location.origin + createQueryString();
-    navigator.clipboard
-      .writeText(link)
-      .then(() => {
+    copy(
+      link,
+      () => {
         setLinkCopied(true);
         setTimeout(() => setLinkCopied(false), 2000);
-      })
-      .catch(err => {
-        console.error("링크를 복사하는데 실패했습니다: ", err);
-      });
+      },
+      err => {
+        console.log("링크를 복사하는데 실패했습니다: ", err);
+      },
+    );
   };
 
   useEffect(() => {
-    const link = window.location.origin + createQueryString();
-    navigator.clipboard
-      .writeText(link)
-      .then(() => {
-        setLinkCopied(true);
-        setTimeout(() => setLinkCopied(false), 2000);
-      })
-      .catch(err => {
-        console.log("링크를 복사하는데 실패했습니다: ", err);
-      });
+    handleCopyLink();
   }, []);
 
   return (
@@ -64,7 +57,12 @@ function ShareLink() {
         <div className="H4-bold">공유해주세요</div>
       </div>
       <FlexBox direction="col" className="w-full h-full mt-8">
-        <Image height={170} width={170} alt="link" src="/image/goldLink.png" />
+        <Image
+          height={170}
+          width={170}
+          alt="link"
+          src="/image/share_link.png"
+        />
         <div className="B1-medium text-Gray5 mt-4">링크복사가 안되었나요?</div>
         <button onClick={handleCopyLink} type="button">
           <div className="B2-regular text-Gray4">링크 복사하기</div>
