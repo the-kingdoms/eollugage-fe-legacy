@@ -192,7 +192,7 @@ export default function Invite() {
         )}
       </div>
 
-      <FlexBox direction="row" className="w-full mb-8 justify-between">
+      <FlexBox direction="row" className="w-full gap-4 mb-8 justify-between">
         <TextButton
           size="full"
           text="직원 추가하기"
