@@ -194,19 +194,13 @@ export default function Invite() {
 
       <FlexBox direction="row" className="w-full mb-8 justify-between">
         <TextButton
-          className="w-full mr-4"
-          size="M"
+          size="full"
           text="직원 추가하기"
           onClick={handleAddEmployee}
           inactive={!isButtonActive}
           type={isButtonActive ? "filled" : "outline"}
         />
-        <TextButton
-          className="w-full"
-          size="M"
-          text="시간 저장하기"
-          onClick={handleSaveTime}
-        />
+        <TextButton size="full" text="시간 저장하기" onClick={handleSaveTime} />
       </FlexBox>
     </FlexBox>
   );
