@@ -129,7 +129,7 @@ export default function Invite() {
       </div>
       <div className="mt-8 w-full">
         <Dropdown
-          defaultValue="직책을 선택해주세요"
+          defaultValue="직책을 먼저 선택해주세요"
           options={positions}
           onChange={value => setSelectedPosition(value)}
         />
@@ -192,15 +192,15 @@ export default function Invite() {
         )}
       </div>
 
-      <FlexBox direction="row" className="w-full mb-8 justify-between">
+      <FlexBox direction="row" className="w-full gap-4 mb-8 justify-between">
         <TextButton
-          size="M"
+          size="full"
           text="직원 추가하기"
           onClick={handleAddEmployee}
           inactive={!isButtonActive}
           type={isButtonActive ? "filled" : "outline"}
         />
-        <TextButton size="M" text="시간 저장하기" onClick={handleSaveTime} />
+        <TextButton size="full" text="시간 저장하기" onClick={handleSaveTime} />
       </FlexBox>
     </FlexBox>
   );
