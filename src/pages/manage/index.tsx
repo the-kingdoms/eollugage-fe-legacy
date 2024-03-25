@@ -40,7 +40,7 @@ export default function Manage() {
           {selectTab === "left" ? <Schedule /> : <StaffInform />}
         </FlexBox>
         <div className="ml-auto my-6 mx-4">
-          {selectTab === "left" && (
+          {selectTab === "left" && (role === "OWNER" || role === "MANAGER") && (
             <FloatingActionButton onClick={addWork} text="근무 추가" />
           )}
           {selectTab === "right" && role === "OWNER" && (
