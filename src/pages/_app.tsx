@@ -1,6 +1,7 @@
-import { storeIdAtom } from "@/data/global";
+import { myMemberIdAtom, storeIdAtom } from "@/data/global";
 import { useGetMy } from "@/hooks/query/my";
-import RNListener from "@/libs/RNListener";
+import RNListener from "@/libs/reactNative/RNListener";
+import { getFcmTokenRN } from "@/libs/reactNative/sender";
 import "@/styles/fonts/fonts.css";
 import "@/styles/globals.scss";
 import "@/styles/scroll.scss";
@@ -20,11 +21,16 @@ dayjs.locale("ko");
 const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
+  const [myMemberId] = useAtom(myMemberIdAtom);
   const [storeId] = useAtom(storeIdAtom);
   const { pathname, push } = useRouter();
   const { dialog } = useDialog();
   const { isError } = useGetMy(queryClient);
   const [rendor, setRendor] = useState(false);
+
+  useEffect(() => {
+    if (myMemberId !== "") getFcmTokenRN();
+  }, [myMemberId]);
 
   useEffect(() => {
     if (isError && pathname !== "/" && pathname !== "/oauth/redirect") {

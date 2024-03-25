@@ -30,14 +30,14 @@ export default function Home() {
           <TextButton
             className="w-full"
             onClick={handleButtonClick}
-            size="L"
+            size="full"
             text="직원 추가하기"
           />
         ) : (
           <TextButton
             className="w-full"
             onClick={handleShiftButton}
-            size="L"
+            size="full"
             text="근무시간표 보러가기"
           />
         )}
