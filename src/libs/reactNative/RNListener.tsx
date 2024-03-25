@@ -6,7 +6,6 @@ function RNListener() {
 
   const onMessageEvent = (e: MessageEvent) => {
     e.stopPropagation();
-    alert(e.data);
     const message: { type: string; data: string } = JSON.parse(String(e.data));
     if (message.type === "getFcmTokenResponse") {
       postHistoryStatusMutate({ token: message.data });
