@@ -58,12 +58,16 @@ function ShareLink() {
           <div className="H4-bold">공유해주세요</div>
         </div>
         <FlexBox direction="col" className="w-full h-full mt-8">
-          <Image
-            height={170}
-            width={170}
-            alt="link"
-            src="/image/share_link.png"
-          />
+          <div className="relative w-[170px] h-[170px]">
+            <Image
+              height={170}
+              width={170}
+              alt="link"
+              src="/image/link.svg"
+              className=""
+            />
+            <div className="absolute top-0 left-0 w-full h-full bg-[#CC9F00] mix-blend-color" />
+          </div>
           <div className="B1-medium text-Gray5 mt-4">
             링크복사가 안되었나요?
           </div>
