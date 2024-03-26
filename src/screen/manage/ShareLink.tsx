@@ -9,7 +9,6 @@ import FlexBox from "@modules/layout/FlexBox";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { ReactComponent as Link } from "./link.svg";
 
 interface InviteDataType {
   storeId: string;
