@@ -69,25 +69,16 @@ export default function Staff() {
           />
           <StaffTimeInput
             title="근무시간"
-            startTime={
-              myPlan?.[0]?.startTime.replace(/:/g, "") || dayjs().format("HHmm")
-            }
+            startTime={myPlan[0]?.startTime.replace(/:/g, "") || "0000"}
             setStartTime={() => {}}
-            endTime={
-              myPlan[0]?.endTime.replace(/:/g, "") || dayjs().format("HHmm")
-            }
+            endTime={myPlan[0]?.endTime.replace(/:/g, "") || "0000"}
             setEndTime={() => {}}
           />
           <StaffTimeInput
             title="휴게시간"
-            startTime={
-              myPlan[0]?.restStartTime.replace(/:/g, "") ||
-              dayjs().format("HHmm")
-            }
+            startTime={myPlan[0]?.restStartTime.replace(/:/g, "") || "0000"}
             setStartTime={() => {}}
-            endTime={
-              myPlan[0]?.restEndTime.replace(/:/g, "") || dayjs().format("HHmm")
-            }
+            endTime={myPlan[0]?.restEndTime.replace(/:/g, "") || "0000"}
             setEndTime={() => {}}
           />
         </FlexBox>
