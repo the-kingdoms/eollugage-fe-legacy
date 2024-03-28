@@ -88,13 +88,17 @@ export default function Staff() {
           {histories &&
             histories.map(myhistory => (
               <>
-                <StaffTimeApproval
-                  starttime={myhistory.startTime}
-                  endtime={myhistory.endTime}
-                  date={myhistory.date}
-                  status={myhistory.status}
-                />
-                <Divider />
+                {myhistory.status != "DECLINED" && (
+                  <>
+                    <StaffTimeApproval
+                      starttime={myhistory.startTime}
+                      endtime={myhistory.endTime}
+                      date={myhistory.date}
+                      status={myhistory.status}
+                    />
+                    <Divider />
+                  </>
+                )}
               </>
             ))}
         </FlexBox>
