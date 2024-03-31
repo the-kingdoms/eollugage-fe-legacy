@@ -47,7 +47,7 @@ export default function StaffInform() {
                 <ProfileDiscription
                   name={relate.member.name}
                   position={relate.position}
-                  time="00:00 - 00:00"
+                  phone={relate.member.phone}
                 />
               </RouterWrapper>
             ))}
@@ -57,3 +57,5 @@ export default function StaffInform() {
     </FlexBox>
   );
 }
+
+//핸드폰 임시 수정

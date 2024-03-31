@@ -28,14 +28,16 @@ export default function Home() {
       <div className="w-full mb-4">
         {currentView === "confirm" ? (
           <TextButton
+            className="w-full"
             onClick={handleButtonClick}
-            size="L"
+            size="full"
             text="직원 추가하기"
           />
         ) : (
           <TextButton
+            className="w-full"
             onClick={handleShiftButton}
-            size="L"
+            size="full"
             text="근무시간표 보러가기"
           />
         )}

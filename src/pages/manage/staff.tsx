@@ -69,25 +69,16 @@ export default function Staff() {
           />
           <StaffTimeInput
             title="근무시간"
-            startTime={
-              myPlan?.[0]?.startTime.replace(/:/g, "") || dayjs().format("HHmm")
-            }
+            startTime={myPlan[0]?.startTime.replace(/:/g, "") || "0000"}
             setStartTime={() => {}}
-            endTime={
-              myPlan[0]?.endTime.replace(/:/g, "") || dayjs().format("HHmm")
-            }
+            endTime={myPlan[0]?.endTime.replace(/:/g, "") || "0000"}
             setEndTime={() => {}}
           />
           <StaffTimeInput
             title="휴게시간"
-            startTime={
-              myPlan[0]?.restStartTime.replace(/:/g, "") ||
-              dayjs().format("HHmm")
-            }
+            startTime={myPlan[0]?.restStartTime.replace(/:/g, "") || "0000"}
             setStartTime={() => {}}
-            endTime={
-              myPlan[0]?.restEndTime.replace(/:/g, "") || dayjs().format("HHmm")
-            }
+            endTime={myPlan[0]?.restEndTime.replace(/:/g, "") || "0000"}
             setEndTime={() => {}}
           />
         </FlexBox>
@@ -97,13 +88,17 @@ export default function Staff() {
           {histories &&
             histories.map(myhistory => (
               <>
-                <StaffTimeApproval
-                  starttime={myhistory.startTime}
-                  endtime={myhistory.endTime}
-                  date={myhistory.date}
-                  status={myhistory.status}
-                />
-                <Divider />
+                {myhistory.status != "DECLINED" && (
+                  <>
+                    <StaffTimeApproval
+                      starttime={myhistory.startTime}
+                      endtime={myhistory.endTime}
+                      date={myhistory.date}
+                      status={myhistory.status}
+                    />
+                    <Divider />
+                  </>
+                )}
               </>
             ))}
         </FlexBox>
