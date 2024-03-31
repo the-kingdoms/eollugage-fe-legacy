@@ -1,4 +1,4 @@
-name: Run Eollugage-fe Test
+name: Run eollugage-fe Test
 
 on:
   push:
