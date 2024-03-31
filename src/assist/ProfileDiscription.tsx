@@ -4,13 +4,13 @@ import FlexBox from "@modules/layout/FlexBox";
 interface ApprovalProfileProps {
   name: string;
   position: string;
-  time: string;
+  phone: string;
 }
 
 export default function ApprovalProfile({
   name,
   position,
-  time,
+  phone,
 }: ApprovalProfileProps) {
   return (
     <FlexBox direction="row" className="w-full items-start gap-2">
@@ -20,9 +20,11 @@ export default function ApprovalProfile({
         <div className="B5-medium text-zinc-400">
           {position}
           {` `}
-          {time}
+          {phone}
         </div>
       </FlexBox>
     </FlexBox>
   );
 }
+
+//임시 수정
