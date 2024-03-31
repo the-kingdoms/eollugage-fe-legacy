@@ -1,1 +1,24 @@
+name: Run Eollugage-fe Test
 
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: "21.2.0"
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run test
+        run: yarn build
