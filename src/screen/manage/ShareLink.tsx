@@ -22,19 +22,6 @@ function ShareLink() {
   const [selectedPosition] = useAtom(selectedPositionAtom);
   const [storeId] = useAtom(storeIdAtom);
 
-  const createQueryString = () => {
-    const inviteData: InviteDataType = {
-      storeId,
-      position: selectedPosition,
-      schedule: inviteSchedule,
-    };
-
-    const inviteDataString = encodeURIComponent(
-      JSON.stringify(filterSchedule(inviteData)),
-    );
-    return `/?inviteData=${inviteDataString}`;
-  };
-
   function filterSchedule(inviteData: InviteDataType): InviteDataType {
     const filteredSchedule: InviteSchedule = Object.entries(
       inviteData.schedule,
@@ -50,6 +37,19 @@ function ShareLink() {
       schedule: filteredSchedule,
     };
   }
+
+  const createQueryString = () => {
+    const inviteData: InviteDataType = {
+      storeId,
+      position: selectedPosition,
+      schedule: inviteSchedule,
+    };
+
+    const inviteDataString = encodeURIComponent(
+      JSON.stringify(filterSchedule(inviteData)),
+    );
+    return `/?inviteData=${inviteDataString}`;
+  };
 
   const handleCopyLink = () => {
     const link = window.location.origin + createQueryString();
