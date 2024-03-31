@@ -17,6 +17,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "21.2.0"
+          submodules: true
       - name: Install dependencies
         run: yarn install
 
