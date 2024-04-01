@@ -88,7 +88,7 @@ export default function Staff() {
           {histories &&
             histories.map(myhistory => (
               <>
-                {myhistory.status != "DECLINED" && (
+                {myhistory.status != "DISAPPROVED" && (
                   <>
                     <StaffTimeApproval
                       starttime={myhistory.startTime}
