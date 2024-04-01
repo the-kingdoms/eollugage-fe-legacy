@@ -33,6 +33,39 @@ export default function Schedule() {
     selectedDate.format("YYYY-MM-DD"),
   );
 
+  const showTimeLine = () => {
+    const time = historyList?.map(historyInfo => historyInfo.startTime);
+    const timeSet = new Set(time);
+    const timeLine = Array.from(timeSet);
+
+    return timeLine.map(time => (
+      <>
+        <FlexBox className="gap-1 w-full justify-start mb-3">
+          <div className="C3 text-Gray4">{time.slice(0, 5)}</div>
+          <div className="w-full h-px bg-Gray2" />
+        </FlexBox>
+        <FlexBox direction="col" className="w-full gap-2 mb-3">
+          {historyList?.map((historyInfo, index) => {
+            if (historyInfo.startTime == String(time)) {
+              return (
+                <ScheduleList
+                  key={index}
+                  name={historyInfo.relation.member.name}
+                  role={historyInfo.relation.role}
+                  time={getTimeString(
+                    historyInfo.startTime,
+                    historyInfo.endTime,
+                  )}
+                  onDelete={() => onClickDeleteBtn(historyInfo.id)}
+                />
+              );
+            }
+          })}
+        </FlexBox>
+      </>
+    ));
+  };
+
   return (
     <FlexBox direction="col" className="gap-3 w-full">
       <Calender day={selectedDate} onClick={onClickCalendar} />
@@ -62,20 +95,8 @@ export default function Schedule() {
             </FlexBox>
           </FlexBox>
         </FlexBox>
-        <FlexBox className="gap-1 w-full justify-start">
-          <div className="C3 text-Gray4">00:00</div>
-          <div className="w-full h-px bg-Gray2" />
-        </FlexBox>
-        <FlexBox direction="col" className="w-full gap-2">
-          {historyList?.map((historyInfo, index) => (
-            <ScheduleList
-              key={index}
-              name={historyInfo.relation.member.name}
-              role={historyInfo.relation.role}
-              time={getTimeString(historyInfo.startTime, historyInfo.endTime)}
-              onDelete={() => onClickDeleteBtn(historyInfo.id)}
-            />
-          ))}
+        <FlexBox direction="col" className="w-full">
+          {showTimeLine()}
         </FlexBox>
       </FlexBox>
     </FlexBox>
