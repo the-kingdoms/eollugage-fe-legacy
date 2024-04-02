@@ -27,4 +27,4 @@ export default function ApprovalProfile({
   );
 }
 
-//임시 수정
+// 임시 수정

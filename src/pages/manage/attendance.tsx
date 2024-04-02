@@ -82,7 +82,7 @@ export default function Attendance() {
                 key={index}
                 name={history.relation.member.name}
                 position={history.relation.position}
-                time={`${history.startTime} ~ ${history.endTime}`}
+                phone="010-0000-0000" // 나중에 수정
               />
             </StateButtonWrapper>
           ))}

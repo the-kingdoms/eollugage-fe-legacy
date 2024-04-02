@@ -22,13 +22,32 @@ function ShareLink() {
   const [selectedPosition] = useAtom(selectedPositionAtom);
   const [storeId] = useAtom(storeIdAtom);
 
+  function filterSchedule(inviteData: InviteDataType): InviteDataType {
+    const filteredSchedule: InviteSchedule = Object.entries(
+      inviteData.schedule,
+    ).reduce((acc, [day, schedule]) => {
+      if (schedule.workFrom !== null) {
+        acc[day as keyof InviteSchedule] = schedule;
+      }
+      return acc;
+    }, {} as InviteSchedule);
+
+    return {
+      ...inviteData,
+      schedule: filteredSchedule,
+    };
+  }
+
   const createQueryString = () => {
     const inviteData: InviteDataType = {
       storeId,
       position: selectedPosition,
       schedule: inviteSchedule,
     };
-    const inviteDataString = encodeURIComponent(JSON.stringify(inviteData));
+
+    const inviteDataString = encodeURIComponent(
+      JSON.stringify(filterSchedule(inviteData)),
+    );
     return `/?inviteData=${inviteDataString}`;
   };
 
