@@ -10,7 +10,6 @@ import WeekButtons, { DayInfo } from "@/screen/manage/WeekButtons";
 import Divider from "@modules/layout/Divider";
 import FlexBox from "@modules/layout/FlexBox";
 import TopTitle from "@modules/layout/TopTitle";
-import dayjs from "dayjs";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 
@@ -98,9 +97,8 @@ export default function Staff() {
                     />
                     <Divider />
                   </>
-                )}
-              </>
-            ))}
+                ),
+            )}
         </FlexBox>
       </div>
     </div>
