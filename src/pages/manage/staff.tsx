@@ -85,9 +85,9 @@ export default function Staff() {
         <FlexBox direction="col" className="items-start pt-6">
           <div className="text-Gray6 B4-medium mb-4 px-4">출퇴근 기록</div>
           {histories &&
-            histories.map(
-              myhistory =>
-                myhistory.status !== "DECLINED" && (
+            histories.map(myhistory => (
+              <>
+                {myhistory.status != "DISAPPROVED" && (
                   <>
                     <StaffTimeApproval
                       starttime={myhistory.startTime}
