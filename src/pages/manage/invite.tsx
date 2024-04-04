@@ -64,34 +64,36 @@ export default function Invite() {
   };
 
   const handleSaveTime = () => {
-    const newSchedule = { ...inviteSchedule };
+    if (selectedPosition) {
+      const newSchedule = { ...inviteSchedule };
 
-    (Object.keys(dayType) as (keyof DayType)[]).forEach(day => {
-      if (dayType[day] === "workday") {
-        newSchedule[day] = {
-          workFrom: `${workFrom.slice(0, 2)}:${workFrom.slice(2)}`,
-          workUntil: `${workUntil.slice(0, 2)}:${workUntil.slice(2)}`,
-          restFrom: `${restFrom.slice(0, 2)}:${restFrom.slice(2)}`,
-          restUntil: `${restUntil.slice(0, 2)}:${restUntil.slice(2)}`,
-        };
-        setDayType(prev => {
-          const newDayType = { ...prev };
-          newDayType[day] = "inputed";
-          return newDayType;
-        });
-      }
-    });
+      (Object.keys(dayType) as (keyof DayType)[]).forEach(day => {
+        if (dayType[day] === "workday") {
+          newSchedule[day] = {
+            workFrom: `${workFrom.slice(0, 2)}:${workFrom.slice(2)}`,
+            workUntil: `${workUntil.slice(0, 2)}:${workUntil.slice(2)}`,
+            restFrom: `${restFrom.slice(0, 2)}:${restFrom.slice(2)}`,
+            restUntil: `${restUntil.slice(0, 2)}:${restUntil.slice(2)}`,
+          };
+          setDayType(prev => {
+            const newDayType = { ...prev };
+            newDayType[day] = "inputed";
+            return newDayType;
+          });
+        }
+      });
 
-    setInviteSchedule(newSchedule); // 갱신된 스케줄로 상태 업데이트
+      setInviteSchedule(newSchedule); // 갱신된 스케줄로 상태 업데이트
 
-    setCurrentView("inital_set");
+      setCurrentView("inital_set");
 
-    setWorkFrom("0000");
-    setWorkUntil("0000");
-    setRestFrom("0000");
-    setRestUntil("0000");
+      setWorkFrom("0000");
+      setWorkUntil("0000");
+      setRestFrom("0000");
+      setRestUntil("0000");
 
-    setIsButtonActive(false);
+      setIsButtonActive(false);
+    }
   };
 
   const handleAddEmployee = () => {
@@ -105,10 +107,11 @@ export default function Invite() {
     const isAnyScheduleChanged = Object.values(inviteSchedule).some(
       schedule => {
         return (
-          schedule.workFrom !== null ||
-          schedule.workUntil !== null ||
-          schedule.restFrom !== null ||
-          schedule.restUntil !== null
+          (schedule.workFrom !== null ||
+            schedule.workUntil !== null ||
+            schedule.restFrom !== null ||
+            schedule.restUntil !== null) &&
+          selectedPosition
         );
       },
     );
