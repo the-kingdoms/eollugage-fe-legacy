@@ -11,7 +11,7 @@ export default function Setting() {
   const parts = [
     {
       name: "문의하기",
-      path: "/",
+      path: "/mypage/consult",
     },
     {
       name: "서비스 약관",
