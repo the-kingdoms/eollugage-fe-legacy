@@ -1,10 +1,13 @@
-import React from "react";
-import { useRouter } from "next/router";
-import FlexBox from "@modules/layout/FlexBox";
 import TextButton from "@modules/components/button/TextButton";
 import Profile from "@modules/components/profile/Profile";
+import FlexBox from "@modules/layout/FlexBox";
+import { useRouter } from "next/router";
 
-export default function OwnerWelcome() {
+interface OwnerWelcomeProps {
+  storeName: string;
+}
+
+export default function OwnerWelcome({ storeName }: OwnerWelcomeProps) {
   const router = useRouter();
 
   return (
@@ -17,12 +20,12 @@ export default function OwnerWelcome() {
         <FlexBox direction="col" className="space-y-4 mt-16">
           <Profile name="얼" size="L" />
           <FlexBox direction="col" className="items-center">
-            <div className="H5-bold">얼루가 가게점</div>
+            <div className="H5-bold">{storeName}</div>
           </FlexBox>
         </FlexBox>
       </FlexBox>
       <TextButton
-        size="L"
+        size="full"
         text="직원 추가하러 가기"
         className="mb-4"
         onClick={() => router.push("/manage")}

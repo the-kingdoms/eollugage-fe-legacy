@@ -1,11 +1,20 @@
-import LoginButton from "@modules/components/button/LoginButton";
+import KakaoLoginButtonWrapper from "@/assist/KakaoLoginButtonWrapper";
 import FlexBox from "@modules/layout/FlexBox";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import styles from "./index.module.css";
 
 export default function Home() {
-  const router = useRouter();
+  const { query } = useRouter();
+
+  useEffect(() => {
+    if (typeof query.inviteData === "string") {
+      const inviteData = query.inviteData as string;
+      localStorage.setItem("inviteData", inviteData);
+    }
+  }, [query]);
+
   return (
     <FlexBox direction="col" className="bg-black w-full h-full">
       <FlexBox
@@ -28,14 +37,7 @@ export default function Home() {
             간편하게 일하는 법
           </div>
           <div className={styles.backgroundImage} />
-          <div className="px-4 w-full">
-            <LoginButton
-              type="kakao"
-              onClick={() => {
-                router.push("/signup");
-              }}
-            />
-          </div>
+          <KakaoLoginButtonWrapper />
         </FlexBox>
       </FlexBox>
     </FlexBox>

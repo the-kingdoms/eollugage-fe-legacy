@@ -18,6 +18,8 @@ export default function Document() {
       <meta property="og:description" content="얼루가게" />
       <meta property="og:site_name" content="얼루가게" />
       <meta property="og:locale" content="ko_KR" />
+      <title lang="ko">얼루가게</title>
+      <script src="https://developers.kakao.com/sdk/js/kakao.js" async />
       <body>
         <Main />
         <NextScript />

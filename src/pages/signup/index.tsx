@@ -19,10 +19,18 @@ export default function Home() {
     }
   };
 
+  const handleNextButton = () => {
+    if (selectedImage === "owner") {
+      router.push("/signup/owner");
+    } else if (selectedImage === "staff") {
+      router.push("/signup/staff");
+    }
+  };
+
   return (
     <FlexBox direction="col" className="w-full h-full px-4 justify-between">
       <TopTitle title="" type="back" />
-      <FlexBox direction="col" className="w-full h-full px-4 mt-4 space-y-4">
+      <FlexBox direction="col" className="w-full h-full mt-4 space-y-4">
         <button type="button" onClick={() => handleImageClick("owner")}>
           <Image
             height={172}
@@ -50,11 +58,11 @@ export default function Home() {
       </FlexBox>
 
       <TextButton
-        size="L"
+        size="full"
         text="다음"
         className="mb-4"
         inactive={selectedImage === null}
-        onClick={() => router.push("/signup/owner")}
+        onClick={handleNextButton}
       />
     </FlexBox>
   );

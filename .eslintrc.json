@@ -22,6 +22,9 @@
     "no-nested-ternary": "off",
     "react/jsx-props-no-spreading": "off",
     "react/require-default-props": "off",
-    "react/no-array-index-key": "off"
+    "react/no-array-index-key": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "import/prefer-default-export": "off",
+    "radix": "off"
   }
 }

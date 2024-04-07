@@ -1,53 +1,101 @@
+import { Relation } from "@/apis/relation";
+import {
+  useGetRelationList,
+  usePostRelationAdmin,
+} from "@/hooks/query/relation";
 import ButtonBar from "@modules/components/bars/ButtonBar";
 import TextButton from "@modules/components/button/TextButton";
 import Checkbox from "@modules/components/selections/Checkbox";
 import FlexBox from "@modules/layout/FlexBox";
 import GridBox from "@modules/layout/GridBox";
 import TopTitle from "@modules/layout/TopTitle";
+import { useState } from "react";
 
 export default function MyPageAuthorithy() {
+  const { data: relations } = useGetRelationList();
+  const { mutate: postRelationAdminMutate } = usePostRelationAdmin();
+  const [checkedEmployees, setCheckedEmployees] = useState<Relation[]>([]);
+
+  const handleCheckboxChange = (employee: Relation) => () => {
+    const index = checkedEmployees.findIndex(
+      checkedEmployee => checkedEmployee.member.id === employee.member.id,
+    );
+    if (index !== -1) {
+      setCheckedEmployees([]);
+    } else {
+      setCheckedEmployees(current => [...current, employee]);
+    }
+  };
+
+  const addNewAdmin = () => {
+    checkedEmployees.forEach(item => {
+      postRelationAdminMutate({
+        memberId: item?.member.id,
+        body: { ...item, role: "MANAGER" },
+      });
+    });
+  };
   return (
-    <FlexBox
-      direction="col"
-      className="min-h-screen items-start justify-between"
-    >
-      <div className="w-full">
+    <FlexBox direction="col">
+      <FlexBox direction="col" className="px-4 w-full items-start gap-8">
         <TopTitle title="관리자 권한 설정" />
-        <FlexBox direction="col" className="px-4 w-full items-start mt-2.5">
-          <FlexBox direction="col" className="w-full items-start gap-3">
-            <div className="B3-medium">현재 관리자</div>
-            <GridBox className="w-full gap-2 mb-10">
-              <div className="bg-Black text-White rounded-xl p-5 text-center B4-medium">
-                고승환 | 사장
-              </div>
-              <div className="bg-Black text-White rounded-xl p-5 text-center B4-medium">
-                고승환 | 사장
-              </div>
-              <div className="bg-Black text-White rounded-xl p-5 text-center B4-medium">
-                고승환 | 사장
-              </div>
-            </GridBox>
-          </FlexBox>
-          <FlexBox direction="col" className="w-full items-start gap-3">
-            <div className="B3-medium">관리자 추가</div>
-            <FlexBox direction="col" className="w-full gap-2">
-              <FlexBox className="justify-between w-full rounded-lg border border-Gray3 px-4 py-3">
-                <div className="text-Gray5 B4-medium">얼루가</div>
-                <Checkbox type="round" />
-              </FlexBox>
-              <FlexBox className="justify-between w-full rounded-lg border border-Gray3 px-4 py-3">
-                <div className="text-Gray5 B4-medium">얼루가</div>
-                <Checkbox type="round" />
-              </FlexBox>
-              <FlexBox className="justify-between w-full rounded-lg border border-Gray3 px-4 py-3">
-                <div className="text-Gray5 B4-medium">얼루가</div>
-                <Checkbox type="round" />
-              </FlexBox>
-            </FlexBox>
+        <FlexBox direction="col" className="w-full items-start gap-3">
+          <div className="B3-medium">현재 관리자</div>
+          <GridBox className="w-full gap-2">
+            {relations
+              ?.filter(
+                relation =>
+                  relation.role === "MANAGER" || relation.role === "OWNER",
+              )
+              .map(relation => (
+                <FlexBox
+                  key={relation.id}
+                  direction="col"
+                  className="bg-Black text-White rounded-xl p-5"
+                >
+                  <span className="B4-medium">
+                    {relation.member.name} | {relation.position}
+                  </span>
+                </FlexBox>
+              ))}
+          </GridBox>
+        </FlexBox>
+        <FlexBox direction="col" className="w-full items-start gap-3">
+          <div className="B3-medium">관리자 추가</div>
+          <FlexBox direction="col" className="w-full gap-2">
+            {relations
+              ?.filter(relation => relation.role === "STAFF")
+              .map(relation => (
+                <FlexBox
+                  key={relation.id}
+                  className="justify-between w-full rounded-lg border border-Gray3 px-4 py-3"
+                >
+                  <div className="text-Gray5 B4-medium">
+                    {relation.member.name}
+                  </div>
+                  <Checkbox
+                    type="round"
+                    checked={checkedEmployees.some(
+                      checkedEmployee =>
+                        checkedEmployee.member.id === relation.member.id,
+                    )}
+                    onChange={handleCheckboxChange(relation)}
+                  />
+                </FlexBox>
+              ))}
           </FlexBox>
         </FlexBox>
-      </div>
-      <ButtonBar button={<TextButton text="추가하기" size="full" inactive />} />
+      </FlexBox>
+      <ButtonBar
+        button={
+          <TextButton
+            text="추가하기"
+            size="full"
+            onClick={addNewAdmin}
+            inactive={checkedEmployees.length === 0}
+          />
+        }
+      />
     </FlexBox>
   );
 }
