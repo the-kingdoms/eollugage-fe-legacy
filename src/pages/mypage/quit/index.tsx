@@ -5,6 +5,7 @@ import { myAtom } from "@/data/global";
 import TextAreaField from "@modules/components/textfields/TextAreaField";
 import TextButton from "@modules/components/button/TextButton";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 export default function Quit() {
   const [my] = useAtom(myAtom);
@@ -14,6 +15,17 @@ export default function Quit() {
   const [text, setText] = useState<string>("");
   const onChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
+  };
+
+  const router = useRouter();
+  const onClickCompleteBtn = () => {
+    setText("");
+    router.push({
+      pathname: "/mypage/consult",
+      query: {
+        from: "quit",
+      },
+    });
   };
 
   return (
@@ -34,10 +46,17 @@ export default function Quit() {
           onChange={onChangeText}
         />
         <FlexBox direction="col" className="gap-2.5 w-full">
-          <button className="underline underline-offset-4 text-Gray5 B5-regular">
+          <button
+            className="underline underline-offset-4 text-Gray5 B5-regular"
+            onClick={onClickCompleteBtn}
+          >
             그냥 넘어가고 싶어요!
           </button>
-          <TextButton size="full" text="작성완료" />
+          <TextButton
+            size="full"
+            text="작성완료"
+            onClick={onClickCompleteBtn}
+          />
         </FlexBox>
       </FlexBox>
     </FlexBox>

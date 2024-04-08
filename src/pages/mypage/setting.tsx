@@ -25,7 +25,12 @@ export default function Setting() {
 
   const router = useRouter();
   const onClickPart = (path: string) => {
-    router.push(path);
+    router.push({
+      pathname: path,
+      query: {
+        from: "setting",
+      },
+    });
   };
 
   const [isChecked, setIsChecked] = useState<boolean>(false);

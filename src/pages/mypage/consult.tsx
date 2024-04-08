@@ -1,12 +1,16 @@
 import { myAtom } from "@/data/global";
 import TextButton from "@modules/components/button/TextButton";
 import FlexBox from "@modules/layout/FlexBox";
+import GridBox from "@modules/layout/GridBox";
 import TopTitle from "@modules/layout/TopTitle";
 import { useAtom } from "jotai";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 export default function Consult() {
   const [my] = useAtom(myAtom);
+  const router = useRouter();
+  const from = router.query.from;
 
   return (
     <FlexBox direction="col" className="h-full pb-1 gap-6">
@@ -29,7 +33,16 @@ export default function Consult() {
           width={254}
           height={305}
         />
-        <TextButton size="full" text="문의하기" />
+        {from === "setting" ? (
+          <TextButton size="full" text="문의하기" />
+        ) : (
+          <GridBox className="gap-2 w-full">
+            <button className="text-Gray4 B4-medium rounded-lg border-2 border-Gray2 h-12">
+              안내받기
+            </button>
+            <TextButton size="full" text="탈퇴하기" />
+          </GridBox>
+        )}
       </FlexBox>
     </FlexBox>
   );
