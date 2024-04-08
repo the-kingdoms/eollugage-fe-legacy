@@ -19,7 +19,7 @@ export default function Setting() {
     },
     {
       name: "회원 탈퇴하기",
-      path: "/",
+      path: "/mypage/quit",
     },
   ];
 
