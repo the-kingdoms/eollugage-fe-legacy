@@ -12,6 +12,10 @@ export default function Consult() {
   const router = useRouter();
   const from = router.query.from;
 
+  const onClickQuitBtn = () => {
+    router.push("/mypage/quit/confirm");
+  };
+
   return (
     <FlexBox direction="col" className="h-full pb-1 gap-6">
       <TopTitle type="back" />
@@ -40,7 +44,7 @@ export default function Consult() {
             <button className="text-Gray4 B4-medium rounded-lg border-2 border-Gray2 h-12">
               안내받기
             </button>
-            <TextButton size="full" text="탈퇴하기" />
+            <TextButton size="full" text="탈퇴하기" onClick={onClickQuitBtn} />
           </GridBox>
         )}
       </FlexBox>
