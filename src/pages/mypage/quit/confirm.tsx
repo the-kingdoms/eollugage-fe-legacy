@@ -1,5 +1,5 @@
 import { myAtom } from "@/data/global";
-import { quitText } from "@/libs/quitText";
+import { quitText } from "@/libs/settingText";
 import TextButton from "@modules/components/button/TextButton";
 import Checkbox from "@modules/components/selections/Checkbox";
 import FlexBox from "@modules/layout/FlexBox";

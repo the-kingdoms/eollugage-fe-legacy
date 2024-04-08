@@ -15,7 +15,7 @@ export default function Setting() {
     },
     {
       name: "서비스 약관",
-      path: "/",
+      path: "/mypage/term",
     },
     {
       name: "회원 탈퇴하기",
@@ -25,12 +25,16 @@ export default function Setting() {
 
   const router = useRouter();
   const onClickPart = (path: string) => {
-    router.push({
-      pathname: path,
-      query: {
-        from: "setting",
-      },
-    });
+    if (path === "/mypage/consult")
+      router.push({
+        pathname: path,
+        query: {
+          from: "setting",
+        },
+      });
+    else {
+      router.push(path);
+    }
   };
 
   const [isChecked, setIsChecked] = useState<boolean>(false);
