@@ -11,6 +11,7 @@ import Divider from "@modules/layout/Divider";
 import FlexBox from "@modules/layout/FlexBox";
 import TopTitle from "@modules/layout/TopTitle";
 import { useAtom } from "jotai";
+import React from "react";
 import { useEffect, useState } from "react";
 
 export default function Staff() {
@@ -87,8 +88,8 @@ export default function Staff() {
           {histories &&
             histories.map(myhistory => (
               <>
-                {myhistory.status != "DISAPPROVED" && (
-                  <>
+                {myhistory.status !== "DISAPPROVED" && (
+                  <React.Fragment key={myhistory.id}>
                     <StaffTimeApproval
                       starttime={myhistory.startTime}
                       endtime={myhistory.endTime}
@@ -96,9 +97,10 @@ export default function Staff() {
                       status={myhistory.status}
                     />
                     <Divider />
-                  </>
-                ),
-            )}
+                  </React.Fragment>
+                )}
+              </>
+            ))}
         </FlexBox>
       </div>
     </div>
