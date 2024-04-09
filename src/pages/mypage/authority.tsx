@@ -3,9 +3,10 @@ import {
   useGetRelationList,
   usePostRelationAdmin,
 } from "@/hooks/query/relation";
+import AdminAdd from "@/screen/mypage/authority/AdminAdd";
+import AdminInfoCard from "@/screen/mypage/authority/AdminInfoCard";
 import ButtonBar from "@modules/components/bars/ButtonBar";
 import TextButton from "@modules/components/button/TextButton";
-import Checkbox from "@modules/components/selections/Checkbox";
 import FlexBox from "@modules/layout/FlexBox";
 import GridBox from "@modules/layout/GridBox";
 import TopTitle from "@modules/layout/TopTitle";
@@ -16,17 +17,6 @@ export default function MyPageAuthorithy() {
   const { mutate: postRelationAdminMutate } = usePostRelationAdmin();
   const [checkedEmployees, setCheckedEmployees] = useState<Relation[]>([]);
 
-  const handleCheckboxChange = (employee: Relation) => () => {
-    const index = checkedEmployees.findIndex(
-      checkedEmployee => checkedEmployee.member.id === employee.member.id,
-    );
-    if (index !== -1) {
-      setCheckedEmployees([]);
-    } else {
-      setCheckedEmployees(current => [...current, employee]);
-    }
-  };
-
   const addNewAdmin = () => {
     checkedEmployees.forEach(item => {
       postRelationAdminMutate({
@@ -35,6 +25,7 @@ export default function MyPageAuthorithy() {
       });
     });
   };
+
   return (
     <FlexBox direction="col">
       <FlexBox direction="col" className="px-4 w-full items-start gap-8">
@@ -48,15 +39,7 @@ export default function MyPageAuthorithy() {
                   relation.role === "MANAGER" || relation.role === "OWNER",
               )
               .map(relation => (
-                <FlexBox
-                  key={relation.id}
-                  direction="col"
-                  className="bg-Black text-White rounded-xl p-5"
-                >
-                  <span className="B4-medium">
-                    {relation.member.name} | {relation.position}
-                  </span>
-                </FlexBox>
+                <AdminInfoCard key={relation.id} relation={relation} />
               ))}
           </GridBox>
         </FlexBox>
@@ -66,22 +49,12 @@ export default function MyPageAuthorithy() {
             {relations
               ?.filter(relation => relation.role === "STAFF")
               .map(relation => (
-                <FlexBox
+                <AdminAdd
                   key={relation.id}
-                  className="justify-between w-full rounded-lg border border-Gray3 px-4 py-3"
-                >
-                  <div className="text-Gray5 B4-medium">
-                    {relation.member.name}
-                  </div>
-                  <Checkbox
-                    type="round"
-                    checked={checkedEmployees.some(
-                      checkedEmployee =>
-                        checkedEmployee.member.id === relation.member.id,
-                    )}
-                    onChange={handleCheckboxChange(relation)}
-                  />
-                </FlexBox>
+                  relation={relation}
+                  checkedEmployees={checkedEmployees}
+                  setCheckedEmployees={setCheckedEmployees}
+                />
               ))}
           </FlexBox>
         </FlexBox>
