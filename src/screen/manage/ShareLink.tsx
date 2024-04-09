@@ -2,6 +2,7 @@ import { storeIdAtom } from "@/data/global";
 import {
   InviteSchedule,
   inviteScheduleAtom,
+  scheduleInit,
   selectedPositionAtom,
 } from "@/data/inviteSchedule";
 import copy from "@/libs/copy";
@@ -16,10 +17,20 @@ interface InviteDataType {
   schedule: InviteSchedule;
 }
 
+const inviteScheduleInit: InviteSchedule = {
+  월: { ...scheduleInit },
+  화: { ...scheduleInit },
+  수: { ...scheduleInit },
+  목: { ...scheduleInit },
+  금: { ...scheduleInit },
+  토: { ...scheduleInit },
+  일: { ...scheduleInit },
+};
+
 function ShareLink() {
   const [linkCopied, setLinkCopied] = useState(false);
-  const [inviteSchedule] = useAtom(inviteScheduleAtom);
-  const [selectedPosition] = useAtom(selectedPositionAtom);
+  const [inviteSchedule, setInviteSchedule] = useAtom(inviteScheduleAtom);
+  const [selectedPosition, setSelectedPostion] = useAtom(selectedPositionAtom);
   const [storeId] = useAtom(storeIdAtom);
 
   function filterSchedule(inviteData: InviteDataType): InviteDataType {
@@ -44,7 +55,8 @@ function ShareLink() {
       position: selectedPosition,
       schedule: inviteSchedule,
     };
-
+    setSelectedPostion("");
+    setInviteSchedule(inviteScheduleInit);
     const inviteDataString = encodeURIComponent(
       JSON.stringify(filterSchedule(inviteData)),
     );
