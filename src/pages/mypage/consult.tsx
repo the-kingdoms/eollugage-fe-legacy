@@ -44,9 +44,11 @@ export default function Consult() {
           </Link>
         ) : (
           <GridBox className="gap-2 w-full">
-            <button className="text-Gray4 B4-medium rounded-lg border-2 border-Gray2 h-12">
-              안내받기
-            </button>
+            <Link href="tel://01040009842" className="w-full">
+              <button className="text-Gray4 B4-medium rounded-lg border-2 border-Gray2 h-12 w-full">
+                안내받기
+              </button>
+            </Link>
             <TextButton size="full" text="탈퇴하기" onClick={onClickQuitBtn} />
           </GridBox>
         )}
