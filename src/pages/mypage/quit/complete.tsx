@@ -4,9 +4,15 @@ import FlexBox from "@modules/layout/FlexBox";
 import TopTitle from "@modules/layout/TopTitle";
 import { useAtom } from "jotai";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 export default function QuitComplete() {
   const [my] = useAtom(myAtom);
+  const router = useRouter();
+
+  const onClickCompleteBtn = () => {
+    router.push("/");
+  };
 
   return (
     <FlexBox direction="col" className="px-4 w-full h-full pb-1 gap-6">
@@ -26,7 +32,7 @@ export default function QuitComplete() {
           width={254}
           height={305}
         />
-        <TextButton text="탈퇴완료" size="full" />
+        <TextButton text="탈퇴완료" size="full" onClick={onClickCompleteBtn} />
       </FlexBox>
     </FlexBox>
   );
