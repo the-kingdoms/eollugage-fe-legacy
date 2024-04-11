@@ -5,6 +5,7 @@ import GridBox from "@modules/layout/GridBox";
 import TopTitle from "@modules/layout/TopTitle";
 import { useAtom } from "jotai";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 
 export default function Consult() {
@@ -38,7 +39,9 @@ export default function Consult() {
           height={305}
         />
         {from === "setting" ? (
-          <TextButton size="full" text="문의하기" />
+          <Link href="tel://01040009842" className="w-full">
+            <TextButton size="full" text="문의하기" />
+          </Link>
         ) : (
           <GridBox className="gap-2 w-full">
             <button className="text-Gray4 B4-medium rounded-lg border-2 border-Gray2 h-12">
