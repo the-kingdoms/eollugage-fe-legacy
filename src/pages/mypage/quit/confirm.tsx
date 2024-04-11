@@ -39,7 +39,7 @@ export default function QuitConfirm() {
               onClick={onClickCheckBox}
               color="red"
             />
-            <div className="text-Gray6 B4-regular">
+            <div className="text-Gray6 B4-regular" onClick={onClickCheckBox}>
               유의사항을 모두 확인하였으며 동의합니다
             </div>
           </FlexBox>
