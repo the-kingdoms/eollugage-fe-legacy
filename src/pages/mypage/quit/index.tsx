@@ -61,6 +61,7 @@ export default function Quit() {
             size="full"
             text="작성완료"
             onClick={onClickCompleteBtn}
+            inactive={text.length === 0}
           />
         </FlexBox>
       </FlexBox>
