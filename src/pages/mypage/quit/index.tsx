@@ -34,12 +34,9 @@ export default function Quit() {
   };
 
   return (
-    <FlexBox direction="col" className="h-full gap-6">
+    <FlexBox direction="col" className="h-full gap-6 px-4">
       <TopTitle type="back" />
-      <FlexBox
-        direction="col"
-        className="px-4 w-full h-full justify-between pb-1"
-      >
+      <FlexBox direction="col" className="w-full h-full justify-between pb-1">
         <div className="text-Gray5 B1-medium w-full">
           <span className="text-Black H5-bold">{my?.name} </span>님<br />
           떠나시는 이유를 알려주세요.
