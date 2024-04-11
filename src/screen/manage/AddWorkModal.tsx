@@ -21,9 +21,9 @@ export default function AddWorkModal() {
   const [isModalOpen, setIsModalOpen] = useAtom(addWorkModalAtom);
 
   const [startWorkTime, setStartWorkTime] = useState<string>("0000");
-  const [endWorkTime, setEndWorkTime] = useState<string>("1100");
+  const [endWorkTime, setEndWorkTime] = useState<string>("0000");
   const [startRestTime, setStartRestTime] = useState<string>("0000");
-  const [endRestTime, setEndRestTime] = useState<string>("1100");
+  const [endRestTime, setEndRestTime] = useState<string>("0000");
 
   const [memberNameList, setMemberNameList] = useState<string[]>([]);
 
@@ -40,12 +40,12 @@ export default function AddWorkModal() {
 
   const getIdByName = (name: string) => {
     return relationList?.find(relationInfo => relationInfo.member.name === name)
-      ?.member.id;
+      ?.member.id as string;
   };
 
-  const [selectedMemberName, setSelectedMemberName] = useState<string>(
-    memberNameList[0],
-  );
+  const [selectedMemberName, setSelectedMemberName] = useState<
+    string | undefined
+  >(undefined);
   const onClickAddBtn = () => {
     if (
       !checkIsValidTime(startWorkTime) ||
@@ -80,9 +80,19 @@ export default function AddWorkModal() {
         restEndTime: `${endRestTime.substring(0, 2)}:${endRestTime.substring(2)}`,
         date: selectedDate.format("YYYY-MM-DD"),
       },
-      memberId: String(getIdByName(selectedMemberName)),
+      memberId: getIdByName(String(selectedMemberName)),
     });
   };
+
+  useEffect(() => {
+    if (!isModalOpen) {
+      setSelectedMemberName(undefined);
+      setStartWorkTime("0000");
+      setEndWorkTime("0000");
+      setStartRestTime("0000");
+      setEndRestTime("0000");
+    }
+  }, [isModalOpen]);
 
   return (
     <Sheet isOpen={isModalOpen} onClose={closeModal} detent="content-height">
@@ -96,8 +106,8 @@ export default function AddWorkModal() {
         <Sheet.Content>
           <div className="mb-6 text-Gray7 B1-medium">근무 추가</div>
           <Dropdown
+            defaultValue="직원을 선택해주세요"
             options={memberNameList}
-            defaultValue={memberNameList[0]}
             onChange={setSelectedMemberName}
           />
           <FlexBox direction="col" className="gap-4 mb-8 mt-4">
@@ -116,7 +126,12 @@ export default function AddWorkModal() {
               setEndTime={setEndRestTime}
             />
           </FlexBox>
-          <TextButton size="full" text="추가하기" onClick={onClickAddBtn} />
+          <TextButton
+            size="full"
+            text="추가하기"
+            onClick={onClickAddBtn}
+            inactive={selectedMemberName === undefined}
+          />
         </Sheet.Content>
       </Sheet.Container>
       <Sheet.Backdrop

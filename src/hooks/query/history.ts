@@ -125,6 +125,9 @@ function useDeleteHistory() {
       queryClient.invalidateQueries({
         queryKey: ["getAllMemberHistory"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["getAllMemberHistoryByDate"],
+      });
     },
   });
 
