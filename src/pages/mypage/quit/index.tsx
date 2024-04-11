@@ -37,12 +37,13 @@ export default function Quit() {
     <FlexBox direction="col" className="h-full gap-6 px-4">
       <TopTitle type="back" />
       <FlexBox direction="col" className="w-full h-full justify-between pb-1">
-        <div className="text-Gray5 B1-medium w-full">
-          <span className="text-Black H5-bold">{my?.name} </span>님<br />
+        <div className="!leading-[28px] !important text-Gray5 B1-medium w-full">
+          <span className="text-Black H5-bold">{my?.name} </span>
+          님<br />
           떠나시는 이유를 알려주세요.
         </div>
         <textarea
-          className="border-2 border-Gray2 w-full rounded-2xl p-4 placeholder:text-Gray5 text-Black B5-medium h-2/5 resize-none"
+          className="!leading-[19px] border-2 border-Gray2 w-full rounded-2xl p-4 placeholder:text-Gray5 text-Black B5-medium h-2/5 resize-none"
           placeholder={textAreaPlaceholder}
           value={text}
           onChange={onChangeText}

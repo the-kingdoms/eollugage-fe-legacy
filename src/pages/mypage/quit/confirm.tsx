@@ -33,13 +33,13 @@ export default function QuitConfirm() {
       <TopTitle type="back" />
       <FlexBox direction="col" className="w-full h-full justify-between">
         <FlexBox direction="col" className="w-full items-start gap-10">
-          <div className="text-Gray5 B1-medium">
+          <div className="text-Gray5 B1-medium !leading-[28px]">
             <span className="text-Black H5-bold">{my?.name} </span>님<br />
             탈퇴 전에 확인해주세요!
           </div>
           <FlexBox direction="col" className="w-full gap-6">
             {quitText.map(text => (
-              <li className="list-disc text-Gray6 B4-medium break-keep">
+              <li className="list-disc text-Gray6 B4-medium break-keep !leading-[22px]">
                 {text}
               </li>
             ))}

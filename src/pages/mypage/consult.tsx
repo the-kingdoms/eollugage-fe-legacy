@@ -22,11 +22,11 @@ export default function Consult() {
       <TopTitle type="back" />
       <FlexBox direction="col" className="h-full w-full justify-between">
         <FlexBox direction="col" className="gap-4 w-full items-start">
-          <div className="text-Gray5 B1-medium">
+          <div className="text-Gray5 B1-medium !leading-[28px]">
             <span className="text-Black H5-bold">{my?.name} </span>님<br />
             저희가 도와드리고 싶어요
           </div>
-          <div className="text-Gray5 B3-regular leading-6  ">
+          <div className="text-Gray5 B3-regular !leading-5 ">
             고객님이 만족하실 때까지
             <br />
             최선을 다해 해결해드릴게요.

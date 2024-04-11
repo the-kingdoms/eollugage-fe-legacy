@@ -18,7 +18,7 @@ export default function QuitComplete() {
     <FlexBox direction="col" className="px-4 w-full h-full pb-1 gap-6">
       <TopTitle type="back" />
       <FlexBox direction="col" className="h-full w-full justify-between">
-        <div className="text-Gray5 B1-medium w-full">
+        <div className="text-Gray5 B1-medium w-full !leading-[28px]">
           <span className="text-Black H5-bold">{my?.name} </span>님<br />
           지금까지 얼루가게를 이용해주셔서
           <br />
