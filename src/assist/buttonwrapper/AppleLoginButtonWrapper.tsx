@@ -1,5 +1,6 @@
 import { eollugageUrl } from "@/apis/network";
 import LoginButton from "@modules/components/button/LoginButton";
+import FlexBox from "@modules/layout/FlexBox";
 import { useRouter } from "next/router";
 
 function KakaoLoginButtonWrapper() {
@@ -28,9 +29,11 @@ function KakaoLoginButtonWrapper() {
   }, []);
   */
   return (
-    <div className="px-4 w-full">
-      <LoginButton type="kakao" onClick={kakaoSDKLogin} />
-    </div>
+    <FlexBox className="px-4 w-full justify-center">
+      <div className="w-full max-w-[360px]">
+        <LoginButton type="kakao" onClick={kakaoSDKLogin} />
+      </div>
+    </FlexBox>
   );
 }
 

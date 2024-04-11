@@ -1,4 +1,4 @@
-import KakaoLoginButtonWrapper from "@/assist/KakaoLoginButtonWrapper";
+import KakaoLoginButtonWrapper from "@/assist/buttonwrapper/KakaoLoginButtonWrapper";
 import FlexBox from "@modules/layout/FlexBox";
 import Image from "next/image";
 import { useRouter } from "next/router";
