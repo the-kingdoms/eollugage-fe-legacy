@@ -28,6 +28,11 @@ export default function Quit() {
     });
   };
 
+  const onClickSkipBtn = () => {
+    setText("");
+    router.push("/mypage/quit/confirm");
+  };
+
   return (
     <FlexBox direction="col" className="h-full gap-6">
       <TopTitle type="back" />
@@ -48,7 +53,7 @@ export default function Quit() {
         <FlexBox direction="col" className="gap-2.5 w-full">
           <button
             className="underline underline-offset-4 text-Gray5 B5-regular"
-            onClick={onClickCompleteBtn}
+            onClick={onClickSkipBtn}
           >
             그냥 넘어가고 싶어요!
           </button>
