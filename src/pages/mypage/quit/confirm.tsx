@@ -29,9 +29,9 @@ export default function QuitConfirm() {
   };
 
   return (
-    <FlexBox direction="col" className="gap-6 h-full pb-1">
+    <FlexBox direction="col" className="gap-6 h-full pb-1 px-4">
       <TopTitle type="back" />
-      <FlexBox direction="col" className="w-full h-full px-4 justify-between">
+      <FlexBox direction="col" className="w-full h-full justify-between">
         <FlexBox direction="col" className="w-full items-start gap-10">
           <div className="text-Gray5 B1-medium">
             <span className="text-Black H5-bold">{my?.name} </span>님<br />
