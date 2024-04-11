@@ -2,17 +2,30 @@ import { myAtom } from "@/data/global";
 import { quitText } from "@/libs/settingText";
 import TextButton from "@modules/components/button/TextButton";
 import Checkbox from "@modules/components/selections/Checkbox";
+import useDialog from "@modules/hooks/useDialog";
 import FlexBox from "@modules/layout/FlexBox";
 import TopTitle from "@modules/layout/TopTitle";
 import { useAtom } from "jotai";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function QuitConfirm() {
   const [my] = useAtom(myAtom);
+  const { openDialog } = useDialog();
+  const router = useRouter();
 
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const onClickCheckBox = () => {
     setIsChecked(!isChecked);
+  };
+
+  const onClickQuitBtn = () => {
+    openDialog({
+      title: "탈퇴하기",
+      discription: "탈퇴하실 경우, 2-3일 뒤에 탈퇴메일이 발송됩니다.",
+      type: "confirm",
+      onAction: () => router.push("/mypage/quit/complete"),
+    });
   };
 
   return (
@@ -43,7 +56,12 @@ export default function QuitConfirm() {
               유의사항을 모두 확인하였으며 동의합니다
             </div>
           </FlexBox>
-          <TextButton text="탈퇴하기" size="full" inactive={!isChecked} />
+          <TextButton
+            text="탈퇴하기"
+            size="full"
+            inactive={!isChecked}
+            onClick={onClickQuitBtn}
+          />
         </FlexBox>
       </FlexBox>
     </FlexBox>
