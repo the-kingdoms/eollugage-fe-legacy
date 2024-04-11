@@ -4,9 +4,9 @@ import TopTitle from "@modules/layout/TopTitle";
 
 export default function Term() {
   return (
-    <>
+    <FlexBox direction="col" className="px-4">
       <TopTitle type="back" title="개인정보 처리방침" />
-      <div className="px-4 mt-8 pb-6">
+      <div className="mt-8 pb-6">
         <div className="H5-bold mb-4">{termText.title}</div>
         <div className="text-Gray6 B4-regular">{termText.description}</div>
         {termText.parts.map(part => (
@@ -19,6 +19,6 @@ export default function Term() {
           </FlexBox>
         ))}
       </div>
-    </>
+    </FlexBox>
   );
 }

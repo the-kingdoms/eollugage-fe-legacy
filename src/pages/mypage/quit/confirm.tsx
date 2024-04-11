@@ -26,7 +26,7 @@ export default function QuitConfirm() {
           </div>
           <FlexBox direction="col" className="w-full gap-6">
             {quitText.map(text => (
-              <li className="list-disc text-Gray4 B4-medium break-keep">
+              <li className="list-disc text-Gray6 B4-medium break-keep">
                 {text}
               </li>
             ))}
@@ -34,7 +34,11 @@ export default function QuitConfirm() {
         </FlexBox>
         <FlexBox direction="col" className="w-full gap-4">
           <FlexBox className="gap-2">
-            <Checkbox checked={isChecked} onClick={onClickCheckBox} />
+            <Checkbox
+              checked={isChecked}
+              onClick={onClickCheckBox}
+              color="red"
+            />
             <div className="text-Gray6 B4-regular">
               유의사항을 모두 확인하였으며 동의합니다
             </div>

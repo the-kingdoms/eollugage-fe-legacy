@@ -17,9 +17,9 @@ export default function Consult() {
   };
 
   return (
-    <FlexBox direction="col" className="h-full pb-1 gap-6">
+    <FlexBox direction="col" className="h-full pb-1 gap-6 px-4">
       <TopTitle type="back" />
-      <FlexBox direction="col" className="h-full w-full justify-between px-4">
+      <FlexBox direction="col" className="h-full w-full justify-between">
         <FlexBox direction="col" className="gap-4 w-full items-start">
           <div className="text-Gray5 B1-medium">
             <span className="text-Black H5-bold">{my?.name} </span>님<br />
