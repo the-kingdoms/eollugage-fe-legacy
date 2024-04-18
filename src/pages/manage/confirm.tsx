@@ -5,6 +5,7 @@ import TopTitle from "@modules/layout/TopTitle";
 import TextButton from "@modules/components/button/TextButton";
 import ConfirmEmployee from "@/screen/manage/ConfirmEmployee";
 import ShareLink from "@/screen/manage/ShareLink";
+import { InviteSchedule, inviteScheduleInit } from "@/data/inviteSchedule";
 
 type View = "confirm" | "share";
 
@@ -17,6 +18,8 @@ export default function Home() {
   };
 
   const handleShiftButton = () => {
+    setSelectedPostion("");
+    setInviteSchedule(inviteScheduleInit);
     router.push("/manage");
   };
 
@@ -44,4 +47,11 @@ export default function Home() {
       </div>
     </FlexBox>
   );
+}
+function setSelectedPostion(arg0: string) {
+  throw new Error("Function not implemented.");
+}
+
+function setInviteSchedule(inviteScheduleInit: InviteSchedule) {
+  throw new Error("Function not implemented.");
 }

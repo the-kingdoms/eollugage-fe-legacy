@@ -4,6 +4,7 @@ import { useGetMy } from "@/hooks/query/my";
 import { usePostPlanList } from "@/hooks/query/plan";
 import { usePostRelation } from "@/hooks/query/relation";
 import { InviteDataType } from "@/screen/manage/ShareLink";
+import axios from "axios";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -23,31 +24,46 @@ export default function Redirect() {
     }
   }, [token]);
 
+  async function getInviteData(inviteDataId: string) {
+    const response = await axios.get<InviteDataType>(
+      `/api/dynamoDB/?=${inviteDataId}`,
+    );
+    return response.data;
+  }
+  function createNewEmployee(inviteData: InviteDataType, memberId: string) {
+    const body: PostRelationBody = {
+      role: "STAFF",
+      position: inviteData.position,
+    };
+    postRelationMutate(
+      { storeId: inviteData.storeId, memberId: my?.id as string, body },
+      {
+        onSettled: () =>
+          postPlanListMutate({
+            storeId: inviteData.storeId,
+            memberId: memberId,
+            inviteSchedule: inviteData.schedule,
+          }),
+      },
+    );
+  }
   useEffect(() => {
     if (my?.id === undefined || my?.id === null) return;
     if (my?.relationList.length === 0) {
       push("/signup");
-    } else if (localStorage.getItem("inviteData") !== null) {
-      const inviteData: InviteDataType = JSON.parse(
-        localStorage.getItem("inviteData") as string,
+    } else if (localStorage.getItem("inviteDataId") !== null) {
+      const inviteDataId: string = JSON.parse(
+        localStorage.getItem("inviteDataId") as string,
       );
-      const body: PostRelationBody = {
-        role: "STAFF",
-        position: inviteData.position,
-      };
-      postRelationMutate(
-        { storeId: inviteData.storeId, memberId: my?.id as string, body },
-        {
-          onSettled: () =>
-            postPlanListMutate({
-              storeId: inviteData.storeId,
-              memberId: my?.id,
-              inviteSchedule: inviteData.schedule,
-            }),
-        },
-      );
-      localStorage.removeItem("inviteData");
-      push("/main");
+      getInviteData(inviteDataId)
+        .then(inviteData => {
+          createNewEmployee(inviteData, my?.id);
+          localStorage.removeItem("inviteDataId");
+          push("/main");
+        })
+        .catch(() => {
+          push("/main");
+        });
     } else {
       push("/main");
     }

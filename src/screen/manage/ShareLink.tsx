@@ -5,11 +5,13 @@ import {
   scheduleInit,
   selectedPositionAtom,
 } from "@/data/inviteSchedule";
-import copy from "@/libs/copy";
 import FlexBox from "@modules/layout/FlexBox";
+import axios from "axios";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { createRandomString } from "@/libs/createRandomId";
+import copy from "@/libs/copy";
 
 interface InviteDataType {
   storeId: string;
@@ -29,42 +31,37 @@ const inviteScheduleInit: InviteSchedule = {
 
 function ShareLink() {
   const [linkCopied, setLinkCopied] = useState(false);
-  const [inviteSchedule, setInviteSchedule] = useAtom(inviteScheduleAtom);
-  const [selectedPosition, setSelectedPostion] = useAtom(selectedPositionAtom);
+  const [inviteSchedule] = useAtom(inviteScheduleAtom);
+  const [selectedPosition] = useAtom(selectedPositionAtom);
   const [storeId] = useAtom(storeIdAtom);
 
-  function filterSchedule(inviteData: InviteDataType): InviteDataType {
-    const filteredSchedule: InviteSchedule = Object.entries(
-      inviteData.schedule,
-    ).reduce((acc, [day, schedule]) => {
-      if (schedule.workFrom !== null) {
-        acc[day as keyof InviteSchedule] = schedule;
-      }
-      return acc;
-    }, {} as InviteSchedule);
+  const currentInviteId = createRandomString(8);
 
-    return {
-      ...inviteData,
-      schedule: filteredSchedule,
-    };
-  }
+  useEffect(() => {
+    sendInviteToDB();
+  }, []);
 
-  const createQueryString = () => {
+  const sendInviteToDB = async () => {
     const inviteData: InviteDataType = {
       storeId,
       position: selectedPosition,
       schedule: inviteSchedule,
     };
-    setSelectedPostion("");
-    setInviteSchedule(inviteScheduleInit);
-    const inviteDataString = encodeURIComponent(
-      JSON.stringify(filterSchedule(inviteData)),
-    );
-    return `/?inviteData=${inviteDataString}`;
+    console.log(currentInviteId);
+    const data = {
+      id: currentInviteId,
+      inviteData,
+    };
+    try {
+      await axios.post("/api/dynamoDB", data);
+      handleCopyLink();
+    } catch (error) {
+      console.error("Failed to create invite:", error);
+    }
   };
 
   const handleCopyLink = () => {
-    const link = window.location.origin + createQueryString();
+    const link = window.location.origin + "/?=" + currentInviteId;
     copy(
       link,
       () => {
@@ -76,10 +73,6 @@ function ShareLink() {
       },
     );
   };
-
-  useEffect(() => {
-    handleCopyLink();
-  }, []);
 
   return (
     <>
