@@ -43,7 +43,7 @@ export default function Invite() {
     토: "inactive",
     일: "inactive",
   });
-
+  const days: (keyof DayType)[] = ["월", "화", "수", "목", "금", "토", "일"];
   const [workFrom, setWorkFrom] = useState("0000");
   const [workUntil, setWorkUntil] = useState("0000");
 
@@ -84,14 +84,11 @@ export default function Invite() {
       });
 
       setInviteSchedule(newSchedule); // 갱신된 스케줄로 상태 업데이트
-
       setCurrentView("inital_set");
-
       setWorkFrom("0000");
       setWorkUntil("0000");
       setRestFrom("0000");
       setRestUntil("0000");
-
       setIsButtonActive(false);
     }
   };
@@ -115,7 +112,6 @@ export default function Invite() {
         );
       },
     );
-
     setIsButtonActive(isAnyScheduleChanged);
   }, [inviteSchedule]);
 
@@ -141,41 +137,14 @@ export default function Invite() {
       <div className="w-full h-full mt-8">
         <div className="B3-medium text-gray-600">근무 요일</div>
         <FlexBox direction="row" className="w-full mt-2 justify-between">
-          <DayChip
-            day="월"
-            type={dayType.월}
-            onChipClick={() => onChipClick("월")}
-          />
-          <DayChip
-            day="화"
-            type={dayType.화}
-            onChipClick={() => onChipClick("화")}
-          />
-          <DayChip
-            day="수"
-            type={dayType.수}
-            onChipClick={() => onChipClick("수")}
-          />
-          <DayChip
-            day="목"
-            type={dayType.목}
-            onChipClick={() => onChipClick("목")}
-          />
-          <DayChip
-            day="금"
-            type={dayType.금}
-            onChipClick={() => onChipClick("금")}
-          />
-          <DayChip
-            day="토"
-            type={dayType.토}
-            onChipClick={() => onChipClick("토")}
-          />
-          <DayChip
-            day="일"
-            type={dayType.일}
-            onChipClick={() => onChipClick("일")}
-          />
+          {days.map((day: keyof DayType) => (
+            <DayChip
+              key={day}
+              day={day}
+              type={dayType[day]}
+              onChipClick={() => onChipClick(day)}
+            />
+          ))}
         </FlexBox>
         {currentView === "manage_time" && (
           <div className="w-full mt-12">
