@@ -1,4 +1,5 @@
-import KakaoLoginButtonWrapper from "@/assist/KakaoLoginButtonWrapper";
+import AppleLoginButtonWrapper from "@/assist/buttonwrapper/AppleLoginButtonWrapper";
+import KakaoLoginButtonWrapper from "@/assist/buttonwrapper/KakaoLoginButtonWrapper";
 import FlexBox from "@modules/layout/FlexBox";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -37,7 +38,10 @@ export default function Home() {
             간편하게 일하는 법
           </div>
           <div className={styles.backgroundImage} />
-          <KakaoLoginButtonWrapper />
+          <FlexBox direction="col" className="w-full gap-4">
+            <AppleLoginButtonWrapper />
+            <KakaoLoginButtonWrapper />
+          </FlexBox>
         </FlexBox>
       </FlexBox>
     </FlexBox>

@@ -1,6 +1,6 @@
 import { AllHistory } from "@/apis/history";
 import ProfileDiscription from "@/assist/ProfileDiscription";
-import StateButtonWrapper from "@/assist/StateButtonWrapper";
+import StateButtonWrapper from "@/assist/buttonwrapper/StateButtonWrapper";
 import TimeBanner from "@/assist/banner/TimeBanner";
 import {
   useGetAllMemeberHistory,
