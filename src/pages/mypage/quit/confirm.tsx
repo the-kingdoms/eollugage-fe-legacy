@@ -24,6 +24,8 @@ export default function QuitConfirm() {
       title: "탈퇴하기",
       discription: "탈퇴하실 경우, 2-3일 뒤에 탈퇴메일이 발송됩니다.",
       type: "confirm",
+      confirmText: "예, 탈퇴하겠습니다.",
+      closeText: "아니오",
       onAction: () => router.push("/mypage/quit/complete"),
     });
   };
