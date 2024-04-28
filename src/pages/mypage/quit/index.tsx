@@ -2,7 +2,6 @@ import FlexBox from "@modules/layout/FlexBox";
 import TopTitle from "@modules/layout/TopTitle";
 import { useAtom } from "jotai";
 import { myAtom } from "@/data/global";
-import TextAreaField from "@modules/components/textfields/TextAreaField";
 import TextButton from "@modules/components/button/TextButton";
 import { useState } from "react";
 import { useRouter } from "next/router";
@@ -50,6 +49,7 @@ export default function Quit() {
         />
         <FlexBox direction="col" className="gap-2.5 w-full">
           <button
+            type="button"
             className="underline underline-offset-4 text-Gray5 B5-regular"
             onClick={onClickSkipBtn}
           >
