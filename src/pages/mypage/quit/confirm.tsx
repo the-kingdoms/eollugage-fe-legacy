@@ -63,6 +63,7 @@ export default function QuitConfirm() {
               checked={isChecked}
               onClick={onClickCheckBox}
               color="red"
+              size="S"
               type="square"
             />
             <div
