@@ -23,7 +23,10 @@ export default function Term() {
               {part.description}
             </div>
             {part.detail.map((detail, index) => (
-              <li className="text-Gray6 B4-regular !leading-[22px]" key={index}>
+              <li
+                className="text-Gray6 B4-regular !leading-[22px] indent-[-20px] pl-5"
+                key={index}
+              >
                 {detail}
               </li>
             ))}
