@@ -43,7 +43,14 @@ export default function QuitConfirm() {
                 className="list-disc text-Gray6 B4-medium break-keep !leading-[22px] list-outside indent-[-20px]"
                 key={i}
               >
-                {text}
+                {text.includes("2-3일")
+                  ? text.split("2-3일").map((splitedString, index) => (
+                      <span key={index}>
+                        {index !== 0 && <span className="text-Red">2-3일</span>}
+                        {splitedString}
+                      </span>
+                    ))
+                  : text}
               </li>
             ))}
           </FlexBox>
