@@ -2,13 +2,16 @@ import { storeIdAtom } from "@/data/global";
 import {
   InviteSchedule,
   inviteScheduleAtom,
+  scheduleInit,
   selectedPositionAtom,
 } from "@/data/inviteSchedule";
-import copy from "@/libs/copy";
 import FlexBox from "@modules/layout/FlexBox";
+import axios from "axios";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { createRandomString } from "@/libs/createRandomId";
+import copy from "@/libs/copy";
 
 interface InviteDataType {
   storeId: string;
@@ -16,58 +19,62 @@ interface InviteDataType {
   schedule: InviteSchedule;
 }
 
+const inviteScheduleInit: InviteSchedule = {
+  월: { ...scheduleInit },
+  화: { ...scheduleInit },
+  수: { ...scheduleInit },
+  목: { ...scheduleInit },
+  금: { ...scheduleInit },
+  토: { ...scheduleInit },
+  일: { ...scheduleInit },
+};
+
 function ShareLink() {
   const [linkCopied, setLinkCopied] = useState(false);
   const [inviteSchedule] = useAtom(inviteScheduleAtom);
   const [selectedPosition] = useAtom(selectedPositionAtom);
   const [storeId] = useAtom(storeIdAtom);
 
-  function filterSchedule(inviteData: InviteDataType): InviteDataType {
-    const filteredSchedule: InviteSchedule = Object.entries(
-      inviteData.schedule,
-    ).reduce((acc, [day, schedule]) => {
-      if (schedule.workFrom !== null) {
-        acc[day as keyof InviteSchedule] = schedule;
-      }
-      return acc;
-    }, {} as InviteSchedule);
+  const currentInviteId = createRandomString(8);
 
-    return {
-      ...inviteData,
-      schedule: filteredSchedule,
-    };
-  }
+  useEffect(() => {
+    sendInviteToDB();
+  }, []);
 
-  const createQueryString = () => {
+  const sendInviteToDB = async () => {
     const inviteData: InviteDataType = {
       storeId,
       position: selectedPosition,
       schedule: inviteSchedule,
     };
-
-    const inviteDataString = encodeURIComponent(
-      JSON.stringify(filterSchedule(inviteData)),
-    );
-    return `/?inviteData=${inviteDataString}`;
+    console.log(currentInviteId);
+    const data = {
+      id: currentInviteId,
+      inviteData,
+    };
+    try {
+      await axios.post("/api/dynamoDB", data);
+      handleCopyLink();
+    } catch (error) {
+      console.error("Failed to create invite:", error);
+    }
   };
 
   const handleCopyLink = () => {
-    const link = window.location.origin + createQueryString();
+    const link = window.location.origin + "/?=" + currentInviteId;
     copy(
       link,
       () => {
         setLinkCopied(true);
+        /*
         setTimeout(() => setLinkCopied(false), 2000);
+        */
       },
       err => {
         console.log("링크를 복사하는데 실패했습니다: ", err);
       },
     );
   };
-
-  useEffect(() => {
-    handleCopyLink();
-  }, []);
 
   return (
     <>
@@ -91,13 +98,16 @@ function ShareLink() {
             링크복사가 안되었나요?
           </div>
           <button onClick={handleCopyLink} type="button">
-            <div className="B2-regular text-Gray4">링크 복사하기</div>
+            <FlexBox direction="row">
+              <div className="B4-regular text-Gray4 underline">링크 복사</div>
+              <div className="B4-regular text-Gray4">하기</div>
+            </FlexBox>
           </button>
         </FlexBox>
       </FlexBox>
       {linkCopied && (
-        <div className="w-full px-4 py-2 mb-4 bg-[#2D2D2D] text-white">
-          링크가 자동으로 복사되었습니다.
+        <div className="w-full B5-regular px-4 py-4 mb-4 bg-[#2D2D2D] text-white">
+          <p className="mb-4">링크가 자동으로 복사되었습니다.</p>
         </div>
       )}
     </>

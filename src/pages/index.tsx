@@ -10,9 +10,9 @@ export default function Home() {
   const { query } = useRouter();
 
   useEffect(() => {
-    if (typeof query.inviteData === "string") {
-      const inviteData = query.inviteData as string;
-      localStorage.setItem("inviteData", inviteData);
+    if (typeof query.id === "string") {
+      const inviteDataId = query.id as string;
+      localStorage.setItem("inviteDataId", inviteDataId);
     }
   }, [query]);
 
