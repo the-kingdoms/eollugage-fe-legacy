@@ -24,6 +24,8 @@ export default function QuitConfirm() {
       title: "탈퇴하기",
       discription: "탈퇴하실 경우, 2-3일 뒤에 탈퇴메일이 발송됩니다.",
       type: "confirm",
+      confirmText: "예, 탈퇴하겠습니다.",
+      closeText: "아니오",
       onAction: () => router.push("/mypage/quit/complete"),
     });
   };
@@ -37,10 +39,20 @@ export default function QuitConfirm() {
             <span className="text-Black H5-bold">{my?.name} </span>님<br />
             탈퇴 전에 확인해주세요!
           </div>
-          <FlexBox direction="col" className="w-full gap-6">
-            {quitText.map(text => (
-              <li className="list-disc text-Gray6 B4-medium break-keep !leading-[22px]">
-                {text}
+          <FlexBox direction="col" className="w-full gap-6 pl-5">
+            {quitText.map((text, i) => (
+              <li
+                className="list-disc text-Gray6 B4-medium break-keep !leading-[22px] list-outside indent-[-20px]"
+                key={i}
+              >
+                {text.includes("2-3일")
+                  ? text.split("2-3일").map((splitedString, index) => (
+                      <span key={index}>
+                        {index !== 0 && <span className="text-Red">2-3일</span>}
+                        {splitedString}
+                      </span>
+                    ))
+                  : text}
               </li>
             ))}
           </FlexBox>
@@ -51,9 +63,14 @@ export default function QuitConfirm() {
               checked={isChecked}
               onClick={onClickCheckBox}
               color="red"
+              size="S"
               type="square"
             />
-            <div className="text-Gray6 B4-regular" onClick={onClickCheckBox}>
+            <div
+              className="text-Gray6 B4-regular"
+              onClick={onClickCheckBox}
+              role="presentation"
+            >
               유의사항을 모두 확인하였으며 동의합니다
             </div>
           </FlexBox>

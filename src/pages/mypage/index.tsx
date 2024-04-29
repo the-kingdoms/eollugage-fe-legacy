@@ -3,6 +3,7 @@ import AdminControlBanner from "@/assist/banner/AdminControlBanner";
 import { myMemberIdAtom, roleAtom } from "@/data/global";
 import { useGetRelationList } from "@/hooks/query/relation";
 import RelationSlider from "@/screen/mypage/RelationSlider";
+import SettingFAB from "@/screen/mypage/SettingFAB";
 import UserInfo from "@/screen/mypage/UserInfo";
 import WorkHistoryList from "@/screen/mypage/WorkHistoryList";
 import WorkHour from "@/screen/mypage/WorkHour";
@@ -35,7 +36,7 @@ export default function Manage() {
   };
 
   return (
-    <FlexBox direction="col" className="relative h-full justify-between">
+    <FlexBox direction="col" className="relative h-full justify-between w-full">
       <FlexBox direction="col" className="w-full gap-6 py-4">
         <UserInfo />
         <FlexBox direction="col" className="w-full gap-2">
@@ -56,6 +57,7 @@ export default function Manage() {
         <WorkHistoryList memberId={currentMemberId} />
       </FlexBox>
       <TabBarGage />
+      <SettingFAB />
     </FlexBox>
   );
 }

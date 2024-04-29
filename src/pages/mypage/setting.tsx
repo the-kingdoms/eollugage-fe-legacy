@@ -1,4 +1,3 @@
-import Radio from "@modules/components/selections/Radio";
 import Divider from "@modules/layout/Divider";
 import FlexBox from "@modules/layout/FlexBox";
 import Icon from "@modules/layout/Icon";
@@ -38,8 +37,8 @@ export default function Setting() {
   };
 
   const [isChecked, setIsChecked] = useState<boolean>(false);
-  const onClickSwitch = (isChecked: boolean) => {
-    setIsChecked(isChecked);
+  const onClickSwitch = (checked: boolean) => {
+    setIsChecked(checked);
   };
 
   return (
@@ -60,7 +59,7 @@ export default function Setting() {
               checked={isChecked}
               checkedIcon={false}
               uncheckedIcon={false}
-              onColor={"#000"}
+              onColor="#000"
               width={48}
               height={28}
               handleDiameter={24}
@@ -73,8 +72,13 @@ export default function Setting() {
       <FlexBox direction="col" className="px-4 w-full items-start mt-6 gap-6">
         <div className="text-Gray7 B1-medium">고객센터</div>
         <FlexBox direction="col" className="gap-6 w-full">
-          {parts.map(part => (
-            <button className="w-full" onClick={() => onClickPart(part.path)}>
+          {parts.map((part, i) => (
+            <button
+              type="button"
+              className="w-full"
+              onClick={() => onClickPart(part.path)}
+              key={i}
+            >
               <FlexBox className="justify-between w-full">
                 <div className="text-Gray7 B4-regular">{part.name}</div>
                 <Icon src="/icon/direction/right.svg" sz={24} />
