@@ -66,7 +66,9 @@ function ShareLink() {
       link,
       () => {
         setLinkCopied(true);
+        /*
         setTimeout(() => setLinkCopied(false), 2000);
+        */
       },
       err => {
         console.log("링크를 복사하는데 실패했습니다: ", err);
@@ -96,13 +98,16 @@ function ShareLink() {
             링크복사가 안되었나요?
           </div>
           <button onClick={handleCopyLink} type="button">
-            <div className="B2-regular text-Gray4">링크 복사하기</div>
+            <FlexBox direction="row">
+              <div className="B4-regular text-Gray4 underline">링크 복사</div>
+              <div className="B4-regular text-Gray4">하기</div>
+            </FlexBox>
           </button>
         </FlexBox>
       </FlexBox>
       {linkCopied && (
-        <div className="w-full px-4 py-2 mb-4 bg-[#2D2D2D] text-white">
-          링크가 자동으로 복사되었습니다.
+        <div className="w-full B5-regular px-4 py-4 mb-4 bg-[#2D2D2D] text-white">
+          <p className="mb-4">링크가 자동으로 복사되었습니다.</p>
         </div>
       )}
     </>
