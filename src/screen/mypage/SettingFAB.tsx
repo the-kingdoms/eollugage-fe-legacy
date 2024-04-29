@@ -13,7 +13,7 @@ export default function SettingFAB() {
     <button
       onClick={onClickFAB}
       type="button"
-      className="sticky rounded-[20px] p-3 bg-Gray7 bottom-[128px] right-4"
+      className="fixed rounded-[20px] p-3 bg-Gray7 bottom-[128px] right-4"
     >
       <FlexBox className="gap-2">
         <Icon src="/image" sz={16} />
