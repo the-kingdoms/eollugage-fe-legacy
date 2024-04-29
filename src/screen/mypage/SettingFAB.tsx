@@ -16,7 +16,7 @@ export default function SettingFAB() {
       className="fixed rounded-[20px] p-3 bg-Gray7 bottom-[128px] right-4"
     >
       <FlexBox className="gap-2">
-        <Icon src="/image" sz={16} />
+        <Icon src="/icon/control/setting.svg" sz={16} />
         <div className="text-White B4-regular">설정</div>
       </FlexBox>
     </button>
