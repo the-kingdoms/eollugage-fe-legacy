@@ -1,17 +1,19 @@
 import FlexBox from "@modules/layout/FlexBox";
 import TopTitle from "@modules/layout/TopTitle";
-import { useAtom } from "jotai";
+import { useAtom, atom } from "jotai";
 import { myAtom } from "@/data/global";
 import TextButton from "@modules/components/button/TextButton";
 import { useState } from "react";
 import { useRouter } from "next/router";
+
+export const quitReasonAtom = atom<string>("");
 
 export default function Quit() {
   const [my] = useAtom(myAtom);
   const textAreaPlaceholder =
     "불편하신 점을 적어주신다면 저희가 적극 개선하도록 할게요.\n얼루가게가 생각나시면 언제든 다시 찾아와주세요!";
 
-  const [text, setText] = useState<string>("");
+  const [text, setText] = useAtom(quitReasonAtom);
   const onChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
   };
