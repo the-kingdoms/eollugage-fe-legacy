@@ -85,7 +85,7 @@ export default function QuitConfirm() {
             text="탈퇴하기"
             size="full"
             inactive={!isChecked}
-            onClick={onClickConfirmBtn}
+            onClick={onClickQuitBtn}
           />
         </FlexBox>
       </FlexBox>
