@@ -8,6 +8,7 @@ import TopTitle from "@modules/layout/TopTitle";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { usePostDeleteAccount } from "@/hooks/query/deleteAccount";
 
 export default function QuitConfirm() {
   const [my] = useAtom(myAtom);
@@ -26,8 +27,14 @@ export default function QuitConfirm() {
       type: "confirm",
       confirmText: "예, 탈퇴하겠습니다.",
       closeText: "아니오",
-      onAction: () => router.push("/mypage/quit/complete"),
+      onAction: () => onClickConfirmBtn,
     });
+  };
+
+  const { mutate: postDeleteAccountMutate } = usePostDeleteAccount();
+  const onClickConfirmBtn = async () => {
+    postDeleteAccountMutate();
+    router.push("/mypage/quit/complete");
   };
 
   return (
@@ -78,7 +85,7 @@ export default function QuitConfirm() {
             text="탈퇴하기"
             size="full"
             inactive={!isChecked}
-            onClick={onClickQuitBtn}
+            onClick={onClickConfirmBtn}
           />
         </FlexBox>
       </FlexBox>
