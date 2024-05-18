@@ -1,5 +1,8 @@
-import { QueryCommandInput, ScanCommandInput } from '@aws-sdk/client-dynamodb';
-import { marshall } from '@aws-sdk/util-dynamodb';
+/* eslint-disable */
+// TODO: Remove eslint-disable
+
+import { QueryCommandInput, ScanCommandInput } from "@aws-sdk/client-dynamodb";
+import { marshall } from "@aws-sdk/util-dynamodb";
 import {
   deleteItemCommandOutputFromDynamoDB,
   getItemCommandOutputFromDynamoDB,
@@ -7,8 +10,8 @@ import {
   getScanCommandOutputFromDynamoDB,
   patchItemCommandOutputFromDynamoDB,
   putItemCommandOutputFromDynamoDB,
-} from './getOutput';
-import { parseRecord, parseRecords } from './parse';
+} from "./getOutput";
+import { parseRecord, parseRecords } from "./parse";
 
 async function getListFromDynamoDB(table: string) {
   const params: ScanCommandInput = {
@@ -20,21 +23,21 @@ async function getListFromDynamoDB(table: string) {
       const records = parseRecords(data);
       return records;
     } catch (error: any) {
-      if (error?.name !== 'ProvisionedThroughputExceededException') throw error;
+      if (error?.name !== "ProvisionedThroughputExceededException") throw error;
       else console.log(error?.name);
     }
   }
 }
 
 async function getQueryFromDynamoDB(table: string, queryKeys: any) {
-  let keyExpression = '';
-  Object.keys(queryKeys).forEach((key) => {
-    if (keyExpression !== '') keyExpression += ' AND ';
-    keyExpression += key + ' = :' + key;
+  let keyExpression = "";
+  Object.keys(queryKeys).forEach(key => {
+    if (keyExpression !== "") keyExpression += " AND ";
+    keyExpression += `${key} = :${key}`;
   });
-  let expressionAttributeValues: { [key: string]: any } = {};
-  Object.keys(queryKeys).forEach((key) => {
-    expressionAttributeValues[':' + key] = queryKeys[key];
+  const expressionAttributeValues: { [key: string]: any } = {};
+  Object.keys(queryKeys).forEach(key => {
+    expressionAttributeValues[`:${key}`] = queryKeys[key];
   });
   const params: QueryCommandInput = {
     TableName: table,
@@ -48,7 +51,7 @@ async function getQueryFromDynamoDB(table: string, queryKeys: any) {
       const records = parseRecords(data);
       return records;
     } catch (error: any) {
-      if (error?.name !== 'ProvisionedThroughputExceededException') throw error;
+      if (error?.name !== "ProvisionedThroughputExceededException") throw error;
       else console.log(error?.name);
     }
   }
@@ -66,7 +69,7 @@ async function getFromDynamoDB(table: string, key: any) {
       const record = parseRecord(data);
       return record;
     } catch (error: any) {
-      if (error?.name !== 'ProvisionedThroughputExceededException') throw error;
+      if (error?.name !== "ProvisionedThroughputExceededException") throw error;
       else console.log(error?.name);
     }
   }
@@ -81,7 +84,7 @@ async function putFromDynamoDB(table: string, item: any) {
     try {
       return await putItemCommandOutputFromDynamoDB(params);
     } catch (error: any) {
-      if (error?.name !== 'ProvisionedThroughputExceededException') throw error;
+      if (error?.name !== "ProvisionedThroughputExceededException") throw error;
       else console.log(error?.name);
     }
   }
@@ -97,7 +100,7 @@ async function patchFromDynamoDB(table: string, key: any, updates: any) {
     try {
       return await patchItemCommandOutputFromDynamoDB(params);
     } catch (error: any) {
-      if (error?.name !== 'ProvisionedThroughputExceededException') throw error;
+      if (error?.name !== "ProvisionedThroughputExceededException") throw error;
       else console.log(error?.name);
     }
   }
@@ -112,7 +115,7 @@ async function deleteFromDynamoDB(table: string, key: any) {
     try {
       return await deleteItemCommandOutputFromDynamoDB(params);
     } catch (error: any) {
-      if (error?.name !== 'ProvisionedThroughputExceededException') throw error;
+      if (error?.name !== "ProvisionedThroughputExceededException") throw error;
       else console.log(error?.name);
     }
   }

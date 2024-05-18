@@ -1,3 +1,4 @@
+import getDynamoDBClient from "@/libs/dynamoDB/client";
 import {
   DeleteItemCommand,
   DeleteItemCommandInput,
@@ -7,27 +8,23 @@ import {
   PutItemCommandInput,
   QueryCommand,
   QueryCommandInput,
-  QueryCommandOutput,
   ScanCommand,
   ScanCommandInput,
-  ScanCommandOutput,
   UpdateItemCommand,
   UpdateItemCommandInput,
-} from '@aws-sdk/client-dynamodb';
-import { getDynamoDBClient } from '../network';
+} from "@aws-sdk/client-dynamodb";
 
 async function getScanCommandOutputFromDynamoDB(params: ScanCommandInput) {
   const client = getDynamoDBClient();
-  let data: ScanCommandOutput;
 
   const command = new ScanCommand(params);
-  data = await client.send(command);
+  const data = await client.send(command);
 
-  while (true) {
-    if (data.LastEvaluatedKey) {
-      params.ExclusiveStartKey = data.LastEvaluatedKey;
-    } else break;
-    const tempcommand = new ScanCommand(params);
+  while (data.LastEvaluatedKey) {
+    const newParams = params;
+    newParams.ExclusiveStartKey = data.LastEvaluatedKey;
+    const tempcommand = new ScanCommand(newParams);
+    // eslint-disable-next-line no-await-in-loop
     const tempdata = await client.send(tempcommand);
     data.Items = data.Items?.concat(tempdata.Items ?? []);
     data.LastEvaluatedKey = tempdata.LastEvaluatedKey;
@@ -38,10 +35,9 @@ async function getScanCommandOutputFromDynamoDB(params: ScanCommandInput) {
 
 async function getQueryCommandOutputFromDynamoDB(params: QueryCommandInput) {
   const client = getDynamoDBClient();
-  let data: QueryCommandOutput;
 
   const command = new QueryCommand(params);
-  data = await client.send(command);
+  const data = await client.send(command);
   return data;
 }
 
@@ -61,7 +57,9 @@ async function putItemCommandOutputFromDynamoDB(params: PutItemCommandInput) {
   return data;
 }
 
-async function patchItemCommandOutputFromDynamoDB(params: UpdateItemCommandInput) {
+async function patchItemCommandOutputFromDynamoDB(
+  params: UpdateItemCommandInput,
+) {
   const client = getDynamoDBClient();
 
   const command = new UpdateItemCommand(params);
@@ -69,7 +67,9 @@ async function patchItemCommandOutputFromDynamoDB(params: UpdateItemCommandInput
   return data;
 }
 
-async function deleteItemCommandOutputFromDynamoDB(params: DeleteItemCommandInput) {
+async function deleteItemCommandOutputFromDynamoDB(
+  params: DeleteItemCommandInput,
+) {
   const client = getDynamoDBClient();
 
   const command = new DeleteItemCommand(params);

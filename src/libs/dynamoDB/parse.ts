@@ -1,5 +1,8 @@
-import { GetItemCommandOutput, ScanCommandOutput } from '@aws-sdk/client-dynamodb';
-import { unmarshall } from '@aws-sdk/util-dynamodb';
+import {
+  GetItemCommandOutput,
+  ScanCommandOutput,
+} from "@aws-sdk/client-dynamodb";
+import { unmarshall } from "@aws-sdk/util-dynamodb";
 
 function parseRecord(data: GetItemCommandOutput) {
   const record = unmarshall(data.Item!);
@@ -7,7 +10,7 @@ function parseRecord(data: GetItemCommandOutput) {
 }
 
 function parseRecords(data: ScanCommandOutput) {
-  const records = data.Items!.map((i) => unmarshall(i));
+  const records = data.Items!.map(i => unmarshall(i));
   return records;
 }
 
