@@ -7,6 +7,16 @@ import ConfirmEmployee from "@/screen/manage/ConfirmEmployee";
 import ShareLink from "@/screen/manage/ShareLink";
 import { InviteSchedule, inviteScheduleInit } from "@/data/inviteSchedule";
 
+function setSelectedPostion(arg0: string) {
+  console.log(arg0);
+  throw new Error("Function not implemented.");
+}
+
+function setInviteSchedule(inviteSchedule: InviteSchedule) {
+  console.log(inviteSchedule);
+  throw new Error("Function not implemented.");
+}
+
 type View = "confirm" | "share";
 
 export default function Home() {
@@ -47,11 +57,4 @@ export default function Home() {
       </div>
     </FlexBox>
   );
-}
-function setSelectedPostion(arg0: string) {
-  throw new Error("Function not implemented.");
-}
-
-function setInviteSchedule(inviteScheduleInit: InviteSchedule) {
-  throw new Error("Function not implemented.");
 }

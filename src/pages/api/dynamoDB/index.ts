@@ -1,14 +1,11 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import {
   DynamoDBClient,
   GetItemCommand,
   PutItemCommand,
   PutItemCommandInput,
-  QueryCommand,
-  ScanCommand,
-  ScanCommandInput,
 } from "@aws-sdk/client-dynamodb";
 import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
+import { NextApiRequest, NextApiResponse } from "next";
 
 const client = new DynamoDBClient({
   region: process.env.REGION,
@@ -36,7 +33,8 @@ export default async function handler(
         const data = await client.send(new GetItemCommand(params));
         const records = unmarshall(data.Item!);
         res.status(200).json(records);
-      } catch (error: any) {
+      } catch (e) {
+        const error = e as Error;
         console.log(error);
         res.status(400).json({
           message: error.message || "An error occurred during fetching data",
@@ -50,9 +48,10 @@ export default async function handler(
           TableName: tableName,
           Item: marshall(item),
         };
-        const data = await client.send(new PutItemCommand(params));
+        await client.send(new PutItemCommand(params));
         res.status(200);
-      } catch (error: any) {
+      } catch (e) {
+        const error = e as Error;
         console.log(error);
         res.status(400).json({
           message: error.message || "An error occurred during posting data",

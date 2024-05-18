@@ -1,9 +1,8 @@
-import FlexBox from "@modules/layout/FlexBox";
-import TopTitle from "@modules/layout/TopTitle";
-import { useAtom, atom } from "jotai";
 import { myAtom } from "@/data/global";
 import TextButton from "@modules/components/button/TextButton";
-import { useState } from "react";
+import FlexBox from "@modules/layout/FlexBox";
+import TopTitle from "@modules/layout/TopTitle";
+import { atom, useAtom } from "jotai";
 import { useRouter } from "next/router";
 
 export const quitReasonAtom = atom<string>("");

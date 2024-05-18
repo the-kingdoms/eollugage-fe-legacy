@@ -21,30 +21,29 @@ export default function ShowTimeLine({ historyList }: ShowTimeLineProps) {
     });
   };
 
-  const time = historyList?.map(historyInfo => historyInfo.startTime);
-  const timeSet = new Set(time);
+  const timeSet = new Set(
+    historyList?.map(historyInfo => historyInfo.startTime),
+  );
   const timeLine = Array.from(timeSet);
 
   return timeLine.map(time => (
-    <FlexBox direction="col" className="w-full">
+    <FlexBox direction="col" className="w-full" key={time}>
       <FlexBox className="gap-1 w-full justify-start mb-3">
         <div className="C3 text-Gray4">{time.slice(0, 5)}</div>
         <div className="w-full h-px bg-Gray2" />
       </FlexBox>
       <FlexBox direction="col" className="w-full gap-2 mb-3">
-        {historyList?.map((historyInfo, index) => {
-          if (historyInfo.startTime == String(time)) {
-            return (
-              <ScheduleList
-                key={index}
-                name={historyInfo.relation.member.name}
-                role={historyInfo.relation.role}
-                time={getTimeString(historyInfo.startTime, historyInfo.endTime)}
-                onDelete={() => onClickDeleteBtn(historyInfo.id)}
-              />
-            );
-          }
-        })}
+        {historyList
+          ?.filter(historyInfo => historyInfo.startTime === String(time))
+          .map((historyInfo, index) => (
+            <ScheduleList
+              key={index}
+              name={historyInfo.relation.member.name}
+              role={historyInfo.relation.role}
+              time={getTimeString(historyInfo.startTime, historyInfo.endTime)}
+              onDelete={() => onClickDeleteBtn(historyInfo.id)}
+            />
+          ))}
       </FlexBox>
     </FlexBox>
   ));
