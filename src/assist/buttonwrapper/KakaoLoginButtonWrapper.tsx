@@ -2,7 +2,6 @@ import LoginButton from "@modules/components/button/LoginButton";
 import FlexBox from "@modules/layout/FlexBox";
 import { useEffect } from "react";
 
-const KAKAO_JS_KEY = "73b9aaee522a94dc51ed5ea558ba0eeb";
 function KakaoLoginButtonWrapper() {
   const kakaoSDKLogin = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -16,7 +15,7 @@ function KakaoLoginButtonWrapper() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const kakao = (window as any)?.Kakao;
     if (!kakao?.isInitialized()) {
-      kakao?.init(KAKAO_JS_KEY);
+      kakao?.init(process.env.NEXT_PUBLIC_KAKAO_JS_KEY);
     }
   }, []);
   return (
