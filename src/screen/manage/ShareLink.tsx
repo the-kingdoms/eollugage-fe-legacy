@@ -2,32 +2,21 @@ import { storeIdAtom } from "@/data/global";
 import {
   InviteSchedule,
   inviteScheduleAtom,
-  scheduleInit,
   selectedPositionAtom,
 } from "@/data/inviteSchedule";
+import copy from "@/libs/copy";
+import { createRandomString } from "@/libs/createRandomId";
 import FlexBox from "@modules/layout/FlexBox";
 import axios from "axios";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { createRandomString } from "@/libs/createRandomId";
-import copy from "@/libs/copy";
 
 interface InviteDataType {
   storeId: string;
   position: string;
   schedule: InviteSchedule;
 }
-
-const inviteScheduleInit: InviteSchedule = {
-  월: { ...scheduleInit },
-  화: { ...scheduleInit },
-  수: { ...scheduleInit },
-  목: { ...scheduleInit },
-  금: { ...scheduleInit },
-  토: { ...scheduleInit },
-  일: { ...scheduleInit },
-};
 
 function ShareLink() {
   const [linkCopied, setLinkCopied] = useState(false);
@@ -37,9 +26,21 @@ function ShareLink() {
 
   const currentInviteId = createRandomString(8);
 
-  useEffect(() => {
-    sendInviteToDB();
-  }, []);
+  const handleCopyLink = () => {
+    const link = `${window.location.origin}/?=${currentInviteId}`;
+    copy(
+      link,
+      () => {
+        setLinkCopied(true);
+        /*
+        setTimeout(() => setLinkCopied(false), 2000);
+        */
+      },
+      err => {
+        console.log("링크를 복사하는데 실패했습니다: ", err);
+      },
+    );
+  };
 
   const sendInviteToDB = async () => {
     const inviteData: InviteDataType = {
@@ -60,21 +61,9 @@ function ShareLink() {
     }
   };
 
-  const handleCopyLink = () => {
-    const link = window.location.origin + "/?=" + currentInviteId;
-    copy(
-      link,
-      () => {
-        setLinkCopied(true);
-        /*
-        setTimeout(() => setLinkCopied(false), 2000);
-        */
-      },
-      err => {
-        console.log("링크를 복사하는데 실패했습니다: ", err);
-      },
-    );
-  };
+  useEffect(() => {
+    sendInviteToDB();
+  }, []);
 
   return (
     <>

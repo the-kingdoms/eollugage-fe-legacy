@@ -1,4 +1,5 @@
 import { myAtom } from "@/data/global";
+import { usePostDeleteAccount } from "@/hooks/query/deleteAccount";
 import { quitText } from "@/libs/settingText";
 import TextButton from "@modules/components/button/TextButton";
 import Checkbox from "@modules/components/selections/Checkbox";
@@ -8,18 +9,22 @@ import TopTitle from "@modules/layout/TopTitle";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { usePostDeleteAccount } from "@/hooks/query/deleteAccount";
 
 export default function QuitConfirm() {
   const [my] = useAtom(myAtom);
   const { openDialog } = useDialog();
   const router = useRouter();
-
+  const { mutate: postDeleteAccountMutate } = usePostDeleteAccount();
   const [isChecked, setIsChecked] = useState<boolean>(false);
+
   const onClickCheckBox = () => {
     setIsChecked(!isChecked);
   };
 
+  const onClickConfirmBtn = async () => {
+    postDeleteAccountMutate();
+    router.push("/mypage/quit/complete");
+  };
   const onClickQuitBtn = () => {
     openDialog({
       title: "탈퇴하기",
@@ -29,12 +34,6 @@ export default function QuitConfirm() {
       closeText: "아니오",
       onAction: () => onClickConfirmBtn,
     });
-  };
-
-  const { mutate: postDeleteAccountMutate } = usePostDeleteAccount();
-  const onClickConfirmBtn = async () => {
-    postDeleteAccountMutate();
-    router.push("/mypage/quit/complete");
   };
 
   return (
@@ -85,7 +84,7 @@ export default function QuitConfirm() {
             text="탈퇴하기"
             size="full"
             inactive={!isChecked}
-            onClick={onClickConfirmBtn}
+            onClick={onClickQuitBtn}
           />
         </FlexBox>
       </FlexBox>

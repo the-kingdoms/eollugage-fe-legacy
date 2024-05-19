@@ -1,5 +1,5 @@
 import { platformAtom } from "@/data/platform";
-import { postAppleLogin } from "@/libs/reactNative/sender";
+import { getAppleIdentifyToken } from "@/libs/reactNative/sender";
 import LoginButton from "@modules/components/button/LoginButton";
 import FlexBox from "@modules/layout/FlexBox";
 import { useAtom } from "jotai";
@@ -7,7 +7,7 @@ import { useAtom } from "jotai";
 function AppleLoginButtonWrapper() {
   const [platform] = useAtom(platformAtom);
   const appleLogin = () => {
-    postAppleLogin();
+    getAppleIdentifyToken();
   };
   return (
     <FlexBox className="px-4 w-full justify-center">
