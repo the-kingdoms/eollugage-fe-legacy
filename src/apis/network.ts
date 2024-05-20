@@ -13,7 +13,7 @@ const getTokenFromLocalStorage = () => {
   return accessToken;
 };
 
-const eollugageUrl = "https://api.eolluga.com/";
+const eollugageUrl = "http://localhost:8080/";
 const api = axios.create({
   baseURL: eollugageUrl,
   headers: {

@@ -8,7 +8,7 @@ function KakaoLoginButtonWrapper() {
     if (!kakao?.isInitialized()) {
       kakao?.init(process.env.NEXT_PUBLIC_KAKAO_JS_KEY);
     }
-    const redirectUri = `https://api.eolluga.com/login/oauth2/code/kakao`;
+    const redirectUri = `http://localhost:8080/login/oauth2/code/kakao`;
     kakao?.Auth?.authorize({
       redirectUri,
     });
