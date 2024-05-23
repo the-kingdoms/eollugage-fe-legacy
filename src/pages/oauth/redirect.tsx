@@ -41,7 +41,7 @@ export default function Redirect() {
         onSettled: () =>
           postPlanListMutate({
             storeId: inviteData.storeId,
-            memberId: memberId,
+            memberId,
             inviteSchedule: inviteData.schedule,
           }),
       },

@@ -14,10 +14,12 @@ export function getPlatform() {
   }
 }
 
-export function postAppleLogin() {
+export function getAppleIdentifyToken() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { ReactNativeWebView } = window as any;
   if (ReactNativeWebView) {
-    ReactNativeWebView.postMessage(JSON.stringify({ type: "postAppleLogin" }));
+    ReactNativeWebView.postMessage(
+      JSON.stringify({ type: "getAppleIdentifyToken" }),
+    );
   }
 }

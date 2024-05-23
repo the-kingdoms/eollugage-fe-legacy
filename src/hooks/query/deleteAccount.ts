@@ -13,7 +13,13 @@ export function usePostDeleteAccount() {
   const { mutate } = useMutation({
     mutationKey: ["postDeleteAccount"],
     mutationFn: () =>
-      postDeleteAccount(String(my?.id), String(my?.name), String(my?.phone), now, reason),
+      postDeleteAccount(
+        String(my?.id),
+        String(my?.name),
+        String(my?.phone),
+        now,
+        reason,
+      ),
   });
 
   return { mutate };

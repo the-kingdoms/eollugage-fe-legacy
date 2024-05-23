@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 export default function Consult() {
   const [my] = useAtom(myAtom);
   const router = useRouter();
-  const from = router.query.from;
+  const { from } = router.query;
 
   const onClickQuitBtn = () => {
     router.push("/mypage/quit/confirm");
@@ -45,7 +45,10 @@ export default function Consult() {
         ) : (
           <GridBox className="gap-2 w-full">
             <Link href="tel://01040009842" className="w-full">
-              <button className="text-Gray4 B4-medium rounded-lg border-2 border-Gray2 h-12 w-full">
+              <button
+                type="button"
+                className="text-Gray4 B4-medium rounded-lg border-2 border-Gray2 h-12 w-full"
+              >
                 안내받기
               </button>
             </Link>
