@@ -1,9 +1,6 @@
 name: Run eollugage-fe Test
 
 on:
-  push:
-    branches:
-      - develop
   pull_request:
     branches:
       - develop
@@ -34,5 +31,5 @@ jobs:
         if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn install
 
-      - name: Run test
+      - name: Run build test
         run: yarn build

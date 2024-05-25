@@ -41,7 +41,7 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     if (
       pathname === "/" ||
-      pathname === "/oauth/redirect" ||
+      pathname.includes("/oauth") ||
       pathname.includes("/signup")
     )
       setRendor(true);
