@@ -1,12 +1,11 @@
+import { postAppleLogin, PostAppleLoginBody } from "@/apis/login";
 import { Platform, platformAtom } from "@/data/platform";
 import { usePostFcmToken } from "@/hooks/query/fcmtoken";
-import { useAppleLogin } from "@/hooks/query/login";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 
 function RNListener() {
   const { mutate: postFcmTokenMutate } = usePostFcmToken();
-  const { mutate: postAppleLoginMutate } = useAppleLogin();
   const [, setPlatform] = useAtom(platformAtom);
 
   const onMessageEvent = (e: MessageEvent) => {
@@ -20,7 +19,7 @@ function RNListener() {
       setPlatform(message.data as Platform);
     }
     if (message.type === "getAppleIdentifyToken") {
-      postAppleLoginMutate({ token: message.data as string });
+      postAppleLogin(message.data as PostAppleLoginBody);
     }
   };
 
