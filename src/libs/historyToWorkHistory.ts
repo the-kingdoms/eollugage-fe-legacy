@@ -30,7 +30,7 @@ export function historyToWorkHistory(historys: History[]) {
 
   const workHistoryList: WorkHistory[] = [];
 
-  let currentWeekStart = dayjs(sortedHistorys[0].date).startOf("isoWeek");
+  let currentWeekStart = dayjs(sortedHistorys[0]?.date).startOf("isoWeek"); // history가 없을 경우 에러가 떠서 ? 추가합니다
 
   let weekHistories: History[] = [];
 

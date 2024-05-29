@@ -21,9 +21,9 @@ export default function AddWorkModal() {
   const [isModalOpen, setIsModalOpen] = useAtom(addWorkModalAtom);
 
   const [startWorkTime, setStartWorkTime] = useState<string>("0000");
-  const [endWorkTime, setEndWorkTime] = useState<string>("1100");
+  const [endWorkTime, setEndWorkTime] = useState<string>("0000");
   const [startRestTime, setStartRestTime] = useState<string>("0000");
-  const [endRestTime, setEndRestTime] = useState<string>("1100");
+  const [endRestTime, setEndRestTime] = useState<string>("0000");
 
   const [memberNameList, setMemberNameList] = useState<string[]>([]);
 
@@ -85,7 +85,13 @@ export default function AddWorkModal() {
   };
 
   useEffect(() => {
-    !isModalOpen && setSelectedMemberName(undefined);
+    if (!isModalOpen) {
+      setSelectedMemberName(undefined);
+      setStartWorkTime("0000");
+      setEndWorkTime("0000");
+      setStartRestTime("0000");
+      setEndRestTime("0000");
+    }
   }, [isModalOpen]);
 
   return (

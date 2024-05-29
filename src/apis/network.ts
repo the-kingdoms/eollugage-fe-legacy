@@ -5,6 +5,10 @@ interface ApiResponse {
   msg: string;
 }
 
+const setTokenFromLocalStorage = (access_token: string) => {
+  localStorage.setItem("access_token", access_token);
+};
+
 const getTokenFromLocalStorage = () => {
   const accessToken = localStorage.getItem("access_token");
   if (!accessToken) {
@@ -13,7 +17,8 @@ const getTokenFromLocalStorage = () => {
   return accessToken;
 };
 
-const eollugageUrl = "https://api.eolluga.com/";
+const eollugageUrl = "https://api.eolluga.com";
+
 const api = axios.create({
   baseURL: eollugageUrl,
   headers: {
@@ -40,5 +45,5 @@ api.interceptors.request.use(
 );
 
 export default api;
-export { eollugageUrl };
+export { eollugageUrl, setTokenFromLocalStorage, getTokenFromLocalStorage };
 export type { ApiResponse };

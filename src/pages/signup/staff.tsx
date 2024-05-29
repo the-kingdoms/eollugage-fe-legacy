@@ -8,7 +8,7 @@ import StaffWithoutStore from "@/screen/signup/StaffWithoutStore";
 type StaffViewState = "with_store" | "without_store";
 
 export default function Home() {
-  const [viewState] = useState<StaffViewState>("with_store");
+  const [viewState] = useState<StaffViewState>("without_store");
   const router = useRouter();
 
   const handleManageClick = () => {

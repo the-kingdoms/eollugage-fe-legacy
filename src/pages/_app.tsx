@@ -1,7 +1,7 @@
 import { myMemberIdAtom, storeIdAtom } from "@/data/global";
 import { useGetMy } from "@/hooks/query/my";
 import RNListener from "@/libs/reactNative/RNListener";
-import { getFcmTokenRN } from "@/libs/reactNative/sender";
+import { getFcmTokenRN, getPlatform } from "@/libs/reactNative/sender";
 import "@/styles/fonts/fonts.css";
 import "@/styles/globals.scss";
 import "@/styles/scroll.scss";
@@ -41,12 +41,16 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     if (
       pathname === "/" ||
-      pathname === "/oauth/redirect" ||
+      pathname.includes("/oauth") ||
       pathname.includes("/signup")
     )
       setRendor(true);
     if (storeId !== "") setRendor(true);
   }, [storeId, pathname]);
+
+  useEffect(() => {
+    getPlatform();
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
