@@ -30,7 +30,7 @@ function RNListener() {
         {
           onSuccess: res => {
             setTokenFromLocalStorage(res.token);
-            push("/main");
+            push("/oauth/redirect");
           },
           onError: () => {
             alert("로그인에 실패했습니다.");
