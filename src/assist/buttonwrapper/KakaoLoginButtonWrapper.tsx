@@ -10,7 +10,7 @@ function KakaoLoginButtonWrapper() {
     if (!kakao?.isInitialized()) {
       kakao?.init(process.env.NEXT_PUBLIC_KAKAO_JS_KEY);
     }
-    const redirectUri = `${eollugageUrl}/login/oauth2/code/kakao`;
+    const redirectUri = `${eollugageUrl}/api/login/kakao`;
     kakao?.Auth?.authorize({
       redirectUri,
       state: createRandomString(32),

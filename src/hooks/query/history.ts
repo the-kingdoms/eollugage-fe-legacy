@@ -39,11 +39,11 @@ function useGetAllMemberHistoryByDate(date: string) {
   return { data };
 }
 
-function useGetHistoryList(memberId: string) {
+function useGetHistoryList(memberId: string | null) {
   const [storeId] = useAtom(storeIdAtom);
   const { data, refetch } = useQuery({
     queryKey: ["getHistoryList"],
-    queryFn: () => getHistoryList(storeId, memberId),
+    queryFn: () => (memberId ? getHistoryList(storeId, memberId) : null),
   });
 
   return { data, refetch };

@@ -4,7 +4,7 @@ import FlexBox from "@modules/layout/FlexBox";
 import Slider from "@modules/layout/Slider";
 
 interface RelationSliderProps {
-  currentMemberId: string;
+  currentMemberId: string | null;
   relationList: Relation[];
   onClick?: (relation: Relation) => void;
 }
@@ -31,7 +31,7 @@ export default function RelationSlider({
             />
             <div className="w-full text-center B5-medium text-Gray5">
               {relation.member.name.slice(0, 5)}
-              {relation.id.length > 5 && "..."}
+              {relation.member.name.length > 5 && "..."}
             </div>
           </FlexBox>
         </button>

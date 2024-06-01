@@ -6,6 +6,7 @@ function useAppleLogin() {
     mutationKey: ["postAppleLogin"],
     mutationFn: ({ data }: { data: PostAppleLoginBody }) =>
       postAppleLogin(data),
+    retry: false,
   });
 
   return { mutate };

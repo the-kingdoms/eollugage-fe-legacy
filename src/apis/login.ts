@@ -6,7 +6,13 @@ export interface PostAppleLoginBody {
   lastName: string;
 }
 
-async function postAppleLogin(body: PostAppleLoginBody) {
+interface PostAppleLoginResponse {
+  token: string;
+}
+
+async function postAppleLogin(
+  body: PostAppleLoginBody,
+): Promise<PostAppleLoginResponse> {
   const { data } = await api.post(`/api/login/apple`, body);
   return data;
 }
