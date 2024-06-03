@@ -30,30 +30,32 @@ export default function StaffInform() {
 
   return (
     <FlexBox direction="col" className="w-full items-start gap-6">
-      {Object.entries(relationDict).map(([position, relates], dictIndex) => (
-        <FlexBox
-          key={dictIndex}
-          direction="col"
-          className="items-start w-full gap-4 px-4"
-        >
-          <div className="B1-medium">{position}</div>
-          <FlexBox direction="col" className="gap-2 w-full">
-            {relates.map((relate, relateIndex) => (
-              <RouterWrapper
-                key={relateIndex}
-                routerdest="/manage/staff"
-                type="profile"
-              >
-                <ProfileDiscription
-                  name={relate.member.name}
-                  position={relate.position}
-                  phone={relate.member.phone}
-                />
-              </RouterWrapper>
-            ))}
+      {Object.entries(relationDict)
+        .sort(([positionA], [positionB]) => positionA.localeCompare(positionB))
+        .map(([position, relates], dictIndex) => (
+          <FlexBox
+            key={dictIndex}
+            direction="col"
+            className="items-start w-full gap-4 px-4"
+          >
+            <div className="B1-medium">{position}</div>
+            <FlexBox direction="col" className="gap-2 w-full">
+              {relates.map((relate, relateIndex) => (
+                <RouterWrapper
+                  key={relateIndex}
+                  routerdest={`/manage/staff?memberId=${relate.member.id}`}
+                  type="profile"
+                >
+                  <ProfileDiscription
+                    name={relate.member.name}
+                    position={relate.position}
+                    phone={relate.member.phone}
+                  />
+                </RouterWrapper>
+              ))}
+            </FlexBox>
           </FlexBox>
-        </FlexBox>
-      ))}
+        ))}
     </FlexBox>
   );
 }
