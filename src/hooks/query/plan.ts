@@ -91,7 +91,7 @@ function usePutPlan() {
 function useGetPlanList(memberId: string) {
   const [storeId] = useAtom(storeIdAtom);
   const { data } = useQuery({
-    queryKey: ["getPlanList"],
+    queryKey: ["getPlanList", memberId],
     queryFn: () => getPlanList(storeId, memberId),
   });
   return { data };

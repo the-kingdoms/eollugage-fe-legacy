@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 interface WorkHistoryListProps {
-  memberId: string;
+  memberId: string | null;
 }
 
 interface WorkHistory {

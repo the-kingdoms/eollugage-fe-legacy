@@ -1,4 +1,9 @@
-import { postAppleLogin, PostAppleLoginBody } from "@/apis/login";
+import {
+  postAppleLogin,
+  PostAppleLoginBody,
+  postKakaoLogin,
+  PostKakaoLoginBody,
+} from "@/apis/login";
 import { useMutation } from "@tanstack/react-query";
 
 function useAppleLogin() {
@@ -11,4 +16,16 @@ function useAppleLogin() {
 
   return { mutate };
 }
-export { useAppleLogin };
+
+function useKakaoLogin() {
+  const { mutate } = useMutation({
+    mutationKey: ["postKakaoLogin"],
+    mutationFn: ({ data }: { data: PostKakaoLoginBody }) =>
+      postKakaoLogin(data),
+    retry: false,
+  });
+
+  return { mutate };
+}
+
+export { useAppleLogin, useKakaoLogin };
