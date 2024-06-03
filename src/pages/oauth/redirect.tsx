@@ -39,9 +39,7 @@ export default function Redirect() {
   }
   useEffect(() => {
     if (my?.id === undefined || my?.id === null) return;
-    if (my?.relationList.length === 0) {
-      push("/signup");
-    } else if (localStorage.getItem("inviteDataId") !== null) {
+    if (localStorage.getItem("inviteDataId") !== null) {
       const inviteDataId: string = JSON.parse(
         localStorage.getItem("inviteDataId") as string,
       );
@@ -54,6 +52,8 @@ export default function Redirect() {
         .catch(() => {
           push("/main");
         });
+    } else if (my?.relationList.length === 0) {
+      push("/signup");
     } else {
       push("/main");
     }
