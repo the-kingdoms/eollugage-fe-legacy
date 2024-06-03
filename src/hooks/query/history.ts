@@ -42,7 +42,7 @@ function useGetAllMemberHistoryByDate(date: string) {
 function useGetHistoryList(memberId: string | null) {
   const [storeId] = useAtom(storeIdAtom);
   const { data, refetch } = useQuery({
-    queryKey: ["getHistoryList"],
+    queryKey: ["getHistoryList", memberId],
     queryFn: () => (memberId ? getHistoryList(storeId, memberId) : null),
   });
 
@@ -52,7 +52,7 @@ function useGetHistoryList(memberId: string | null) {
 function useGetHistoryListByDate(memberId: string, date: string) {
   const [storeId] = useAtom(storeIdAtom);
   const { data } = useQuery({
-    queryKey: ["getHistoryList", date],
+    queryKey: ["getHistoryList", memberId, date],
     queryFn: () => getHistoryListByDate(storeId, memberId, date),
   });
 

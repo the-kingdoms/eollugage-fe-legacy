@@ -19,7 +19,7 @@ interface UsePostRelationProps {
 function useGetRelation(memberId: string) {
   const [storeId] = useAtom(storeIdAtom);
   const { data } = useQuery({
-    queryKey: ["getRelation"],
+    queryKey: ["getRelation", memberId],
     queryFn: () => getRelation(storeId, memberId),
   });
   return { data };
