@@ -1,4 +1,3 @@
-import { eollugageUrl } from "@/apis/network";
 import { createRandomString } from "@/libs/createRandomId";
 import LoginButton from "@modules/components/button/LoginButton";
 import FlexBox from "@modules/layout/FlexBox";
@@ -10,7 +9,7 @@ function KakaoLoginButtonWrapper() {
     if (!kakao?.isInitialized()) {
       kakao?.init(process.env.NEXT_PUBLIC_KAKAO_JS_KEY);
     }
-    const redirectUri = `${eollugageUrl}/api/login/kakao`;
+    const redirectUri = `${window.location.origin}/oauth/kakao`;
     kakao?.Auth?.authorize({
       redirectUri,
       state: createRandomString(32),
