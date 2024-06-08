@@ -1,12 +1,16 @@
 import React from "react";
 import FlexBox from "@modules/layout/FlexBox";
 import Image from "next/image";
+import { useAtom } from "jotai";
+import { myAtom } from "@/data/global";
 
 export default function StaffWithoutStore() {
+  const [my] = useAtom(myAtom);
+
   return (
     <FlexBox direction="col" className="w-full h-full space-y-16 px-4">
       <div className="w-full mt-4">
-        <div className="H4-bold">얼루가님,</div>
+        <div className="H4-bold">{my?.name}님,</div>
         <div className="H4-bold">소속된 가게가 없어요</div>
       </div>
       <FlexBox direction="col" className="space-y-4">
