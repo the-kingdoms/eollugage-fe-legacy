@@ -32,7 +32,7 @@ export default function QuitConfirm() {
       type: "confirm",
       confirmText: "예, 탈퇴하겠습니다.",
       closeText: "아니오",
-      onAction: () => onClickConfirmBtn,
+      onAction: onClickConfirmBtn,
     });
   };
 
@@ -45,7 +45,7 @@ export default function QuitConfirm() {
             <span className="text-Black H5-bold">{my?.name} </span>님<br />
             탈퇴 전에 확인해주세요!
           </div>
-          <FlexBox direction="col" className="w-full gap-6 pl-5">
+          <FlexBox direction="col" className="w-full gap-6 pl-5 items-start">
             {quitText.map((text, i) => (
               <li
                 className="list-disc text-Gray6 B4-medium break-keep !leading-[22px] list-outside indent-[-20px]"
