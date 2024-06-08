@@ -27,8 +27,8 @@ function ShareLink() {
   const [storeId] = useAtom(storeIdAtom);
 
   const inviteId = createRandomString(8);
-  const handleCopyLink = (inviteId: string) => {
-    const link = `${window.location.origin}/id?=${inviteId}`;
+  const handleCopyLink = (id: string) => {
+    const link = `${window.location.origin}/id?=${id}`;
     copy(
       link,
       () => {
@@ -40,7 +40,7 @@ function ShareLink() {
     );
   };
 
-  const sendInviteToDB = async (inviteId: string) => {
+  const sendInviteToDB = async (id: string) => {
     const inviteData: InviteDataType = {
       storeId,
       position: selectedPosition,
@@ -48,7 +48,7 @@ function ShareLink() {
       createdAt: dayjs().format("YYYY-MM-DD HH:mm:ss"),
     };
     const data = {
-      id: inviteId,
+      id,
       inviteData,
     };
     try {
