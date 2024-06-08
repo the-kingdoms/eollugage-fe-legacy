@@ -1,3 +1,4 @@
+import { PostAppleLoginBody } from "@/apis/login";
 import { Platform, platformAtom } from "@/data/platform";
 import { usePostFcmToken } from "@/hooks/query/fcmtoken";
 import { useAppleLogin } from "@/hooks/query/login";
@@ -20,7 +21,8 @@ function RNListener() {
       setPlatform(message.data as Platform);
     }
     if (message.type === "getAppleIdentifyToken") {
-      postAppleLoginMutate({ token: message.data as string });
+      const data = message.data as PostAppleLoginBody;
+      postAppleLoginMutate({ data });
     }
   };
 

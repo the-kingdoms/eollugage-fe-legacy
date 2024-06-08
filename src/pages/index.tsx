@@ -39,8 +39,8 @@ export default function Home() {
           </div>
           <div className={styles.backgroundImage} />
           <FlexBox direction="col" className="w-full gap-4">
-            <AppleLoginButtonWrapper />
             <KakaoLoginButtonWrapper />
+            <AppleLoginButtonWrapper />
           </FlexBox>
         </FlexBox>
       </FlexBox>

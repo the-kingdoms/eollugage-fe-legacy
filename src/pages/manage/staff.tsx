@@ -1,5 +1,4 @@
 import { Plan } from "@/apis/plan";
-import { myMemberIdAtom } from "@/data/global";
 import { dayTypeConvert } from "@/data/inviteSchedule";
 import { useGetHistoryList } from "@/hooks/query/history";
 import { useGetPlanList } from "@/hooks/query/plan";
@@ -10,13 +9,14 @@ import WeekButtons, { DayInfo } from "@/screen/manage/WeekButtons";
 import Divider from "@modules/layout/Divider";
 import FlexBox from "@modules/layout/FlexBox";
 import TopTitle from "@modules/layout/TopTitle";
-import { useAtom } from "jotai";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 export default function Staff() {
+  const { query } = useRouter();
   const [activeDays, setActiveDays] = useState<string | string[]>("");
   const [myPlan, setMyPlan] = useState<Plan[]>([]);
-  const [memberId] = useAtom(myMemberIdAtom);
+  const memberId = query.memberId as string;
   const { data: plans } = useGetPlanList(memberId);
   const { data: histories } = useGetHistoryList(memberId);
   const { data: relations } = useGetRelation(memberId);

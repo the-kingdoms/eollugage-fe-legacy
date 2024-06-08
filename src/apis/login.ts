@@ -1,9 +1,33 @@
 import api from "@/apis/network";
 
-async function postAppleLogin({ token }: { token: string }) {
-  const { data } = await api.post(`/login/apple`, { token });
-  alert(JSON.stringify(data));
+export interface PostAppleLoginBody {
+  token: string;
+  firstName: string;
+  lastName: string;
+}
+
+interface PostLoginResponse {
+  token: string;
+}
+
+async function postAppleLogin(
+  body: PostAppleLoginBody,
+): Promise<PostLoginResponse> {
+  const { data } = await api.post(`/api/login/apple`, body);
   return data;
 }
 
-export { postAppleLogin };
+export interface PostKakaoLoginBody {
+  code: string;
+  state: string;
+  redirectUri: string;
+}
+
+async function postKakaoLogin(
+  body: PostKakaoLoginBody,
+): Promise<PostLoginResponse> {
+  const { data } = await api.post(`/api/login/kakao`, body);
+  return data;
+}
+
+export { postAppleLogin, postKakaoLogin };

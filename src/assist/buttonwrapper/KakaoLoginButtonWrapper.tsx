@@ -1,3 +1,4 @@
+import { createRandomString } from "@/libs/createRandomId";
 import LoginButton from "@modules/components/button/LoginButton";
 import FlexBox from "@modules/layout/FlexBox";
 
@@ -8,9 +9,10 @@ function KakaoLoginButtonWrapper() {
     if (!kakao?.isInitialized()) {
       kakao?.init(process.env.NEXT_PUBLIC_KAKAO_JS_KEY);
     }
-    const redirectUri = `http://localhost:8080/login/oauth2/code/kakao`;
+    const redirectUri = `${window.location.origin}/oauth/kakao`;
     kakao?.Auth?.authorize({
       redirectUri,
+      state: createRandomString(32),
     });
   };
   return (

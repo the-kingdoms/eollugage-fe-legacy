@@ -33,7 +33,7 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [myMemberId]);
 
   useEffect(() => {
-    if (isError && pathname !== "/" && pathname !== "/oauth/redirect") {
+    if (isError && pathname !== "/" && !pathname.includes("/oauth")) {
       push("/");
     }
   }, [isError, pathname]);
@@ -41,7 +41,7 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     if (
       pathname === "/" ||
-      pathname === "/oauth/redirect" ||
+      pathname.includes("/oauth") ||
       pathname.includes("/signup")
     )
       setRendor(true);

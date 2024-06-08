@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 
 interface WorkHourProps {
-  memberId: string;
+  memberId: string | null;
 }
 
 export default function WorkHour({ memberId }: WorkHourProps) {

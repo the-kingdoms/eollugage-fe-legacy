@@ -15,12 +15,12 @@ import { useEffect, useState } from "react";
 export default function Manage() {
   const [memberId] = useAtom(myMemberIdAtom);
   const [role] = useAtom(roleAtom);
-  const [currentMemberId, setCurrentMemberId] = useState<string>("");
+  const [currentMemberId, setCurrentMemberId] = useState<string | null>(null);
   const { data: relations } = useGetRelationList();
 
   useEffect(() => {
     if (role !== "STAFF") {
-      if (relations) {
+      if (relations && relations?.length > 0) {
         const firstMemberId = relations[0]?.member.id;
         if (!currentMemberId) {
           setCurrentMemberId(firstMemberId);
