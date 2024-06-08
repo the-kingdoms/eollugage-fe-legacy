@@ -32,7 +32,7 @@ export default function QuitConfirm() {
       type: "confirm",
       confirmText: "예, 탈퇴하겠습니다.",
       closeText: "아니오",
-      onAction: () => onClickConfirmBtn,
+      onAction: onClickConfirmBtn,
     });
   };
 
