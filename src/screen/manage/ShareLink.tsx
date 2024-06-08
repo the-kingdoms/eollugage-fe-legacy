@@ -8,6 +8,7 @@ import copy from "@/libs/copy";
 import { createRandomString } from "@/libs/createRandomId";
 import FlexBox from "@modules/layout/FlexBox";
 import axios from "axios";
+import dayjs from "dayjs";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -16,6 +17,7 @@ interface InviteDataType {
   storeId: string;
   position: string;
   schedule: InviteSchedule;
+  createdAt: string;
 }
 
 function ShareLink() {
@@ -24,17 +26,13 @@ function ShareLink() {
   const [selectedPosition] = useAtom(selectedPositionAtom);
   const [storeId] = useAtom(storeIdAtom);
 
-  const currentInviteId = createRandomString(8);
-
-  const handleCopyLink = () => {
-    const link = `${window.location.origin}/?=${currentInviteId}`;
+  const inviteId = createRandomString(8);
+  const handleCopyLink = (id: string) => {
+    const link = `${window.location.origin}/id?=${id}`;
     copy(
       link,
       () => {
         setLinkCopied(true);
-        /*
-        setTimeout(() => setLinkCopied(false), 2000);
-        */
       },
       err => {
         console.log("링크를 복사하는데 실패했습니다: ", err);
@@ -42,27 +40,27 @@ function ShareLink() {
     );
   };
 
-  const sendInviteToDB = async () => {
+  const sendInviteToDB = async (id: string) => {
     const inviteData: InviteDataType = {
       storeId,
       position: selectedPosition,
       schedule: inviteSchedule,
+      createdAt: dayjs().format("YYYY-MM-DD HH:mm:ss"),
     };
-    console.log(currentInviteId);
     const data = {
-      id: currentInviteId,
+      id,
       inviteData,
     };
     try {
       await axios.post("/api/dynamoDB", data);
-      handleCopyLink();
+      handleCopyLink(inviteId);
     } catch (error) {
       console.error("Failed to create invite:", error);
     }
   };
 
   useEffect(() => {
-    sendInviteToDB();
+    sendInviteToDB(inviteId);
   }, []);
 
   return (
@@ -86,7 +84,7 @@ function ShareLink() {
           <div className="B1-medium text-Gray5 mt-4">
             링크복사가 안되었나요?
           </div>
-          <button onClick={handleCopyLink} type="button">
+          <button onClick={() => handleCopyLink(inviteId)} type="button">
             <FlexBox direction="row">
               <div className="B4-regular text-Gray4 underline">링크 복사</div>
               <div className="B4-regular text-Gray4">하기</div>
