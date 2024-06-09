@@ -1,0 +1,60 @@
+name: Run eollugage-fe development deploy
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 21
+
+      - name: Cache yarn
+        uses: actions/cache@v3
+        id: yarn-cache
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      # cache hit 못하면 패키지 설치
+      - name: Install dependencies
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
+        run: yarn install
+
+      - name: Run build test
+        run: yarn build
+
+  push-to-develop-backend:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout develop-backend branch # 'main' 브랜치로 branch checkout
+        uses: actions/checkout@v2
+        with:
+          ref: "develop-backend"
+          fetch-depth: "0"
+          submodules: true
+
+      - name: Configure Git # commit을 위한 git config 설정
+        run: |
+          git config user.name action
+
+      - name: Merge dev branch # develop 브랜치를 merge
+        run: |
+          git merge origin/develop --no-edit
+
+      - name: Push changes to main branch # merge 내용들을 main 브랜치로 최종 push
+        uses: ad-m/github-push-action@master
+        with:
+          branch: develop-backend
+          github_token: ${{ secrets.GITHUB_TOKEN }}
