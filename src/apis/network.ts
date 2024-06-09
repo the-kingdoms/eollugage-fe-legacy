@@ -17,7 +17,7 @@ const getTokenFromLocalStorage = () => {
   return accessToken;
 };
 
-const eollugageUrl = "https://api.eolluga.com";
+const eollugageUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 const api = axios.create({
   baseURL: eollugageUrl,
