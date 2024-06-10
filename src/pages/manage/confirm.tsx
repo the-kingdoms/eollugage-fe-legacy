@@ -1,21 +1,10 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
-import FlexBox from "@modules/layout/FlexBox";
-import TopTitle from "@modules/layout/TopTitle";
-import TextButton from "@modules/components/button/TextButton";
 import ConfirmEmployee from "@/screen/manage/ConfirmEmployee";
 import ShareLink from "@/screen/manage/ShareLink";
-import { InviteSchedule, inviteScheduleInit } from "@/data/inviteSchedule";
-
-function setSelectedPostion(arg0: string) {
-  console.log(arg0);
-  throw new Error("Function not implemented.");
-}
-
-function setInviteSchedule(inviteSchedule: InviteSchedule) {
-  console.log(inviteSchedule);
-  throw new Error("Function not implemented.");
-}
+import TextButton from "@modules/components/button/TextButton";
+import FlexBox from "@modules/layout/FlexBox";
+import TopTitle from "@modules/layout/TopTitle";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
 type View = "confirm" | "share";
 
@@ -28,8 +17,6 @@ export default function Home() {
   };
 
   const handleShiftButton = () => {
-    setSelectedPostion("");
-    setInviteSchedule(inviteScheduleInit);
     router.push("/manage");
   };
 
