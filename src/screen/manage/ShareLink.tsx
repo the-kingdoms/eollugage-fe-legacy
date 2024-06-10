@@ -13,6 +13,11 @@ import { useAtom } from "jotai";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
+export interface InviteResponse {
+  id: string;
+  inviteData: InviteDataType;
+}
+
 interface InviteDataType {
   storeId: string;
   position: string;
