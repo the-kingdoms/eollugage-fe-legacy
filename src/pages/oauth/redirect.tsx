@@ -2,7 +2,7 @@ import { PostRelationBody } from "@/apis/relation";
 import { myAtom } from "@/data/global";
 import { usePostPlanList } from "@/hooks/query/plan";
 import { usePostRelation } from "@/hooks/query/relation";
-import { InviteDataType } from "@/screen/manage/ShareLink";
+import { InviteResponse, InviteDataType } from "@/screen/manage/ShareLink";
 import axios from "axios";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
@@ -15,12 +15,12 @@ export default function Redirect() {
   const { mutate: postPlanListMutate } = usePostPlanList();
 
   async function getInviteData(inviteDataId: string) {
-    const response = await axios.get<InviteDataType>(
-      `/api/dynamoDB/?=${inviteDataId}`,
+    const response = await axios.get<InviteResponse>(
+      `/api/dynamoDB?id=${inviteDataId}`,
     );
     return response.data;
   }
-  function createNewEmployee(inviteData: InviteDataType, memberId: string) {
+  const createNewEmployee = (inviteData: InviteDataType, memberId: string) => {
     const body: PostRelationBody = {
       role: "STAFF",
       position: inviteData.position,
@@ -28,24 +28,23 @@ export default function Redirect() {
     postRelationMutate(
       { storeId: inviteData.storeId, memberId: my?.id as string, body },
       {
-        onSettled: () =>
+        onSuccess: () =>
           postPlanListMutate({
             storeId: inviteData.storeId,
             memberId,
             inviteSchedule: inviteData.schedule,
           }),
+        onError: () => console.log("fail"),
       },
     );
-  }
+  };
   useEffect(() => {
     if (my?.id === undefined || my?.id === null) return;
     if (localStorage.getItem("inviteDataId") !== null) {
-      const inviteDataId: string = JSON.parse(
-        localStorage.getItem("inviteDataId") as string,
-      );
+      const inviteDataId = String(localStorage.getItem("inviteDataId"));
       getInviteData(inviteDataId)
-        .then(inviteData => {
-          createNewEmployee(inviteData, my?.id);
+        .then(data => {
+          createNewEmployee(data.inviteData, my?.id);
           localStorage.removeItem("inviteDataId");
           push("/main");
         })

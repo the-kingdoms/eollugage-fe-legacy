@@ -13,6 +13,11 @@ import { useAtom } from "jotai";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
+export interface InviteResponse {
+  id: string;
+  inviteData: InviteDataType;
+}
+
 interface InviteDataType {
   storeId: string;
   position: string;
@@ -28,7 +33,7 @@ function ShareLink() {
 
   const inviteId = createRandomString(8);
   const handleCopyLink = (id: string) => {
-    const link = `${window.location.origin}/id?=${id}`;
+    const link = `${window.location.origin}/?id=${id}`;
     copy(
       link,
       () => {
