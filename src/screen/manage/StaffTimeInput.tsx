@@ -24,7 +24,7 @@ export default function StaffTimeInput({
 
   useEffect(() => {
     if (isFocused1 || isFocused2) setIsFocused(true);
-    else setIsFocused(false);
+    else if (setIsFocused !== undefined) setIsFocused(false);
   }, [isFocused1, isFocused2]);
 
   return (
