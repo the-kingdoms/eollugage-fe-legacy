@@ -28,7 +28,7 @@ export default function OrderBoard() {
       isClicked: false,
     }; // 새 발주
 
-    setOrderList([...orderList, { ...newOrder, id: "", storeId }]);
+    setOrderList([{ ...newOrder, id: "", storeId }, ...orderList]);
   };
 
   function setOrder(index: number): Dispatch<SetStateAction<string>> {
