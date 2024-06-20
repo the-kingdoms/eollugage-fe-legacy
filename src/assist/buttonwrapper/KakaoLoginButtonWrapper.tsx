@@ -31,7 +31,6 @@ function KakaoLoginButtonWrapper() {
         <LoginButton
           type="kakao"
           onClick={() => {
-            alert(clickedNumber);
             if (clickedNumber === 0) kakaoSDKLogin();
             else kakaoRESTLogin();
             setClickedNumber(clickedNumber + 1);
