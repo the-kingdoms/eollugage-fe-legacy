@@ -26,14 +26,16 @@ interface InviteDataType {
 }
 
 function ShareLink() {
+  const [inviteId, setInviteId] = useState<string>("");
   const [linkCopied, setLinkCopied] = useState(false);
   const [inviteSchedule] = useAtom(inviteScheduleAtom);
   const [selectedPosition] = useAtom(selectedPositionAtom);
   const [storeId] = useAtom(storeIdAtom);
 
-  const inviteId = createRandomString(8);
-  const handleCopyLink = (id: string) => {
-    const link = `${window.location.origin}/?id=${id}`;
+  if (!inviteId) setInviteId(createRandomString(8));
+
+  const handleCopyLink = () => {
+    const link = `${window.location.origin}/?id=${inviteId}`;
     copy(
       link,
       () => {
@@ -45,7 +47,7 @@ function ShareLink() {
     );
   };
 
-  const sendInviteToDB = async (id: string) => {
+  const sendInviteToDB = async () => {
     const inviteData: InviteDataType = {
       storeId,
       position: selectedPosition,
@@ -53,19 +55,19 @@ function ShareLink() {
       createdAt: dayjs().format("YYYY-MM-DD HH:mm:ss"),
     };
     const data = {
-      id,
+      id: inviteId,
       inviteData,
     };
     try {
       await axios.post("/api/dynamoDB", data);
-      handleCopyLink(inviteId);
+      handleCopyLink();
     } catch (error) {
-      console.error("Failed to create invite:", error);
+      alert("초대링크 생성에 실패했습니다.");
     }
   };
 
   useEffect(() => {
-    sendInviteToDB(inviteId);
+    sendInviteToDB();
   }, []);
 
   return (
@@ -89,7 +91,7 @@ function ShareLink() {
           <div className="B1-medium text-Gray5 mt-4">
             링크복사가 안되었나요?
           </div>
-          <button onClick={() => handleCopyLink(inviteId)} type="button">
+          <button onClick={() => handleCopyLink()} type="button">
             <FlexBox direction="row">
               <div className="B4-regular text-Gray4 underline">링크 복사</div>
               <div className="B4-regular text-Gray4">하기</div>
