@@ -26,6 +26,8 @@ export default function AddWorkModal() {
   const [endRestTime, setEndRestTime] = useState<string>("0000");
 
   const [memberNameList, setMemberNameList] = useState<string[]>([]);
+  const [workInputFocus, setWorkInputFocus] = useState<boolean>(false);
+  const [restInputFocus, setRestInputFocus] = useState<boolean>(false);
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -101,6 +103,7 @@ export default function AddWorkModal() {
           borderTopLeftRadius: 12,
           borderTopRightRadius: 12,
           padding: 16,
+          height: workInputFocus || restInputFocus ? "95%" : "auto",
         }}
       >
         <Sheet.Content>
@@ -117,6 +120,7 @@ export default function AddWorkModal() {
               setStartTime={setStartWorkTime}
               endTime={endWorkTime}
               setEndTime={setEndWorkTime}
+              setIsFocused={setWorkInputFocus}
             />
             <StaffTimeInput
               title="휴게 시간"
@@ -124,6 +128,7 @@ export default function AddWorkModal() {
               setStartTime={setStartRestTime}
               endTime={endRestTime}
               setEndTime={setEndRestTime}
+              setIsFocused={setRestInputFocus}
             />
           </FlexBox>
           <TextButton

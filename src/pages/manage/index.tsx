@@ -1,6 +1,7 @@
 import ApprovalBanner from "@/assist/banner/ApprovalBanner";
 import { roleAtom } from "@/data/global";
 import { addWorkModalAtom } from "@/data/historyAtom";
+import { inviteScheduleAtom, inviteScheduleInit } from "@/data/inviteSchedule";
 import AddWorkModal from "@/screen/manage/AddWorkModal";
 import Schedule from "@/screen/manage/Schedule";
 import StaffInform from "@/screen/manage/StaffInform";
@@ -10,7 +11,7 @@ import LongTab from "@modules/components/tabs/LongTab";
 import FlexBox from "@modules/layout/FlexBox";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Manage() {
   const { push } = useRouter();
@@ -18,10 +19,15 @@ export default function Manage() {
   const [selectTab, setSelectTab] = useState("left");
 
   const [, setIsModalOpen] = useAtom(addWorkModalAtom);
+  const [, setInviteSchedule] = useAtom(inviteScheduleAtom);
 
   const addWork = () => {
     setIsModalOpen(true);
   };
+
+  useEffect(() => {
+    setInviteSchedule(inviteScheduleInit);
+  }, []);
 
   return (
     <>
