@@ -8,7 +8,7 @@ interface StaffTimeProps {
   setStartTime: React.Dispatch<React.SetStateAction<string>>;
   endTime: string;
   setEndTime: React.Dispatch<React.SetStateAction<string>>;
-  setIsFocused: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsFocused?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function StaffTimeInput({
@@ -23,7 +23,7 @@ export default function StaffTimeInput({
   const [isFocused2, setIsFocused2] = useState<boolean>(false);
 
   useEffect(() => {
-    if (isFocused1 || isFocused2) setIsFocused(true);
+    if (setIsFocused && (isFocused1 || isFocused2)) setIsFocused(true);
     else if (setIsFocused !== undefined) setIsFocused(false);
   }, [isFocused1, isFocused2]);
 
