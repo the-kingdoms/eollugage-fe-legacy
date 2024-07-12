@@ -5,6 +5,7 @@ import {
   selectedPositionAtom,
 } from "@/data/inviteSchedule";
 import copy from "@/libs/copy";
+import { copyLink } from "@/libs/copy";
 import { createRandomString } from "@/libs/createRandomId";
 import FlexBox from "@modules/layout/FlexBox";
 import axios from "axios";
@@ -28,6 +29,7 @@ interface InviteDataType {
 function ShareLink() {
   const [inviteId, setInviteId] = useState<string>("");
   const [linkCopied, setLinkCopied] = useState(false);
+  const [showToastMsg, setShowToastMsg] = useState<boolean>(false);
   const [inviteSchedule] = useAtom(inviteScheduleAtom);
   const [selectedPosition] = useAtom(selectedPositionAtom);
   const [storeId] = useAtom(storeIdAtom);
@@ -45,6 +47,7 @@ function ShareLink() {
         console.log("링크를 복사하는데 실패했습니다: ", err);
       },
     );
+    copyLink(inviteId, () => setLinkCopied(true));
   };
 
   const sendInviteToDB = async () => {
@@ -63,6 +66,13 @@ function ShareLink() {
       handleCopyLink();
     } catch (error) {
       alert("초대링크 생성에 실패했습니다.");
+  useEffect(() => {
+    let timer: NodeJS.Timeout | undefined;
+    if (isSuccess || linkCopied) {
+      setShowToastMsg(true);
+      timer = setTimeout(() => {
+        setShowToastMsg(false);
+      }, 2000);
     }
   };
 
@@ -91,7 +101,7 @@ function ShareLink() {
           <div className="B1-medium text-Gray5 mt-4">
             링크복사가 안되었나요?
           </div>
-          <button onClick={() => handleCopyLink()} type="button">
+          <button onClick={handleCopyLink} type="button">
             <FlexBox direction="row">
               <div className="B4-regular text-Gray4 underline">링크 복사</div>
               <div className="B4-regular text-Gray4">하기</div>
@@ -99,7 +109,7 @@ function ShareLink() {
           </button>
         </FlexBox>
       </FlexBox>
-      {linkCopied && (
+      {showToastMsg && (
         <div className="w-full B5-regular px-4 py-4 mb-4 bg-[#2D2D2D] text-white">
           <p className="mb-4">링크가 자동으로 복사되었습니다.</p>
         </div>
