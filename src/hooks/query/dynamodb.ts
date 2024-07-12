@@ -1,6 +1,7 @@
-import { getInviteData } from "@/apis/dynamodb";
+import { InviteResponse, getInviteData, postInviteData } from "@/apis/dynamodb";
 import { myAtom } from "@/data/global";
-import { useQuery } from "@tanstack/react-query";
+import { copyLink } from "@/libs/copy";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 
 function useGetInviteData() {
@@ -15,4 +16,14 @@ function useGetInviteData() {
   return { data, isSuccess };
 }
 
-export { useGetInviteData };
+function usePostInviteData(inviteId: string) {
+  const { mutate, isSuccess } = useMutation({
+    mutationKey: ["getInviteData"],
+    mutationFn: (body: InviteResponse) => postInviteData(body),
+    onSuccess: () => copyLink(inviteId),
+  });
+
+  return { mutate, isSuccess };
+}
+
+export { useGetInviteData, usePostInviteData };
