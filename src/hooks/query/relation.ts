@@ -9,6 +9,10 @@ import {
 import { storeIdAtom } from "@/data/global";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
+import { usePostPlanList } from "./plan";
+import { InviteSchedule } from "@/data/inviteSchedule";
+import { useGetMyQueryKey } from "./my";
+import { useRouter } from "next/router";
 
 interface UsePostRelationProps {
   storeId: string;
@@ -64,9 +68,35 @@ function usePostRelationAdmin() {
   return { mutate };
 }
 
+function useStaffJoin() {
+  const { mutate: postPlanListMutate } = usePostPlanList();
+  const queryClient = useQueryClient();
+  const router = useRouter();
+
+  const { mutate } = useMutation({
+    mutationKey: ["StaffJoin"],
+    mutationFn: async ({
+      storeId,
+      memberId,
+      body,
+      inviteSchedule,
+    }: UsePostRelationProps & { inviteSchedule: InviteSchedule }) => {
+      const ret = await postRelation(storeId, memberId, body);
+      postPlanListMutate({ storeId, memberId, inviteSchedule });
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: [useGetMyQueryKey] });
+      localStorage.removeItem("inviteDataId");
+      router.push("/main");
+    },
+  });
+  return { mutate };
+}
+
 export {
   useGetRelation,
   useGetRelationList,
   usePostRelation,
   usePostRelationAdmin,
+  useStaffJoin,
 };
