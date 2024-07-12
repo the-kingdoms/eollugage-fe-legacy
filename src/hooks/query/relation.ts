@@ -39,12 +39,12 @@ function useGetRelationList() {
 }
 
 function usePostRelation() {
-  const { mutate, isSuccess } = useMutation({
+  const { mutateAsync } = useMutation({
     mutationKey: ["postRelationMutate"],
-    mutationFn: ({ storeId, memberId, body }: UsePostRelationProps) =>
+    mutationFn: async ({ storeId, memberId, body }: UsePostRelationProps) =>
       postRelation(storeId, memberId, body),
   });
-  return { mutate, isSuccess };
+  return { mutateAsync };
 }
 
 function usePostRelationAdmin() {
@@ -69,6 +69,7 @@ function usePostRelationAdmin() {
 }
 
 function useStaffJoin() {
+  const { mutateAsync: postRelationMutate } = usePostRelation();
   const { mutate: postPlanListMutate } = usePostPlanList();
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -81,7 +82,7 @@ function useStaffJoin() {
       body,
       inviteSchedule,
     }: UsePostRelationProps & { inviteSchedule: InviteSchedule }) => {
-      await postRelation(storeId, memberId, body);
+      await postRelationMutate({ storeId, memberId, body });
       postPlanListMutate({ storeId, memberId, inviteSchedule });
     },
     onSuccess: async () => {
