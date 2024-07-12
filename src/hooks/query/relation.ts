@@ -9,10 +9,10 @@ import {
 import { storeIdAtom } from "@/data/global";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
-import { usePostPlanList } from "./plan";
-import { InviteSchedule } from "@/data/inviteSchedule";
-import { useGetMyQueryKey } from "./my";
 import { useRouter } from "next/router";
+import { InviteSchedule } from "@/data/inviteSchedule";
+import { usePostPlanList } from "./plan";
+import { useGetMyQueryKey } from "./my";
 
 interface UsePostRelationProps {
   storeId: string;
@@ -81,7 +81,7 @@ function useStaffJoin() {
       body,
       inviteSchedule,
     }: UsePostRelationProps & { inviteSchedule: InviteSchedule }) => {
-      const ret = await postRelation(storeId, memberId, body);
+      await postRelation(storeId, memberId, body);
       postPlanListMutate({ storeId, memberId, inviteSchedule });
     },
     onSuccess: async () => {
