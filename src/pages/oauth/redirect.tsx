@@ -1,60 +1,42 @@
 import { PostRelationBody } from "@/apis/relation";
 import { myAtom } from "@/data/global";
-import { usePostPlanList } from "@/hooks/query/plan";
-import { usePostRelation } from "@/hooks/query/relation";
-import { InviteResponse, InviteDataType } from "@/screen/manage/ShareLink";
-import axios from "axios";
+import { useGetInviteData } from "@/hooks/query/dynamodb";
+import { useStaffJoin } from "@/hooks/query/relation";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 export default function Redirect() {
-  const { push } = useRouter();
-  const [my] = useAtom(myAtom);
-  const { mutate: postRelationMutate } = usePostRelation();
-  const { mutate: postPlanListMutate } = usePostPlanList();
+  const router = useRouter();
 
-  async function getInviteData(inviteDataId: string) {
-    const response = await axios.get<InviteResponse>(
-      `/api/dynamoDB?id=${inviteDataId}`,
-    );
-    return response.data;
-  }
-  const createNewEmployee = (inviteData: InviteDataType, memberId: string) => {
-    const body: PostRelationBody = {
-      role: "STAFF",
-      position: inviteData.position,
-    };
-    postRelationMutate(
-      { storeId: inviteData.storeId, memberId: my?.id as string, body },
-      {
-        onSuccess: () =>
-          postPlanListMutate({
-            storeId: inviteData.storeId,
-            memberId,
-            inviteSchedule: inviteData.schedule,
-          }),
-        onError: () => console.log("fail"),
-      },
-    );
-  };
+  const [my] = useAtom(myAtom);
+
+  const { data: inviteResponse, isSuccess } = useGetInviteData();
+  const { mutate: staffJoinMutate } = useStaffJoin();
+
   useEffect(() => {
-    if (my?.id === undefined || my?.id === null) return;
-    if (localStorage.getItem("inviteDataId") !== null) {
-      const inviteDataId = String(localStorage.getItem("inviteDataId"));
-      getInviteData(inviteDataId)
-        .then(data => {
-          createNewEmployee(data.inviteData, my?.id);
-          localStorage.removeItem("inviteDataId");
-          push("/main");
-        })
-        .catch(() => {
-          push("/main");
-        });
+    const inviteId = localStorage.getItem("inviteDataId");
+    if (inviteId !== null) {
+      // 1. 직원초대링크를 통해 들어온 새 직원
+      if (isSuccess && inviteResponse) {
+        const body: PostRelationBody = {
+          role: "STAFF",
+          position: inviteResponse.inviteData.position,
+        };
+        const inviteRequestBody = {
+          storeId: inviteResponse.inviteData.storeId,
+          memberId: my?.id as string,
+          body,
+          inviteSchedule: inviteResponse.inviteData.schedule,
+        };
+        staffJoinMutate(inviteRequestBody);
+      }
     } else if (my?.relationList.length === 0) {
-      push("/signup");
+      // 2. 회원가입
+      router.push("/signup");
     } else {
-      push("/main");
+      // 3. 기존회원 로그인
+      router.push("/main");
     }
-  }, [my]);
+  }, [isSuccess]);
 }
