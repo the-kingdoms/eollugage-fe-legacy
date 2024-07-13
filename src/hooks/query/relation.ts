@@ -9,6 +9,10 @@ import {
 import { storeIdAtom } from "@/data/global";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
+import { useRouter } from "next/router";
+import { InviteSchedule } from "@/data/inviteSchedule";
+import { usePostPlanList } from "./plan";
+import { useGetMyQueryKey } from "./my";
 
 interface UsePostRelationProps {
   storeId: string;
@@ -35,12 +39,12 @@ function useGetRelationList() {
 }
 
 function usePostRelation() {
-  const { mutate, isSuccess } = useMutation({
+  const { mutateAsync } = useMutation({
     mutationKey: ["postRelationMutate"],
-    mutationFn: ({ storeId, memberId, body }: UsePostRelationProps) =>
+    mutationFn: async ({ storeId, memberId, body }: UsePostRelationProps) =>
       postRelation(storeId, memberId, body),
   });
-  return { mutate, isSuccess };
+  return { mutateAsync };
 }
 
 function usePostRelationAdmin() {
@@ -64,9 +68,36 @@ function usePostRelationAdmin() {
   return { mutate };
 }
 
+function useStaffJoin() {
+  const { mutateAsync: postRelationMutate } = usePostRelation();
+  const { mutate: postPlanListMutate } = usePostPlanList();
+  const queryClient = useQueryClient();
+  const router = useRouter();
+
+  const { mutate } = useMutation({
+    mutationKey: ["StaffJoin"],
+    mutationFn: async ({
+      storeId,
+      memberId,
+      body,
+      inviteSchedule,
+    }: UsePostRelationProps & { inviteSchedule: InviteSchedule }) => {
+      await postRelationMutate({ storeId, memberId, body });
+      postPlanListMutate({ storeId, memberId, inviteSchedule });
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: [useGetMyQueryKey] });
+      localStorage.removeItem("inviteDataId");
+      router.push("/main");
+    },
+  });
+  return { mutate };
+}
+
 export {
   useGetRelation,
   useGetRelationList,
   usePostRelation,
   usePostRelationAdmin,
+  useStaffJoin,
 };

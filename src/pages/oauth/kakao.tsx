@@ -9,7 +9,7 @@ export default function Kakao() {
   const { mutate: postKakaoLoginMutate } = useKakaoLogin();
 
   useEffect(() => {
-    if (code && state) {
+    if (code) {
       postKakaoLoginMutate({
         data: {
           code,

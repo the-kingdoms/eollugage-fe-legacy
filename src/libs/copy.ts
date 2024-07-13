@@ -1,14 +1,13 @@
-export default function copy(
-  text: string,
-  onSuccess?: () => void,
-  onError?: (err: Error) => void,
-) {
+const copy = (text: string, onSuccess?: () => void) => {
   if (navigator.clipboard) {
     // (크롬 66버전 이상일때만 사용 가능)
-    navigator.clipboard.writeText(text).then(onSuccess).catch(onError);
+    navigator.clipboard
+      .writeText(text)
+      .then(onSuccess)
+      .catch(error => console.log("링크를 복사하는데 실패했습니다: ", error));
   } else {
     if (!document.queryCommandSupported("copy")) {
-      onError && onError(new Error("복사하기가 지원되지 않는 브라우저입니다."));
+      console.log("복사하기가 지원되지 않는 브라우저입니다.");
       return;
     }
     const textarea = document.createElement("textarea");
@@ -26,4 +25,9 @@ export default function copy(
     document.body.removeChild(textarea);
     onSuccess && onSuccess();
   }
-}
+};
+
+export const copyLink = (inviteId: string, onSuccess?: () => void) => {
+  const link = `${window.location.origin}/?id=${inviteId}`;
+  copy(link, onSuccess);
+};
