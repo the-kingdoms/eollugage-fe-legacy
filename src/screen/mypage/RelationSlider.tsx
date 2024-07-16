@@ -30,8 +30,9 @@ export default function RelationSlider({
               focus={relation.member.id === currentMemberId}
             />
             <div className="w-full text-center B5-medium text-Gray5">
-              {relation.member.name.slice(0, 5)}
-              {relation.member.name.length > 5 && "..."}
+              {relation.member.name === null
+                ? "탈퇴한 회원"
+                : `${relation.member.name?.slice(0, 5)}${relation.member.name && relation.member.name.length > 5 ? "..." : ""}`}
             </div>
           </FlexBox>
         </button>
