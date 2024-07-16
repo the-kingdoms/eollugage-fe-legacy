@@ -1,11 +1,10 @@
 import { myAtom } from "@/data/global";
+import { quitReasonAtom } from "@/data/quit";
 import TextButton from "@modules/components/button/TextButton";
 import FlexBox from "@modules/layout/FlexBox";
 import TopTitle from "@modules/layout/TopTitle";
-import { atom, useAtom } from "jotai";
+import { useAtom } from "jotai";
 import { useRouter } from "next/router";
-
-export const quitReasonAtom = atom<string>("");
 
 export default function Quit() {
   const [my] = useAtom(myAtom);
@@ -19,7 +18,6 @@ export default function Quit() {
 
   const router = useRouter();
   const onClickCompleteBtn = () => {
-    setText("");
     router.push({
       pathname: "/mypage/consult",
       query: {
