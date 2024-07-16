@@ -2,7 +2,7 @@ import Profile from "@modules/components/profile/Profile";
 import FlexBox from "@modules/layout/FlexBox";
 
 interface ApprovalProfileProps {
-  name: string;
+  name: string | null;
   position: string;
   phone: string;
 }
@@ -16,7 +16,11 @@ export default function ApprovalProfile({
     <FlexBox direction="row" className="w-full items-start gap-2">
       <Profile name={name} size="S" />
       <FlexBox direction="col" className="gap-1 items-start py-1">
-        <div className="B3-medium">{name}</div>
+        {name === null ? (
+          <div className="B3-medium text-zinc-400">탈퇴한 유저입니다</div>
+        ) : (
+          <div className="B3-medium">{name}</div>
+        )}
         <div className="B5-medium text-zinc-400">
           {position}
           {` `}
