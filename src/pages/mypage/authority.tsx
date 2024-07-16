@@ -19,6 +19,7 @@ export default function MyPageAuthorithy() {
 
   const addNewAdmin = () => {
     checkedEmployees.forEach(item => {
+      if (!item?.member.id) return;
       postRelationAdminMutate({
         memberId: item?.member.id,
         body: { ...item, role: "MANAGER" },

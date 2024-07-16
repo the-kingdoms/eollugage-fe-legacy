@@ -1,6 +1,6 @@
 import { postDeleteAccount } from "@/apis/deleteAccount";
 import { myAtom } from "@/data/global";
-import { quitReasonAtom } from "@/pages/mypage/quit";
+import { quitReasonAtom } from "@/data/quit";
 import { useMutation } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useAtom } from "jotai";

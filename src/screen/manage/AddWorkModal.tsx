@@ -35,7 +35,7 @@ export default function AddWorkModal() {
 
   useEffect(() => {
     const tempList = relationList?.map(
-      relationInfo => relationInfo.member.name,
+      relationInfo => relationInfo.member.name ?? "탈퇴한 회원",
     );
     setMemberNameList(tempList ?? []);
   }, [relationList]);

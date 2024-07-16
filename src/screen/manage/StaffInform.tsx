@@ -49,7 +49,7 @@ export default function StaffInform() {
                   <ProfileDiscription
                     name={relate.member.name}
                     position={relate.position}
-                    phone={relate.member.phone}
+                    phone={relate.member.phone ?? ""}
                   />
                 </RouterWrapper>
               ))}

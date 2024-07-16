@@ -39,7 +39,7 @@ export default function Attendance() {
 
   const allButtonClick = () => {
     filteredList.forEach(history => {
-      if (history.status === "DISAPPROVED") {
+      if (history.status === "DISAPPROVED" && history.relation.member.id) {
         postHistoryStatusMutate({
           memberId: history.relation.member.id,
           historyId: history.id,
@@ -51,6 +51,7 @@ export default function Attendance() {
 
   const profileClick = (index: number) => {
     const history = filteredList[index];
+    if (!history.relation.member.id) return;
     postHistoryStatusMutate({
       memberId: history.relation.member.id,
       historyId: history.id,
