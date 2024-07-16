@@ -12,6 +12,7 @@ function AdminRemoveWapper({
 }: AdminInfoCardProps & { children: React.ReactNode }) {
   const { mutate: postRelationAdminMutate } = usePostRelationAdmin();
   const removeAdmin = () => {
+    if (!relation.member.id) return;
     postRelationAdminMutate({
       memberId: relation.member.id,
       body: { ...relation, role: "STAFF" },

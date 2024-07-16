@@ -19,8 +19,8 @@ interface History extends PostHistoryBody {
   relation: {
     position: string;
     member: {
-      name: string;
-      phone: string;
+      name: string | null;
+      phone: string | null;
     };
   };
 }
