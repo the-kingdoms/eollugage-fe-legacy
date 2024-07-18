@@ -37,11 +37,6 @@ interface PostHistoryStatusBody {
   status: StatusType;
 }
 
-async function getAllMemberHistory(storeId: string): Promise<AllHistory[]> {
-  const { data } = await api.get(`/api/stores/${storeId}/histories`);
-  return data;
-}
-
 async function getHistoryList(
   storeId: string,
   memberId: string,
@@ -110,7 +105,6 @@ async function deleteHistory(
 
 export {
   deleteHistory,
-  getAllMemberHistory,
   getAllMemberHistoryByDate,
   getHistoryList,
   getHistoryListByDate,

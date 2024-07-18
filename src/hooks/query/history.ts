@@ -2,7 +2,6 @@ import {
   PostHistoryBody,
   PostHistoryStatusBody,
   deleteHistory,
-  getAllMemberHistory,
   getAllMemberHistoryByDate,
   getHistoryList,
   getHistoryListByDate,
@@ -17,16 +16,6 @@ import { useAtom } from "jotai";
 interface PostHistoryParams {
   body: PostHistoryBody;
   memberId: string;
-}
-
-function useGetAllMemeberHistory() {
-  const [storeId] = useAtom(storeIdAtom);
-  const { data } = useQuery({
-    queryKey: ["getAllMemberHistory"],
-    queryFn: () => getAllMemberHistory(storeId),
-  });
-
-  return { data };
 }
 
 function useGetAllMemberHistoryByDate(date: string) {
@@ -136,7 +125,6 @@ function useDeleteHistory() {
 
 export {
   useDeleteHistory,
-  useGetAllMemeberHistory,
   useGetHistoryList,
   useGetAllMemberHistoryByDate,
   useGetHistoryListByDate,
