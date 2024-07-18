@@ -3,7 +3,7 @@ import ProfileDiscription from "@/assist/ProfileDiscription";
 import StateButtonWrapper from "@/assist/buttonwrapper/StateButtonWrapper";
 import TimeBanner from "@/assist/banner/TimeBanner";
 import {
-  useGetAllMemeberHistory,
+  useGetAllMemberHistoryByDate,
   usePostHistoryStatus,
 } from "@/hooks/query/history";
 import ButtonBar from "@modules/components/bars/ButtonBar";
@@ -14,31 +14,30 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 
 export default function Attendance() {
-  const { data: historyList } = useGetAllMemeberHistory();
-  const { mutate: postHistoryStatusMutate } = usePostHistoryStatus();
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [isInactive, setIsInactive] = useState(false);
+  const { data } = useGetAllMemberHistoryByDate(
+    selectedDate.format("YYYY-MM-DD"),
+  );
+  const { mutate: postHistoryStatusMutate } = usePostHistoryStatus();
 
-  // 임시, 일자별 query 가능한 새 api 가 나오면 수정 필요
-  const [filteredList, setFilteredList] = useState<AllHistory[]>([]);
+  const [historyList, setHistoryList] = useState<AllHistory[]>([]);
+
   useEffect(() => {
-    const tempList = historyList?.filter(historyInfo => {
-      return historyInfo.date === selectedDate.format("YYYY-MM-DD");
-    });
-    setFilteredList(tempList ?? []);
-  }, [historyList, selectedDate]);
+    setHistoryList(data ?? []);
+  }, [data]);
 
   useEffect(() => {
     setIsInactive(() => true);
-    filteredList.forEach(history => {
+    historyList.forEach(history => {
       if (history.status === "DISAPPROVED") {
         setIsInactive(() => false);
       }
     });
-  }, [filteredList]);
+  }, [historyList]);
 
   const allButtonClick = () => {
-    filteredList.forEach(history => {
+    historyList.forEach(history => {
       if (history.status === "DISAPPROVED" && history.relation.member.id) {
         postHistoryStatusMutate({
           memberId: history.relation.member.id,
@@ -47,15 +46,34 @@ export default function Attendance() {
         });
       }
     });
+    setHistoryList(prev => {
+      return prev.map(history => {
+        return {
+          ...history,
+          status: "APPROVED",
+        };
+      });
+    });
   };
 
   const profileClick = (index: number) => {
-    const history = filteredList[index];
+    const history = historyList[index];
     if (!history.relation.member.id) return;
     postHistoryStatusMutate({
       memberId: history.relation.member.id,
       historyId: history.id,
       status: history.status === "DECLINED" ? "APPROVED" : "DECLINED",
+    });
+    setHistoryList(prev => {
+      return prev.map((item, i) => {
+        if (i === index) {
+          return {
+            ...item,
+            status: item.status === "DECLINED" ? "APPROVED" : "DECLINED",
+          };
+        }
+        return item;
+      });
     });
   };
 
@@ -73,7 +91,7 @@ export default function Attendance() {
         <TopTitle title="출퇴근 관리" />
         <TimeBanner dayDate={selectedDate} DayClick={DayMove} />
         <FlexBox direction="col" className="gap-6 w-full px-2">
-          {filteredList.map((history, index) => (
+          {historyList.map((history, index) => (
             <StateButtonWrapper
               key={index}
               buttonClick={() => profileClick(index)}
