@@ -16,11 +16,11 @@ interface Store {
 }
 
 interface AbstractMember {
-  id: string;
-  name: string;
-  phone: string;
-  providerType: ProviderType;
-  storeList: Store[];
+  id: string | null;
+  name: string | null;
+  phone: string | null;
+  providerType: ProviderType | null;
+  storeList: Store[] | null;
 }
 
 export type { StatusType, DayType, ProviderType, RoleType };

@@ -35,7 +35,7 @@ export default function AddWorkModal() {
 
   useEffect(() => {
     const tempList = relationList?.map(
-      relationInfo => relationInfo.member.name,
+      relationInfo => relationInfo.member.name ?? "탈퇴한 회원",
     );
     setMemberNameList(tempList ?? []);
   }, [relationList]);
@@ -109,7 +109,11 @@ export default function AddWorkModal() {
         <Sheet.Content>
           <div className="mb-6 text-Gray7 B1-medium">근무 추가</div>
           <Dropdown
-            defaultValue="직원을 선택해주세요"
+            defaultValue={
+              memberNameList.length === 0
+                ? "가게에 직원이 존재하지 않습니다"
+                : "직원을 선택해주세요"
+            }
             options={memberNameList}
             onChange={setSelectedMemberName}
           />

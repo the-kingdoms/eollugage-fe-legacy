@@ -2,7 +2,7 @@ import { RoleType } from "@/apis/_type";
 import FlexBox from "@modules/layout/FlexBox";
 
 interface WorkInfoProps {
-  name: string;
+  name: string | null;
   position: string;
   time: string;
   role: RoleType;
@@ -24,7 +24,11 @@ export default function WorkInfo({
     <FlexBox className="w-full gap-2 justify-start">
       <div className={`w-1 shrink-0 h-full ${style[role]} rounded-full`} />
       <FlexBox direction="col" className="w-full gap-2.5 items-start">
-        <div className="B1-medium">{name}</div>
+        {name === null ? (
+          <div className="B2-regular text-Gray4">탈퇴한 유저입니다</div>
+        ) : (
+          <div className="B1-medium">{name}</div>
+        )}
         <FlexBox className="gap-2">
           <div className="text-Gray4 B4-regular">{position}</div>
           <div className="text-Gray4 B4-regular">{time}</div>

@@ -24,7 +24,9 @@ export default function AdminAdd({
   };
   return (
     <FlexBox className="justify-between w-full rounded-lg border border-Gray3 px-4 py-3">
-      <div className="text-Gray5 B4-medium">{relation.member.name}</div>
+      <div className="text-Gray5 B4-medium">
+        {relation.member.name ?? "탈퇴한 회원"}
+      </div>
       <Checkbox
         type="round"
         checked={checkedEmployees.some(

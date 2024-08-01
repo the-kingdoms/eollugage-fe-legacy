@@ -1,74 +1,60 @@
 import { storeIdAtom } from "@/data/global";
 import {
-  InviteSchedule,
   inviteScheduleAtom,
   selectedPositionAtom,
 } from "@/data/inviteSchedule";
-import copy from "@/libs/copy";
+import { usePostInviteData } from "@/hooks/query/dynamodb";
+import { copyLink } from "@/libs/copy";
 import { createRandomString } from "@/libs/createRandomId";
 import FlexBox from "@modules/layout/FlexBox";
-import axios from "axios";
 import dayjs from "dayjs";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-export interface InviteResponse {
-  id: string;
-  inviteData: InviteDataType;
-}
-
-interface InviteDataType {
-  storeId: string;
-  position: string;
-  schedule: InviteSchedule;
-  createdAt: string;
-}
-
 function ShareLink() {
   const [inviteId, setInviteId] = useState<string>("");
   const [linkCopied, setLinkCopied] = useState(false);
+  const [showToastMsg, setShowToastMsg] = useState<boolean>(false);
   const [inviteSchedule] = useAtom(inviteScheduleAtom);
   const [selectedPosition] = useAtom(selectedPositionAtom);
   const [storeId] = useAtom(storeIdAtom);
 
+  const { mutate, isSuccess } = usePostInviteData(inviteId);
+
   if (!inviteId) setInviteId(createRandomString(8));
 
   const handleCopyLink = () => {
-    const link = `${window.location.origin}/?id=${inviteId}`;
-    copy(
-      link,
-      () => {
-        setLinkCopied(true);
-      },
-      err => {
-        console.log("링크를 복사하는데 실패했습니다: ", err);
-      },
-    );
-  };
-
-  const sendInviteToDB = async () => {
-    const inviteData: InviteDataType = {
-      storeId,
-      position: selectedPosition,
-      schedule: inviteSchedule,
-      createdAt: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-    };
-    const data = {
-      id: inviteId,
-      inviteData,
-    };
-    try {
-      await axios.post("/api/dynamoDB", data);
-      handleCopyLink();
-    } catch (error) {
-      alert("초대링크 생성에 실패했습니다.");
-    }
+    copyLink(inviteId, () => setLinkCopied(true));
   };
 
   useEffect(() => {
-    sendInviteToDB();
-  }, []);
+    let timer: NodeJS.Timeout | undefined;
+    if (isSuccess || linkCopied) {
+      setShowToastMsg(true);
+      timer = setTimeout(() => {
+        setShowToastMsg(false);
+      }, 2000);
+    }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [isSuccess, linkCopied]);
+
+  useEffect(() => {
+    if (inviteId.length > 0) {
+      const inviteData = {
+        id: inviteId,
+        inviteData: {
+          storeId,
+          position: selectedPosition,
+          schedule: inviteSchedule,
+          createdAt: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+        },
+      };
+      mutate(inviteData);
+    }
+  }, [inviteId]);
 
   return (
     <>
@@ -91,7 +77,7 @@ function ShareLink() {
           <div className="B1-medium text-Gray5 mt-4">
             링크복사가 안되었나요?
           </div>
-          <button onClick={() => handleCopyLink()} type="button">
+          <button onClick={handleCopyLink} type="button">
             <FlexBox direction="row">
               <div className="B4-regular text-Gray4 underline">링크 복사</div>
               <div className="B4-regular text-Gray4">하기</div>
@@ -99,7 +85,7 @@ function ShareLink() {
           </button>
         </FlexBox>
       </FlexBox>
-      {linkCopied && (
+      {showToastMsg && (
         <div className="w-full B5-regular px-4 py-4 mb-4 bg-[#2D2D2D] text-white">
           <p className="mb-4">링크가 자동으로 복사되었습니다.</p>
         </div>
@@ -109,4 +95,3 @@ function ShareLink() {
 }
 
 export default ShareLink;
-export type { InviteDataType };
