@@ -21,7 +21,7 @@ export default function OrderBoard() {
   }, [orders]);
 
   const addOrder = async () => {
-    if (orderList[0].content.length === 0) return;
+    if (orderList[0]?.content.length === 0) return;
 
     const newOrder: PostOrderBody = {
       content: "",
