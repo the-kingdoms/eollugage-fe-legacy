@@ -35,7 +35,7 @@ export default function Manage() {
         <FlexBox direction="col" className="w-full h-full gap-4 py-4">
           <div className="B1-medium">직원 관리</div>
           <LongTab
-            text={["근무 스케쥴", "직원 정보"]}
+            text={["근무 스케줄", "직원 정보"]}
             pageHandle={Options => setSelectTab(Options)}
           />
           {selectTab === "right" && role === "OWNER" && (
